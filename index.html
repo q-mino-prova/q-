@@ -1,21 +1,901 @@
 <!doctype html>
 <html lang="it">
   <head>
-    <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; script-src &#39;self&#39; &#39;wasm-unsafe-eval&#39;; style-src &#39;self&#39; &#39;unsafe-inline&#39;; img-src &#39;self&#39; data: blob:; connect-src &#39;self&#39; https://relay.cumino.test; frame-src &#39;none&#39;; object-src &#39;none&#39;; base-uri &#39;none&#39;; form-action &#39;none&#39;">
-
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'sha256-BPM47GH0SKbPeEMVzRQG5SJtBJE7Sf7tKbhFCiCQwS4='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://relay.cumino.test; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <script type="importmap">{
+  "imports": {
+    "@q-mino/adapters-common": "./adapters-common/src/index.js",
+    "@q-mino/adapters-web": "./adapters-web/src/index.js",
+    "@q-mino/adapters-web/screens": "./adapters-web/src/screens/index.js",
+    "@q-mino/boundary": "./boundary/src/index.js",
+    "@q-mino/domains/auth/acquaintances/_lookup.ts": "./domains/src/auth/acquaintances/_lookup.js",
+    "@q-mino/domains/auth/acquaintances/_registry.ts": "./domains/src/auth/acquaintances/_registry.js",
+    "@q-mino/domains/auth/acquaintances/_value.ts": "./domains/src/auth/acquaintances/_value.js",
+    "@q-mino/domains/bonds/address_book/_dsl.ts": "./domains/src/bonds/address_book/_dsl.js",
+    "@q-mino/domains/bonds/address_book/_majors.ts": "./domains/src/bonds/address_book/_majors.js",
+    "@q-mino/domains/bonds/address_book/_registry.ts": "./domains/src/bonds/address_book/_registry.js",
+    "@q-mino/domains/bonds/address_book/_usecase.ts": "./domains/src/bonds/address_book/_usecase.js",
+    "@q-mino/domains/bonds/address_book/_value.ts": "./domains/src/bonds/address_book/_value.js",
+    "@q-mino/domains/desk/_node.ts": "./domains/src/desk/_node.js",
+    "@q-mino/domains/desk/_registry.ts": "./domains/src/desk/_registry.js",
+    "@q-mino/domains/desk/_value.ts": "./domains/src/desk/_value.js",
+    "@q-mino/domains/desk/depositor/_majors.ts": "./domains/src/desk/depositor/_majors.js",
+    "@q-mino/domains/desk/depositor/_registry.ts": "./domains/src/desk/depositor/_registry.js",
+    "@q-mino/domains/desk/depositor/_usecase.ts": "./domains/src/desk/depositor/_usecase.js",
+    "@q-mino/domains/desk/depositor/_version.ts": "./domains/src/desk/depositor/_version.js",
+    "@q-mino/domains/desk/holder/_majors.ts": "./domains/src/desk/holder/_majors.js",
+    "@q-mino/domains/desk/holder/_registry.ts": "./domains/src/desk/holder/_registry.js",
+    "@q-mino/domains/desk/holder/_usecase.ts": "./domains/src/desk/holder/_usecase.js",
+    "@q-mino/domains/desk/holder/_value.ts": "./domains/src/desk/holder/_value.js",
+    "@q-mino/domains/desk/holder/_version.ts": "./domains/src/desk/holder/_version.js",
+    "@q-mino/domains/extensions/activations/_dsl.ts": "./domains/src/extensions/activations/_dsl.js",
+    "@q-mino/domains/extensions/activations/_majors.ts": "./domains/src/extensions/activations/_majors.js",
+    "@q-mino/domains/extensions/activations/_registry.ts": "./domains/src/extensions/activations/_registry.js",
+    "@q-mino/domains/extensions/activations/_usecase.ts": "./domains/src/extensions/activations/_usecase.js",
+    "@q-mino/domains/extensions/activations/_value.ts": "./domains/src/extensions/activations/_value.js",
+    "@q-mino/domains/library": "./domains/src/library/index.js",
+    "@q-mino/domains/mailbox/deposits/_dsl.ts": "./domains/src/mailbox/deposits/_dsl.js",
+    "@q-mino/domains/mailbox/deposits/_id.ts": "./domains/src/mailbox/deposits/_id.js",
+    "@q-mino/domains/mailbox/deposits/_majors.ts": "./domains/src/mailbox/deposits/_majors.js",
+    "@q-mino/domains/mailbox/deposits/_registry.ts": "./domains/src/mailbox/deposits/_registry.js",
+    "@q-mino/domains/mailbox/deposits/_usecase.ts": "./domains/src/mailbox/deposits/_usecase.js",
+    "@q-mino/domains/persona/_node.ts": "./domains/src/persona/_node.js",
+    "@q-mino/domains/persona/_registry.ts": "./domains/src/persona/_registry.js",
+    "@q-mino/domains/persona/anonymous/_majors.ts": "./domains/src/persona/anonymous/_majors.js",
+    "@q-mino/domains/persona/anonymous/_registry.ts": "./domains/src/persona/anonymous/_registry.js",
+    "@q-mino/domains/persona/known/_majors.ts": "./domains/src/persona/known/_majors.js",
+    "@q-mino/domains/persona/known/_registry.ts": "./domains/src/persona/known/_registry.js",
+    "@q-mino/domains/persona/known/_usecase.ts": "./domains/src/persona/known/_usecase.js",
+    "@q-mino/domains/persona/known/_version.ts": "./domains/src/persona/known/_version.js",
+    "@q-mino/domains/persona/self/_majors.ts": "./domains/src/persona/self/_majors.js",
+    "@q-mino/domains/persona/self/_registry.ts": "./domains/src/persona/self/_registry.js",
+    "@q-mino/domains/persona/self/_usecase.ts": "./domains/src/persona/self/_usecase.js",
+    "@q-mino/domains/persona/self/_version.ts": "./domains/src/persona/self/_version.js",
+    "@q-mino/domains/persona/unknown/_majors.ts": "./domains/src/persona/unknown/_majors.js",
+    "@q-mino/domains/persona/unknown/_registry.ts": "./domains/src/persona/unknown/_registry.js",
+    "@q-mino/domains/persona/unknown/_usecase.ts": "./domains/src/persona/unknown/_usecase.js",
+    "@q-mino/domains/persona/unknown/_version.ts": "./domains/src/persona/unknown/_version.js",
+    "@q-mino/domains/post/_dsl.ts": "./domains/src/post/_dsl.js",
+    "@q-mino/domains/post/_value.ts": "./domains/src/post/_value.js",
+    "@q-mino/domains/post/requests/_dsl.ts": "./domains/src/post/requests/_dsl.js",
+    "@q-mino/domains/post/requests/_majors.ts": "./domains/src/post/requests/_majors.js",
+    "@q-mino/domains/post/requests/_registry.ts": "./domains/src/post/requests/_registry.js",
+    "@q-mino/domains/post/requests/_usecase.ts": "./domains/src/post/requests/_usecase.js",
+    "@q-mino/domains/post/requests/_value.ts": "./domains/src/post/requests/_value.js",
+    "@q-mino/domains/reaction/first_face/_registry.ts": "./domains/src/reaction/first_face/_registry.js",
+    "@q-mino/domains/reaction/ticket/_registry.ts": "./domains/src/reaction/ticket/_registry.js",
+    "@q-mino/domains/seals/safe/_dsl.ts": "./domains/src/seals/safe/_dsl.js",
+    "@q-mino/domains/seals/safe/_majors.ts": "./domains/src/seals/safe/_majors.js",
+    "@q-mino/domains/seals/safe/_registry.ts": "./domains/src/seals/safe/_registry.js",
+    "@q-mino/domains/seals/safe/_usecase.ts": "./domains/src/seals/safe/_usecase.js",
+    "@q-mino/domains/seals/safe/_value.ts": "./domains/src/seals/safe/_value.js",
+    "@q-mino/domains/ui/_dsl.ts": "./domains/src/ui/_dsl.js",
+    "@q-mino/domains/ui/_value.ts": "./domains/src/ui/_value.js",
+    "@q-mino/domains/ui/a_contact/_dsl.ts": "./domains/src/ui/a_contact/_dsl.js",
+    "@q-mino/domains/ui/a_page/_dsl.ts": "./domains/src/ui/a_page/_dsl.js",
+    "@q-mino/domains/ui/an_extension/_dsl.ts": "./domains/src/ui/an_extension/_dsl.js",
+    "@q-mino/domains/ui/an_invitation/_dsl.ts": "./domains/src/ui/an_invitation/_dsl.js",
+    "@q-mino/domains/ui/my_contacts/_dsl.ts": "./domains/src/ui/my_contacts/_dsl.js",
+    "@q-mino/domains/ui/the_extensions/_dsl.ts": "./domains/src/ui/the_extensions/_dsl.js",
+    "@q-mino/domains/ui/the_first_face/_dsl.ts": "./domains/src/ui/the_first_face/_dsl.js",
+    "@q-mino/domains/ui/the_handshake_at_a_distance/_dsl.ts": "./domains/src/ui/the_handshake_at_a_distance/_dsl.js",
+    "@q-mino/domains/ui/the_handshake_in_person/_dsl.ts": "./domains/src/ui/the_handshake_in_person/_dsl.js",
+    "@q-mino/domains/ui/the_server/_dsl.ts": "./domains/src/ui/the_server/_dsl.js",
+    "@q-mino/domains/ui/what_happened/_dsl.ts": "./domains/src/ui/what_happened/_dsl.js",
+    "@q-mino/domains/user/_dsl.ts": "./domains/src/user/_dsl.js",
+    "@q-mino/domains/user/_value.ts": "./domains/src/user/_value.js",
+    "@q-mino/domains/user/activities/_dsl.ts": "./domains/src/user/activities/_dsl.js",
+    "@q-mino/domains/user/activities/_majors.ts": "./domains/src/user/activities/_majors.js",
+    "@q-mino/domains/user/activities/_registry.ts": "./domains/src/user/activities/_registry.js",
+    "@q-mino/domains/user/activities/_usecase.ts": "./domains/src/user/activities/_usecase.js",
+    "@q-mino/domains/user/activities/_value.ts": "./domains/src/user/activities/_value.js",
+    "@q-mino/domains/user/choices/_majors.ts": "./domains/src/user/choices/_majors.js",
+    "@q-mino/domains/user/choices/_registry.ts": "./domains/src/user/choices/_registry.js",
+    "@q-mino/domains/user/choices/_usecase.ts": "./domains/src/user/choices/_usecase.js",
+    "@q-mino/domains/user/choices/_value.ts": "./domains/src/user/choices/_value.js",
+    "@q-mino/domains/user/drafts/_majors.ts": "./domains/src/user/drafts/_majors.js",
+    "@q-mino/domains/user/drafts/_registry.ts": "./domains/src/user/drafts/_registry.js",
+    "@q-mino/domains/user/drafts/_usecase.ts": "./domains/src/user/drafts/_usecase.js",
+    "@q-mino/domains/user/drafts/_value.ts": "./domains/src/user/drafts/_value.js",
+    "@q-mino/memory": "./memory/src/index.js",
+    "@q-mino/ping_pong": "./ext/ping_pong/configurator.js",
+    "@q-mino/ping_pong/manifest.json": "./ext/ping_pong/manifest.json",
+    "@q-mino/ping_pong/texts/it.json": "./ext/ping_pong/texts/it.json",
+    "libsodium-sumo": "./vendor/libsodium-sumo/dist/modules-sumo-esm/libsodium-sumo.mjs",
+    "libsodium-wrappers-sumo": "./vendor/libsodium-wrappers-sumo/dist/modules-sumo-esm/libsodium-wrappers.mjs",
+    "qr": "./vendor/qr/index.js",
+    "qr/decode.js": "./vendor/qr/decode.js",
+    "solid-js": "./vendor/solid-js/dist/solid.js",
+    "solid-js/web": "./vendor/solid-js/web/dist/web.js",
+    "zod": "./vendor/zod/index.js"
+  }
+}</script>
+    <link rel="modulepreload" href="./adapters-common/src/auth/acquaintances.js" />
+    <link rel="modulepreload" href="./adapters-common/src/auth/index.js" />
+    <link rel="modulepreload" href="./adapters-common/src/bonds/index.js" />
+    <link rel="modulepreload" href="./adapters-common/src/bonds/the_introduction.js" />
+    <link rel="modulepreload" href="./adapters-common/src/entry/index.js" />
+    <link rel="modulepreload" href="./adapters-common/src/entry/the_collector.js" />
+    <link rel="modulepreload" href="./adapters-common/src/entry/the_kernels_entry.js" />
+    <link rel="modulepreload" href="./adapters-common/src/extensions/a_frames_fence.js" />
+    <link rel="modulepreload" href="./adapters-common/src/extensions/activations.js" />
+    <link rel="modulepreload" href="./adapters-common/src/extensions/composition.js" />
+    <link rel="modulepreload" href="./adapters-common/src/extensions/hosting.js" />
+    <link rel="modulepreload" href="./adapters-common/src/extensions/in_process.js" />
+    <link rel="modulepreload" href="./adapters-common/src/extensions/index.js" />
+    <link rel="modulepreload" href="./adapters-common/src/extensions/the_extensions_follow_the_office.js" />
+    <link rel="modulepreload" href="./adapters-common/src/extensions/the_kernels_trace.js" />
+    <link rel="modulepreload" href="./adapters-common/src/extensions/the_port_of_requests.js" />
+    <link rel="modulepreload" href="./adapters-common/src/index.js" />
+    <link rel="modulepreload" href="./adapters-common/src/libsodium/index.js" />
+    <link rel="modulepreload" href="./adapters-common/src/libsodium/primitives.js" />
+    <link rel="modulepreload" href="./adapters-common/src/ports/index.js" />
+    <link rel="modulepreload" href="./adapters-common/src/user/index.js" />
+    <link rel="modulepreload" href="./adapters-common/src/user/the_news.js" />
+    <link rel="modulepreload" href="./adapters-common/src/user/the_port_toward_self.js" />
+    <link rel="modulepreload" href="./adapters-web/src/base64url/index.js" />
+    <link rel="modulepreload" href="./adapters-web/src/camera/index.js" />
+    <link rel="modulepreload" href="./adapters-web/src/clock/index.js" />
+    <link rel="modulepreload" href="./adapters-web/src/files/index.js" />
+    <link rel="modulepreload" href="./adapters-web/src/her_node/her_node_over.js" />
+    <link rel="modulepreload" href="./adapters-web/src/her_node/index.js" />
+    <link rel="modulepreload" href="./adapters-web/src/index.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/command.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/consumers.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/database.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/domains/bonds.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/domains/extensions.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/domains/index.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/domains/post.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/domains/seals.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/domains/user.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/index.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/log.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/node.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/partition.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/reads.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/records.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/requests.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/the_storage_kept.js" />
+    <link rel="modulepreload" href="./adapters-web/src/indexeddb/the_writer.js" />
+    <link rel="modulepreload" href="./adapters-web/src/network/index.js" />
+    <link rel="modulepreload" href="./adapters-web/src/qr/index.js" />
+    <link rel="modulepreload" href="./adapters-web/src/randomness/index.js" />
+    <link rel="modulepreload" href="./adapters-web/src/relay_client/index.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/a_contact.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/a_page.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/a_screen.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/an_extension.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/an_invitation.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/index.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/my_contacts.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/parts.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/the_app.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/the_extensions.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/the_first_face.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/the_handshake_at_a_distance.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/the_handshake_in_person.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/the_screens.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/the_server.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/what_happened.js" />
+    <link rel="modulepreload" href="./adapters-web/src/ticket_link/index.js" />
+    <link rel="modulepreload" href="./boundary/src/contexts.js" />
+    <link rel="modulepreload" href="./boundary/src/index.js" />
+    <link rel="modulepreload" href="./boundary/src/manifest.js" />
+    <link rel="modulepreload" href="./boundary/src/messages.js" />
+    <link rel="modulepreload" href="./boundary/src/mounted.js" />
+    <link rel="modulepreload" href="./boundary/src/places.js" />
+    <link rel="modulepreload" href="./boundary/src/ports.js" />
+    <link rel="modulepreload" href="./boundary/src/the_extensions_side.js" />
+    <link rel="modulepreload" href="./boundary/src/the_kernels_node.js" />
+    <link rel="modulepreload" href="./boundary/src/values.js" />
+    <link rel="modulepreload" href="./boundary/src/version.js" />
+    <link rel="modulepreload" href="./boundary/src/words.js" />
+    <link rel="modulepreload" href="./domains/src/auth/acquaintances/_door_persona.js" />
+    <link rel="modulepreload" href="./domains/src/auth/acquaintances/_id.js" />
+    <link rel="modulepreload" href="./domains/src/auth/acquaintances/_lookup.js" />
+    <link rel="modulepreload" href="./domains/src/auth/acquaintances/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/auth/acquaintances/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/auth/acquaintances/_scope_id.js" />
+    <link rel="modulepreload" href="./domains/src/auth/acquaintances/_scope_lookup.js" />
+    <link rel="modulepreload" href="./domains/src/auth/acquaintances/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/auth/acquaintances/_value.js" />
+    <link rel="modulepreload" href="./domains/src/auth/acquaintances/id.js" />
+    <link rel="modulepreload" href="./domains/src/auth/acquaintances/lookup.js" />
+    <link rel="modulepreload" href="./domains/src/auth/acquaintances/value.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_bond_selection.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_command.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_door_extensions.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_door_persona.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_door_reaction.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_effect.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_face_selection.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_fact.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_id.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_majors.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_query.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_scope_command.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_scope_effect.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_scope_fact.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_scope_id.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_scope_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_scope_query.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_scope_selection.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_scope_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_scope_version.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_ticket_selection.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_value.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/_version.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/bond_selection.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/command.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/effect.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/face_selection.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/fact.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/id.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/predicate.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/query.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/ticket_selection.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/usecase.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/value.js" />
+    <link rel="modulepreload" href="./domains/src/bonds/address_book/version.js" />
+    <link rel="modulepreload" href="./domains/src/desk/_door_below.js" />
+    <link rel="modulepreload" href="./domains/src/desk/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/desk/_node.js" />
+    <link rel="modulepreload" href="./domains/src/desk/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/desk/_scope_node.js" />
+    <link rel="modulepreload" href="./domains/src/desk/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/desk/_value.js" />
+    <link rel="modulepreload" href="./domains/src/desk/depositor/_majors.js" />
+    <link rel="modulepreload" href="./domains/src/desk/depositor/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/desk/depositor/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/desk/depositor/_scope_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/desk/depositor/_scope_version.js" />
+    <link rel="modulepreload" href="./domains/src/desk/depositor/_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/desk/depositor/_value.js" />
+    <link rel="modulepreload" href="./domains/src/desk/depositor/_version.js" />
+    <link rel="modulepreload" href="./domains/src/desk/depositor/usecase.js" />
+    <link rel="modulepreload" href="./domains/src/desk/depositor/value.js" />
+    <link rel="modulepreload" href="./domains/src/desk/depositor/version.js" />
+    <link rel="modulepreload" href="./domains/src/desk/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/desk/holder/_majors.js" />
+    <link rel="modulepreload" href="./domains/src/desk/holder/_node.js" />
+    <link rel="modulepreload" href="./domains/src/desk/holder/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/desk/holder/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/desk/holder/_scope_node.js" />
+    <link rel="modulepreload" href="./domains/src/desk/holder/_scope_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/desk/holder/_scope_version.js" />
+    <link rel="modulepreload" href="./domains/src/desk/holder/_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/desk/holder/_value.js" />
+    <link rel="modulepreload" href="./domains/src/desk/holder/_version.js" />
+    <link rel="modulepreload" href="./domains/src/desk/holder/node.js" />
+    <link rel="modulepreload" href="./domains/src/desk/holder/usecase.js" />
+    <link rel="modulepreload" href="./domains/src/desk/holder/value.js" />
+    <link rel="modulepreload" href="./domains/src/desk/holder/version.js" />
+    <link rel="modulepreload" href="./domains/src/desk/node.js" />
+    <link rel="modulepreload" href="./domains/src/desk/value.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_command.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_door_persona.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_effect.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_extension_selection.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_fact.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_id.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_majors.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_query.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_question_selection.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_scope_command.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_scope_effect.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_scope_fact.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_scope_id.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_scope_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_scope_query.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_scope_selection.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_scope_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_scope_version.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_value.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/_version.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/command.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/effect.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/extension_selection.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/fact.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/id.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/predicate.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/query.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/question_selection.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/usecase.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/value.js" />
+    <link rel="modulepreload" href="./domains/src/extensions/activations/version.js" />
+    <link rel="modulepreload" href="./domains/src/library/actions.js" />
+    <link rel="modulepreload" href="./domains/src/library/applicability.js" />
+    <link rel="modulepreload" href="./domains/src/library/bound_condition.js" />
+    <link rel="modulepreload" href="./domains/src/library/builders.js" />
+    <link rel="modulepreload" href="./domains/src/library/command.js" />
+    <link rel="modulepreload" href="./domains/src/library/command_leaf.js" />
+    <link rel="modulepreload" href="./domains/src/library/command_port.js" />
+    <link rel="modulepreload" href="./domains/src/library/component.js" />
+    <link rel="modulepreload" href="./domains/src/library/condition.js" />
+    <link rel="modulepreload" href="./domains/src/library/consumer.js" />
+    <link rel="modulepreload" href="./domains/src/library/context.js" />
+    <link rel="modulepreload" href="./domains/src/library/earlier.js" />
+    <link rel="modulepreload" href="./domains/src/library/effect_executor.js" />
+    <link rel="modulepreload" href="./domains/src/library/format.js" />
+    <link rel="modulepreload" href="./domains/src/library/index.js" />
+    <link rel="modulepreload" href="./domains/src/library/json_schema.js" />
+    <link rel="modulepreload" href="./domains/src/library/kind.js" />
+    <link rel="modulepreload" href="./domains/src/library/lookup.js" />
+    <link rel="modulepreload" href="./domains/src/library/lookup_port.js" />
+    <link rel="modulepreload" href="./domains/src/library/node.js" />
+    <link rel="modulepreload" href="./domains/src/library/plan.js" />
+    <link rel="modulepreload" href="./domains/src/library/query.js" />
+    <link rel="modulepreload" href="./domains/src/library/reaction.js" />
+    <link rel="modulepreload" href="./domains/src/library/reaction_consumer.js" />
+    <link rel="modulepreload" href="./domains/src/library/read_leaf.js" />
+    <link rel="modulepreload" href="./domains/src/library/read_port.js" />
+    <link rel="modulepreload" href="./domains/src/library/read_stream.js" />
+    <link rel="modulepreload" href="./domains/src/library/registry.js" />
+    <link rel="modulepreload" href="./domains/src/library/resources.js" />
+    <link rel="modulepreload" href="./domains/src/library/runtime.js" />
+    <link rel="modulepreload" href="./domains/src/library/stable.js" />
+    <link rel="modulepreload" href="./domains/src/library/step.js" />
+    <link rel="modulepreload" href="./domains/src/library/step_port.js" />
+    <link rel="modulepreload" href="./domains/src/library/surface.js" />
+    <link rel="modulepreload" href="./domains/src/library/tree_port.js" />
+    <link rel="modulepreload" href="./domains/src/library/use_case.js" />
+    <link rel="modulepreload" href="./domains/src/library/version.js" />
+    <link rel="modulepreload" href="./domains/src/library/versions.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_command.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_deposit_selection.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_door_desk.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_effect.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_fact.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_id.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_majors.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_query.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_scope_command.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_scope_effect.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_scope_fact.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_scope_id.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_scope_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_scope_query.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_scope_selection.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_scope_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_scope_version.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_value.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/_version.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/command.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/deposit_selection.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/effect.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/fact.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/id.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/predicate.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/query.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/usecase.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/value.js" />
+    <link rel="modulepreload" href="./domains/src/mailbox/deposits/version.js" />
+    <link rel="modulepreload" href="./domains/src/persona/_door_below.js" />
+    <link rel="modulepreload" href="./domains/src/persona/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/persona/_node.js" />
+    <link rel="modulepreload" href="./domains/src/persona/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/persona/_scope_node.js" />
+    <link rel="modulepreload" href="./domains/src/persona/_value.js" />
+    <link rel="modulepreload" href="./domains/src/persona/anonymous/_majors.js" />
+    <link rel="modulepreload" href="./domains/src/persona/anonymous/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/persona/anonymous/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/persona/anonymous/_scope_version.js" />
+    <link rel="modulepreload" href="./domains/src/persona/anonymous/_version.js" />
+    <link rel="modulepreload" href="./domains/src/persona/anonymous/version.js" />
+    <link rel="modulepreload" href="./domains/src/persona/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/persona/known/_majors.js" />
+    <link rel="modulepreload" href="./domains/src/persona/known/_node.js" />
+    <link rel="modulepreload" href="./domains/src/persona/known/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/persona/known/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/persona/known/_scope_node.js" />
+    <link rel="modulepreload" href="./domains/src/persona/known/_scope_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/persona/known/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/persona/known/_scope_version.js" />
+    <link rel="modulepreload" href="./domains/src/persona/known/_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/persona/known/_value.js" />
+    <link rel="modulepreload" href="./domains/src/persona/known/_version.js" />
+    <link rel="modulepreload" href="./domains/src/persona/known/node.js" />
+    <link rel="modulepreload" href="./domains/src/persona/known/usecase.js" />
+    <link rel="modulepreload" href="./domains/src/persona/known/value.js" />
+    <link rel="modulepreload" href="./domains/src/persona/known/version.js" />
+    <link rel="modulepreload" href="./domains/src/persona/node.js" />
+    <link rel="modulepreload" href="./domains/src/persona/self/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/persona/self/_majors.js" />
+    <link rel="modulepreload" href="./domains/src/persona/self/_node.js" />
+    <link rel="modulepreload" href="./domains/src/persona/self/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/persona/self/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/persona/self/_scope_node.js" />
+    <link rel="modulepreload" href="./domains/src/persona/self/_scope_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/persona/self/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/persona/self/_scope_version.js" />
+    <link rel="modulepreload" href="./domains/src/persona/self/_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/persona/self/_value.js" />
+    <link rel="modulepreload" href="./domains/src/persona/self/_version.js" />
+    <link rel="modulepreload" href="./domains/src/persona/self/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/persona/self/node.js" />
+    <link rel="modulepreload" href="./domains/src/persona/self/usecase.js" />
+    <link rel="modulepreload" href="./domains/src/persona/self/value.js" />
+    <link rel="modulepreload" href="./domains/src/persona/self/version.js" />
+    <link rel="modulepreload" href="./domains/src/persona/unknown/_majors.js" />
+    <link rel="modulepreload" href="./domains/src/persona/unknown/_node.js" />
+    <link rel="modulepreload" href="./domains/src/persona/unknown/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/persona/unknown/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/persona/unknown/_scope_node.js" />
+    <link rel="modulepreload" href="./domains/src/persona/unknown/_scope_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/persona/unknown/_scope_version.js" />
+    <link rel="modulepreload" href="./domains/src/persona/unknown/_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/persona/unknown/_value.js" />
+    <link rel="modulepreload" href="./domains/src/persona/unknown/_version.js" />
+    <link rel="modulepreload" href="./domains/src/persona/unknown/node.js" />
+    <link rel="modulepreload" href="./domains/src/persona/unknown/usecase.js" />
+    <link rel="modulepreload" href="./domains/src/persona/unknown/value.js" />
+    <link rel="modulepreload" href="./domains/src/persona/unknown/version.js" />
+    <link rel="modulepreload" href="./domains/src/persona/value.js" />
+    <link rel="modulepreload" href="./domains/src/post/_door_below.js" />
+    <link rel="modulepreload" href="./domains/src/post/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/post/_scope_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/post/_value.js" />
+    <link rel="modulepreload" href="./domains/src/post/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_command.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_effect.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_fact.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_id.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_majors.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_query.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_request_selection.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_scope_command.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_scope_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_scope_effect.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_scope_fact.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_scope_id.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_scope_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_scope_query.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_scope_selection.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_scope_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_scope_version.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_value.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/_version.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/command.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/effect.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/fact.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/id.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/predicate.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/query.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/request_selection.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/usecase.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/value.js" />
+    <link rel="modulepreload" href="./domains/src/post/requests/version.js" />
+    <link rel="modulepreload" href="./domains/src/post/value.js" />
+    <link rel="modulepreload" href="./domains/src/reaction/first_face/_reaction.js" />
+    <link rel="modulepreload" href="./domains/src/reaction/first_face/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/reaction/first_face/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/reaction/first_face/_scope_reaction.js" />
+    <link rel="modulepreload" href="./domains/src/reaction/first_face/reaction.js" />
+    <link rel="modulepreload" href="./domains/src/reaction/ticket/_reaction.js" />
+    <link rel="modulepreload" href="./domains/src/reaction/ticket/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/reaction/ticket/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/reaction/ticket/_scope_reaction.js" />
+    <link rel="modulepreload" href="./domains/src/reaction/ticket/reaction.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_command.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_door_post.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_door_reaction.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_effect.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_face_calculation.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_face_selection.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_fact.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_id.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_mailbox_key_selection.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_majors.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_query.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_scope_calculation.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_scope_command.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_scope_effect.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_scope_fact.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_scope_id.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_scope_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_scope_query.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_scope_selection.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_scope_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_scope_version.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_value.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/_version.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/command.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/effect.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/face_calculation.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/face_selection.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/fact.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/id.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/mailbox_key_selection.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/predicate.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/query.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/usecase.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/value.js" />
+    <link rel="modulepreload" href="./domains/src/seals/safe/version.js" />
+    <link rel="modulepreload" href="./domains/src/ui/_door_below.js" />
+    <link rel="modulepreload" href="./domains/src/ui/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/a_contact/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/a_contact/_scope_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/a_contact/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/a_contact/_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/a_contact/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/a_contact/value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/a_page/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/a_page/_scope_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/a_page/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/a_page/_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/a_page/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/a_page/value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/an_extension/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/an_extension/_scope_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/an_extension/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/an_extension/_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/an_extension/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/an_extension/value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/an_invitation/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/an_invitation/_scope_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/an_invitation/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/an_invitation/_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/an_invitation/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/an_invitation/value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/my_contacts/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/my_contacts/_scope_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/my_contacts/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/my_contacts/_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/my_contacts/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/my_contacts/value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_extensions/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_extensions/_scope_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_extensions/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_extensions/_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_extensions/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_extensions/value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_first_face/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_first_face/_scope_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_first_face/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_first_face/_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_first_face/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_first_face/value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_handshake_at_a_distance/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_handshake_at_a_distance/_scope_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_handshake_at_a_distance/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_handshake_at_a_distance/_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_handshake_at_a_distance/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_handshake_at_a_distance/value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_handshake_in_person/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_handshake_in_person/_scope_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_handshake_in_person/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_handshake_in_person/_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_handshake_in_person/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_handshake_in_person/value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_server/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_server/_scope_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_server/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_server/_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_server/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_server/value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/what_happened/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/what_happened/_scope_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/what_happened/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/what_happened/_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/what_happened/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/what_happened/value.js" />
+    <link rel="modulepreload" href="./domains/src/user/_door_below.js" />
+    <link rel="modulepreload" href="./domains/src/user/_door_ui.js" />
+    <link rel="modulepreload" href="./domains/src/user/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/user/_value.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_activity_selection.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_command.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_door_ui.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_effect.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_fact.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_id.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_majors.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_query.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_scope_command.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_scope_effect.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_scope_fact.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_scope_id.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_scope_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_scope_query.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_scope_selection.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_scope_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_scope_version.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_value.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/_version.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/activity_selection.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/command.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/effect.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/fact.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/id.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/predicate.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/query.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/usecase.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/value.js" />
+    <link rel="modulepreload" href="./domains/src/user/activities/version.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_choice_selection.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_command.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_door_ui.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_fact.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_id.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_majors.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_query.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_scope_command.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_scope_fact.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_scope_id.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_scope_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_scope_query.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_scope_selection.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_scope_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_scope_version.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_value.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/_version.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/choice_selection.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/command.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/fact.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/id.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/predicate.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/query.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/usecase.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/value.js" />
+    <link rel="modulepreload" href="./domains/src/user/choices/version.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_command.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_door_ui.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_draft_selection.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_fact.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_id.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_majors.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_query.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_scope_command.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_scope_fact.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_scope_id.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_scope_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_scope_query.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_scope_selection.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_scope_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_scope_version.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_value.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/_version.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/command.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/draft_selection.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/fact.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/id.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/predicate.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/query.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/usecase.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/value.js" />
+    <link rel="modulepreload" href="./domains/src/user/drafts/version.js" />
+    <link rel="modulepreload" href="./domains/src/user/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/user/value.js" />
+    <link rel="modulepreload" href="./memory/src/index.js" />
+    <link rel="modulepreload" href="./memory/src/oracle/bonds.js" />
+    <link rel="modulepreload" href="./memory/src/oracle/cell.js" />
+    <link rel="modulepreload" href="./memory/src/oracle/extensions.js" />
+    <link rel="modulepreload" href="./memory/src/oracle/index.js" />
+    <link rel="modulepreload" href="./memory/src/oracle/interpreter.js" />
+    <link rel="modulepreload" href="./memory/src/oracle/mailbox.js" />
+    <link rel="modulepreload" href="./memory/src/oracle/partitions.js" />
+    <link rel="modulepreload" href="./memory/src/oracle/post.js" />
+    <link rel="modulepreload" href="./memory/src/oracle/seals.js" />
+    <link rel="modulepreload" href="./memory/src/oracle/user.js" />
+    <link rel="modulepreload" href="./memory/src/phone/index.js" />
+    <link rel="modulepreload" href="./memory/src/relay/index.js" />
+    <link rel="modulepreload" href="./memory/src/stack/index.js" />
+    <link rel="modulepreload" href="./phone/src/App.js" />
+    <link rel="modulepreload" href="./phone/src/UpdatePrompt.js" />
+    <link rel="modulepreload" href="./phone/src/build_info.js" />
+    <link rel="modulepreload" href="./phone/src/main.js" />
+    <link rel="modulepreload" href="./phone/src/node/index.js" />
+    <link rel="modulepreload" href="./phone/src/node/storage.js" />
+    <link rel="modulepreload" href="./phone/src/node/the_start.js" />
+    <link rel="modulepreload" href="./phone/src/texts/index.js" />
+    <link rel="modulepreload" href="./phone/src/texts/it.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/a_contact.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/a_page.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/an_extension.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/an_invitation.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/common.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/extensions.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/index.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/my_contacts.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/the_extensions.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/the_first_face.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/the_handshake_at_a_distance.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/the_handshake_in_person.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/the_server.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/what_happened.js" />
+    <link rel="modulepreload" href="./vendor/libsodium-sumo/dist/modules-sumo-esm/libsodium-sumo.mjs" />
+    <link rel="modulepreload" href="./vendor/libsodium-wrappers-sumo/dist/modules-sumo-esm/libsodium-wrappers.mjs" />
+    <link rel="modulepreload" href="./vendor/qr/decode.js" />
+    <link rel="modulepreload" href="./vendor/qr/index.js" />
+    <link rel="modulepreload" href="./vendor/solid-js/dist/solid.js" />
+    <link rel="modulepreload" href="./vendor/solid-js/web/dist/web.js" />
+    <link rel="modulepreload" href="./vendor/zod/index.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/checks.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/coerce.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/compat.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/deep-partial.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/errors.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/external.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/from-json-schema.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/in-out.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/iso.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/parse.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/schemas.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/api.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/checks.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/compile.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/core.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/doc.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/errors.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/index.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/json-schema-generator.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/json-schema-processors.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/json-schema.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/memoizer.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/parse.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/regexes.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/registries.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/schemas.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/to-json-schema.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/util.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/versions.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/visit.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ar.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/az.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/be.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/bg.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/bn.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ca.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ckb.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/cs.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/da.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/de.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/el.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/en.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/eo.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/es.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/fa.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/fi.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/fr-CA.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/fr.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/gu.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/he.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/hi.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/hr.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/hu.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/hy.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/id.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/index.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/is.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/it.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ja.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ka.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/kh.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/km.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/kn.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ko.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/lt.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/mk.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ms.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ne.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/nl.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/nn.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/no.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ota.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/pl.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ps.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/pt-BR.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/pt.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ro.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ru.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/sk.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/sl.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/sv.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ta.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/tg.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/th.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/tk.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/tr.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ua.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/uk.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ur.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/uz.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/vi.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/yo.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/zh-CN.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/zh-TW.js" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#8a5a2b" />
-    <link rel="icon" href="/q-/icon-192.png" />
+    <link rel="icon" href="./icon-192.png" />
+    <link rel="manifest" href="./manifest.webmanifest" />
     <title>q-</title>
     <!-- Static colours until the graphics block (A, 23 Nov 2026): a browser that darkens the page by itself
          (Brave, Opera, Chrome's forced dark) left nothing readable; "only light" asks it not to. -->
     <meta name="color-scheme" content="only light" />
-    <style>:root{--lightningcss-light:initial;--lightningcss-dark: ;color-scheme:light only}html,body{color:#1a1a1a;background:#fff}a{color:#0b57d0}button,input,select,textarea{color:#1a1a1a;background:#f2f2f2;border:1px solid #767676}</style>
-    <script type="module" crossorigin src="/q-/assets/index-Bc8prtmW.js"></script>
-    <link rel="modulepreload" crossorigin href="/q-/assets/rolldown-runtime-4tVxZq34.js">
-  <link rel="manifest" href="/q-/manifest.webmanifest"></head>
+    <style>
+      :root {
+        color-scheme: only light;
+      }
+      html,
+      body {
+        background: #ffffff;
+        color: #1a1a1a;
+      }
+      a {
+        color: #0b57d0;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        background: #f2f2f2;
+        color: #1a1a1a;
+        border: 1px solid #767676;
+      }
+    </style>
+  </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="./phone/src/main.js"></script>
   </body>
 </html>
