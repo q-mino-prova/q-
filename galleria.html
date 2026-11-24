@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'sha256-M47r8EdCNZWxn+Gg7eZ/QnzXmrU95dqJzO3o0s83frE='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://relay.cumino.test; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <script type="importmap">{
+  "imports": {
+    "@preact/signals": "./vendor/@preact/signals/dist/signals.module.js",
+    "@preact/signals-core": "./vendor/@preact/signals-core/dist/signals-core.module.js",
+    "@q-mino/adapters-common": "./adapters-common/src/index.js",
+    "@q-mino/adapters-web": "./adapters-web/src/index.js",
+    "@q-mino/adapters-web/design": "./adapters-web/src/design/index.js",
+    "@q-mino/adapters-web/screens": "./adapters-web/src/screens/index.js",
+    "@q-mino/boundary": "./boundary/src/index.js",
+    "@q-mino/domains/auth/acquaintances/_lookup.ts": "./domains/src/auth/acquaintances/_lookup.js",
+    "@q-mino/domains/auth/acquaintances/_registry.ts": "./domains/src/auth/acquaintances/_registry.js",
+    "@q-mino/domains/auth/acquaintances/_value.ts": "./domains/src/auth/acquaintances/_value.js",
+    "@q-mino/domains/bonds/address_book/_dsl.ts": "./domains/src/bonds/address_book/_dsl.js",
+    "@q-mino/domains/bonds/address_book/_majors.ts": "./domains/src/bonds/address_book/_majors.js",
+    "@q-mino/domains/bonds/address_book/_registry.ts": "./domains/src/bonds/address_book/_registry.js",
+    "@q-mino/domains/bonds/address_book/_usecase.ts": "./domains/src/bonds/address_book/_usecase.js",
+    "@q-mino/domains/bonds/address_book/_value.ts": "./domains/src/bonds/address_book/_value.js",
+    "@q-mino/domains/desk/_node.ts": "./domains/src/desk/_node.js",
+    "@q-mino/domains/desk/_registry.ts": "./domains/src/desk/_registry.js",
+    "@q-mino/domains/desk/_value.ts": "./domains/src/desk/_value.js",
+    "@q-mino/domains/desk/depositor/_majors.ts": "./domains/src/desk/depositor/_majors.js",
+    "@q-mino/domains/desk/depositor/_registry.ts": "./domains/src/desk/depositor/_registry.js",
+    "@q-mino/domains/desk/depositor/_usecase.ts": "./domains/src/desk/depositor/_usecase.js",
+    "@q-mino/domains/desk/depositor/_version.ts": "./domains/src/desk/depositor/_version.js",
+    "@q-mino/domains/desk/holder/_majors.ts": "./domains/src/desk/holder/_majors.js",
+    "@q-mino/domains/desk/holder/_registry.ts": "./domains/src/desk/holder/_registry.js",
+    "@q-mino/domains/desk/holder/_usecase.ts": "./domains/src/desk/holder/_usecase.js",
+    "@q-mino/domains/desk/holder/_value.ts": "./domains/src/desk/holder/_value.js",
+    "@q-mino/domains/desk/holder/_version.ts": "./domains/src/desk/holder/_version.js",
+    "@q-mino/domains/extensions/activations/_dsl.ts": "./domains/src/extensions/activations/_dsl.js",
+    "@q-mino/domains/extensions/activations/_majors.ts": "./domains/src/extensions/activations/_majors.js",
+    "@q-mino/domains/extensions/activations/_registry.ts": "./domains/src/extensions/activations/_registry.js",
+    "@q-mino/domains/extensions/activations/_usecase.ts": "./domains/src/extensions/activations/_usecase.js",
+    "@q-mino/domains/extensions/activations/_value.ts": "./domains/src/extensions/activations/_value.js",
+    "@q-mino/domains/library": "./domains/src/library/index.js",
+    "@q-mino/domains/mailbox/deposits/_dsl.ts": "./domains/src/mailbox/deposits/_dsl.js",
+    "@q-mino/domains/mailbox/deposits/_id.ts": "./domains/src/mailbox/deposits/_id.js",
+    "@q-mino/domains/mailbox/deposits/_majors.ts": "./domains/src/mailbox/deposits/_majors.js",
+    "@q-mino/domains/mailbox/deposits/_registry.ts": "./domains/src/mailbox/deposits/_registry.js",
+    "@q-mino/domains/mailbox/deposits/_usecase.ts": "./domains/src/mailbox/deposits/_usecase.js",
+    "@q-mino/domains/persona/_node.ts": "./domains/src/persona/_node.js",
+    "@q-mino/domains/persona/_registry.ts": "./domains/src/persona/_registry.js",
+    "@q-mino/domains/persona/anonymous/_majors.ts": "./domains/src/persona/anonymous/_majors.js",
+    "@q-mino/domains/persona/anonymous/_registry.ts": "./domains/src/persona/anonymous/_registry.js",
+    "@q-mino/domains/persona/known/_majors.ts": "./domains/src/persona/known/_majors.js",
+    "@q-mino/domains/persona/known/_registry.ts": "./domains/src/persona/known/_registry.js",
+    "@q-mino/domains/persona/known/_usecase.ts": "./domains/src/persona/known/_usecase.js",
+    "@q-mino/domains/persona/known/_version.ts": "./domains/src/persona/known/_version.js",
+    "@q-mino/domains/persona/self/_majors.ts": "./domains/src/persona/self/_majors.js",
+    "@q-mino/domains/persona/self/_registry.ts": "./domains/src/persona/self/_registry.js",
+    "@q-mino/domains/persona/self/_usecase.ts": "./domains/src/persona/self/_usecase.js",
+    "@q-mino/domains/persona/self/_version.ts": "./domains/src/persona/self/_version.js",
+    "@q-mino/domains/persona/unknown/_majors.ts": "./domains/src/persona/unknown/_majors.js",
+    "@q-mino/domains/persona/unknown/_registry.ts": "./domains/src/persona/unknown/_registry.js",
+    "@q-mino/domains/persona/unknown/_usecase.ts": "./domains/src/persona/unknown/_usecase.js",
+    "@q-mino/domains/persona/unknown/_version.ts": "./domains/src/persona/unknown/_version.js",
+    "@q-mino/domains/post/_dsl.ts": "./domains/src/post/_dsl.js",
+    "@q-mino/domains/post/_value.ts": "./domains/src/post/_value.js",
+    "@q-mino/domains/post/requests/_dsl.ts": "./domains/src/post/requests/_dsl.js",
+    "@q-mino/domains/post/requests/_majors.ts": "./domains/src/post/requests/_majors.js",
+    "@q-mino/domains/post/requests/_registry.ts": "./domains/src/post/requests/_registry.js",
+    "@q-mino/domains/post/requests/_usecase.ts": "./domains/src/post/requests/_usecase.js",
+    "@q-mino/domains/post/requests/_value.ts": "./domains/src/post/requests/_value.js",
+    "@q-mino/domains/reaction/first_face/_registry.ts": "./domains/src/reaction/first_face/_registry.js",
+    "@q-mino/domains/reaction/ticket/_registry.ts": "./domains/src/reaction/ticket/_registry.js",
+    "@q-mino/domains/seals/safe/_dsl.ts": "./domains/src/seals/safe/_dsl.js",
+    "@q-mino/domains/seals/safe/_majors.ts": "./domains/src/seals/safe/_majors.js",
+    "@q-mino/domains/seals/safe/_registry.ts": "./domains/src/seals/safe/_registry.js",
+    "@q-mino/domains/seals/safe/_usecase.ts": "./domains/src/seals/safe/_usecase.js",
+    "@q-mino/domains/seals/safe/_value.ts": "./domains/src/seals/safe/_value.js",
+    "@q-mino/domains/ui/_dsl.ts": "./domains/src/ui/_dsl.js",
+    "@q-mino/domains/ui/_value.ts": "./domains/src/ui/_value.js",
+    "@q-mino/domains/ui/a_contact/_dsl.ts": "./domains/src/ui/a_contact/_dsl.js",
+    "@q-mino/domains/ui/a_page/_dsl.ts": "./domains/src/ui/a_page/_dsl.js",
+    "@q-mino/domains/ui/an_extension/_dsl.ts": "./domains/src/ui/an_extension/_dsl.js",
+    "@q-mino/domains/ui/an_invitation/_dsl.ts": "./domains/src/ui/an_invitation/_dsl.js",
+    "@q-mino/domains/ui/my_contacts/_dsl.ts": "./domains/src/ui/my_contacts/_dsl.js",
+    "@q-mino/domains/ui/the_extensions/_dsl.ts": "./domains/src/ui/the_extensions/_dsl.js",
+    "@q-mino/domains/ui/the_first_face/_dsl.ts": "./domains/src/ui/the_first_face/_dsl.js",
+    "@q-mino/domains/ui/the_handshake_at_a_distance/_dsl.ts": "./domains/src/ui/the_handshake_at_a_distance/_dsl.js",
+    "@q-mino/domains/ui/the_handshake_in_person/_dsl.ts": "./domains/src/ui/the_handshake_in_person/_dsl.js",
+    "@q-mino/domains/ui/the_server/_dsl.ts": "./domains/src/ui/the_server/_dsl.js",
+    "@q-mino/domains/ui/what_happened/_dsl.ts": "./domains/src/ui/what_happened/_dsl.js",
+    "@q-mino/domains/user/_dsl.ts": "./domains/src/user/_dsl.js",
+    "@q-mino/domains/user/_value.ts": "./domains/src/user/_value.js",
+    "@q-mino/domains/user/activities/_dsl.ts": "./domains/src/user/activities/_dsl.js",
+    "@q-mino/domains/user/activities/_majors.ts": "./domains/src/user/activities/_majors.js",
+    "@q-mino/domains/user/activities/_registry.ts": "./domains/src/user/activities/_registry.js",
+    "@q-mino/domains/user/activities/_usecase.ts": "./domains/src/user/activities/_usecase.js",
+    "@q-mino/domains/user/activities/_value.ts": "./domains/src/user/activities/_value.js",
+    "@q-mino/domains/user/choices/_majors.ts": "./domains/src/user/choices/_majors.js",
+    "@q-mino/domains/user/choices/_registry.ts": "./domains/src/user/choices/_registry.js",
+    "@q-mino/domains/user/choices/_usecase.ts": "./domains/src/user/choices/_usecase.js",
+    "@q-mino/domains/user/choices/_value.ts": "./domains/src/user/choices/_value.js",
+    "@q-mino/domains/user/drafts/_majors.ts": "./domains/src/user/drafts/_majors.js",
+    "@q-mino/domains/user/drafts/_registry.ts": "./domains/src/user/drafts/_registry.js",
+    "@q-mino/domains/user/drafts/_usecase.ts": "./domains/src/user/drafts/_usecase.js",
+    "@q-mino/domains/user/drafts/_value.ts": "./domains/src/user/drafts/_value.js",
+    "@q-mino/memory": "./memory/src/index.js",
+    "@q-mino/ping_pong": "./ext/ping_pong/configurator.js",
+    "@q-mino/ping_pong/manifest.json": "./ext/ping_pong/manifest.json",
+    "@q-mino/ping_pong/texts/it.json": "./ext/ping_pong/texts/it.json",
+    "libsodium-sumo": "./vendor/libsodium-sumo/dist/modules-sumo-esm/libsodium-sumo.mjs",
+    "libsodium-wrappers-sumo": "./vendor/libsodium-wrappers-sumo/dist/modules-sumo-esm/libsodium-wrappers.mjs",
+    "preact": "./vendor/preact/dist/preact.mjs",
+    "preact/hooks": "./vendor/preact/hooks/dist/hooks.mjs",
+    "preact/jsx-runtime": "./vendor/preact/jsx-runtime/dist/jsxRuntime.mjs",
+    "qr": "./vendor/qr/index.js",
+    "qr/decode.js": "./vendor/qr/decode.js",
+    "zod": "./vendor/zod/index.js"
+  }
+}</script>
+    <link rel="modulepreload" href="./adapters-web/src/design/field.js" />
+    <link rel="modulepreload" href="./adapters-web/src/design/flaw.js" />
+    <link rel="modulepreload" href="./adapters-web/src/design/gesture.js" />
+    <link rel="modulepreload" href="./adapters-web/src/design/glyphs.js" />
+    <link rel="modulepreload" href="./adapters-web/src/design/icon.js" />
+    <link rel="modulepreload" href="./adapters-web/src/design/index.js" />
+    <link rel="modulepreload" href="./adapters-web/src/design/list.js" />
+    <link rel="modulepreload" href="./adapters-web/src/design/notice.js" />
+    <link rel="modulepreload" href="./adapters-web/src/design/screen.js" />
+    <link rel="modulepreload" href="./adapters-web/src/design/strip.js" />
+    <link rel="modulepreload" href="./boundary/src/contexts.js" />
+    <link rel="modulepreload" href="./boundary/src/index.js" />
+    <link rel="modulepreload" href="./boundary/src/manifest.js" />
+    <link rel="modulepreload" href="./boundary/src/messages.js" />
+    <link rel="modulepreload" href="./boundary/src/mounted.js" />
+    <link rel="modulepreload" href="./boundary/src/places.js" />
+    <link rel="modulepreload" href="./boundary/src/ports.js" />
+    <link rel="modulepreload" href="./boundary/src/the_extensions_side.js" />
+    <link rel="modulepreload" href="./boundary/src/the_kernels_node.js" />
+    <link rel="modulepreload" href="./boundary/src/values.js" />
+    <link rel="modulepreload" href="./boundary/src/version.js" />
+    <link rel="modulepreload" href="./boundary/src/words.js" />
+    <link rel="modulepreload" href="./phone/src/gallery/a_story.js" />
+    <link rel="modulepreload" href="./phone/src/gallery/main.js" />
+    <link rel="modulepreload" href="./phone/src/gallery/stories/field.stories.js" />
+    <link rel="modulepreload" href="./phone/src/gallery/stories/flaw.stories.js" />
+    <link rel="modulepreload" href="./phone/src/gallery/stories/gesture.stories.js" />
+    <link rel="modulepreload" href="./phone/src/gallery/stories/icon.stories.js" />
+    <link rel="modulepreload" href="./phone/src/gallery/stories/list.stories.js" />
+    <link rel="modulepreload" href="./phone/src/gallery/stories/notice.stories.js" />
+    <link rel="modulepreload" href="./phone/src/gallery/stories/screen.stories.js" />
+    <link rel="modulepreload" href="./phone/src/gallery/stories/strip.stories.js" />
+    <link rel="modulepreload" href="./phone/src/gallery/stories/tokens.stories.js" />
+    <link rel="modulepreload" href="./phone/src/gallery/the_gallery.js" />
+    <link rel="modulepreload" href="./phone/src/gallery/the_stories.js" />
+    <link rel="modulepreload" href="./phone/src/texts/gallery.js" />
+    <link rel="modulepreload" href="./phone/src/texts/index.js" />
+    <link rel="modulepreload" href="./phone/src/texts/it.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/a_contact.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/a_page.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/an_extension.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/an_invitation.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/common.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/extensions.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/index.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/my_contacts.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/the_extensions.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/the_first_face.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/the_handshake_at_a_distance.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/the_handshake_in_person.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/the_server.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/views.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/what_happened.js" />
+    <link rel="modulepreload" href="./vendor/preact/dist/preact.mjs" />
+    <link rel="modulepreload" href="./vendor/preact/jsx-runtime/dist/jsxRuntime.mjs" />
+    <link rel="modulepreload" href="./vendor/zod/index.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/checks.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/coerce.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/compat.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/deep-partial.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/errors.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/external.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/from-json-schema.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/in-out.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/iso.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/parse.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/classic/schemas.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/api.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/checks.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/compile.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/core.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/doc.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/errors.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/index.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/json-schema-generator.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/json-schema-processors.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/json-schema.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/memoizer.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/parse.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/regexes.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/registries.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/schemas.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/to-json-schema.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/util.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/versions.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/core/visit.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ar.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/az.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/be.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/bg.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/bn.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ca.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ckb.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/cs.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/da.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/de.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/el.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/en.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/eo.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/es.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/fa.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/fi.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/fr-CA.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/fr.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/gu.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/he.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/hi.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/hr.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/hu.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/hy.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/id.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/index.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/is.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/it.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ja.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ka.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/kh.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/km.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/kn.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ko.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/lt.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/mk.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ms.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ne.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/nl.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/nn.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/no.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ota.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/pl.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ps.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/pt-BR.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/pt.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ro.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ru.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/sk.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/sl.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/sv.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ta.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/tg.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/th.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/tk.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/tr.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ua.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/uk.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/ur.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/uz.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/vi.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/yo.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/zh-CN.js" />
+    <link rel="modulepreload" href="./vendor/zod/v4/locales/zh-TW.js" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="./icon-192.png" />
+    <title>Galleria di Cumino</title>
+    <!-- The gallery (WEB-28): the app's stylesheets, then its own. -->
+    <meta name="color-scheme" content="light dark" />
+    <link rel="stylesheet" href="./adapters-web/src/design/styles/reset.css" />
+    <link rel="stylesheet" href="./adapters-web/src/design/styles/tokens.css" />
+    <link rel="stylesheet" href="./adapters-web/src/design/styles/layout.css" />
+    <link rel="stylesheet" href="./adapters-web/src/design/styles/components.css" />
+    <link rel="stylesheet" href="./phone/src/gallery/gallery.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./phone/src/gallery/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,2 @@
+import { jsx as _jsx, jsxs as _jsxs } from "preact/jsx-runtime";
+export const Screen = (props) => (_jsxs("section", { class: "screen", "aria-label": props.title, "data-state": props.state, children: [props.strip !== undefined && _jsx("div", { "data-part": "strip", children: props.strip }), _jsxs("header", { children: [props.back, _jsx("h1", { children: props.title })] }), _jsx("div", { "data-part": "body", children: props.children }), props.gestures !== undefined && _jsx("footer", { children: props.gestures })] }));
