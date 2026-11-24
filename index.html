@@ -2,9 +2,11 @@
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'sha256-BPM47GH0SKbPeEMVzRQG5SJtBJE7Sf7tKbhFCiCQwS4='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://relay.cumino.test; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'sha256-kzr/UAZvjrCT/Jn54VU71xQVizR3KKip6lpLOAJh/Y4='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://relay.cumino.test; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
     <script type="importmap">{
   "imports": {
+    "@preact/signals": "./vendor/@preact/signals/dist/signals.module.js",
+    "@preact/signals-core": "./vendor/@preact/signals-core/dist/signals-core.module.js",
     "@q-mino/adapters-common": "./adapters-common/src/index.js",
     "@q-mino/adapters-web": "./adapters-web/src/index.js",
     "@q-mino/adapters-web/screens": "./adapters-web/src/screens/index.js",
@@ -104,10 +106,11 @@
     "@q-mino/ping_pong/texts/it.json": "./ext/ping_pong/texts/it.json",
     "libsodium-sumo": "./vendor/libsodium-sumo/dist/modules-sumo-esm/libsodium-sumo.mjs",
     "libsodium-wrappers-sumo": "./vendor/libsodium-wrappers-sumo/dist/modules-sumo-esm/libsodium-wrappers.mjs",
+    "preact": "./vendor/preact/dist/preact.mjs",
+    "preact/hooks": "./vendor/preact/hooks/dist/hooks.mjs",
+    "preact/jsx-runtime": "./vendor/preact/jsx-runtime/dist/jsxRuntime.mjs",
     "qr": "./vendor/qr/index.js",
     "qr/decode.js": "./vendor/qr/decode.js",
-    "solid-js": "./vendor/solid-js/dist/solid.js",
-    "solid-js/web": "./vendor/solid-js/web/dist/web.js",
     "zod": "./vendor/zod/index.js"
   }
 }</script>
@@ -763,12 +766,15 @@
     <link rel="modulepreload" href="./phone/src/texts/screens/the_handshake_in_person.js" />
     <link rel="modulepreload" href="./phone/src/texts/screens/the_server.js" />
     <link rel="modulepreload" href="./phone/src/texts/screens/what_happened.js" />
+    <link rel="modulepreload" href="./vendor/@preact/signals-core/dist/signals-core.module.js" />
+    <link rel="modulepreload" href="./vendor/@preact/signals/dist/signals.module.js" />
     <link rel="modulepreload" href="./vendor/libsodium-sumo/dist/modules-sumo-esm/libsodium-sumo.mjs" />
     <link rel="modulepreload" href="./vendor/libsodium-wrappers-sumo/dist/modules-sumo-esm/libsodium-wrappers.mjs" />
+    <link rel="modulepreload" href="./vendor/preact/dist/preact.mjs" />
+    <link rel="modulepreload" href="./vendor/preact/hooks/dist/hooks.mjs" />
+    <link rel="modulepreload" href="./vendor/preact/jsx-runtime/dist/jsxRuntime.mjs" />
     <link rel="modulepreload" href="./vendor/qr/decode.js" />
     <link rel="modulepreload" href="./vendor/qr/index.js" />
-    <link rel="modulepreload" href="./vendor/solid-js/dist/solid.js" />
-    <link rel="modulepreload" href="./vendor/solid-js/web/dist/web.js" />
     <link rel="modulepreload" href="./vendor/zod/index.js" />
     <link rel="modulepreload" href="./vendor/zod/v4/classic/checks.js" />
     <link rel="modulepreload" href="./vendor/zod/v4/classic/coerce.js" />

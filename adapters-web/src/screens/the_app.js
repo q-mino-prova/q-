@@ -5,8 +5,10 @@
 // where it goes, on the way. Since part 22.2 the words of each extension
 // the kernel draws in its mark, and whether a screen is the one shown (a
 // part of an extension is served only then, EXT-4, when one comes).
+import { computed } from '@preact/signals';
 import * as ui_value from '@q-mino/domains/ui/_value.ts';
-import { createContext, useContext } from 'solid-js';
+import { createContext } from 'preact';
+import { useContext } from 'preact/hooks';
 /** What a screen asked, drawn now: a new activity's id and the time (UI-3, WEB-4). */
 export const what_it_asked_now = (device) => ui_value.what_it_asked.parse({ activity_id: device.draws_an_id(), at: device.clock.now() });
 /** How an activity ended, in her words: its case, then what the kernel's leaf said when it has words for it. */
@@ -39,10 +41,10 @@ export const the_words_of_an_actions_end = (common, words, how) => {
         return the_words_of_an_end(common, how);
     return the_word_or_its_fault(common, words?.events[how.said.event], how.said.event);
 };
-/** The app, given by the root to every screen (Solid's context: static wiring, read once at a screen's setup). */
-export const TheAppContext = createContext();
+/** The app, given by the root to every screen (a context: static wiring, the same at every render). */
+export const TheAppContext = createContext(undefined);
 /** Whether the screen is the one shown, the last of the way (UI-1): told by the root to each screen it keeps. */
-export const TheScreenIsShown = createContext(() => false);
+export const TheScreenIsShown = createContext(computed(() => false));
 /** Whether this screen is the one shown. */
 export const the_screen_is_shown = () => useContext(TheScreenIsShown);
 /** The app the root gave this screen. */
