@@ -6,6 +6,7 @@ import { jsx as _jsx } from "preact/jsx-runtime";
 // the stories draw from their own data. [Q, C, 24 Nov 2026]
 import { render } from 'preact';
 import { the_gallery } from "../texts/index.js";
+import { the_plays_end } from "./the_plays.js";
 import { the_files } from "./the_stories.js";
 import { TheGallery } from "./the_gallery.js";
 const what_it_shows = (search) => {
@@ -20,4 +21,7 @@ const root = document.getElementById('root');
 if (root === null)
     throw new Error('missing #root');
 render(_jsx(TheGallery, { files: the_files, shows: what_it_shows(new URLSearchParams(location.search)), texts: the_gallery }), root);
-document.documentElement.dataset['ready'] = 'yes';
+// Ready once the stories of the screens have played to their cases (WEB-29).
+void the_plays_end().then(() => {
+    document.documentElement.dataset['ready'] = 'yes';
+});

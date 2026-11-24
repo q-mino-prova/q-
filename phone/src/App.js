@@ -1,7 +1,8 @@
-import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "preact/jsx-runtime";
+import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "preact/jsx-runtime";
 import { signal } from '@preact/signals';
 import { useEffect, useRef } from 'preact/hooks';
 import { why_it_does_not_start, } from "./node/index.js";
+import { Flaw, Gesture, Notice, Why } from '@q-mino/adapters-web/design';
 import { the_build } from "./build_info.js";
 import { texts } from "./texts/index.js";
 import { UpdatePrompt } from "./UpdatePrompt.js";
@@ -31,15 +32,16 @@ export const App = (props) => {
         if (at_the_update.now === 'running')
             await at_the_update.node.stops();
     };
-    return (_jsxs("main", { "data-state": it.now, children: [(it.now === 'opening' || it.now === 'clearing_the_data') && _jsx("p", { children: texts.start.opening }), it.now === 'another_tab' && (_jsxs(_Fragment, { children: [_jsx("p", { children: texts.start.another_tab }), _jsx("button", { type: "button", onClick: () => {
+    const taps = (does) => ({ does: 'taps', taps: does });
+    return (_jsxs("div", { class: "app", "data-state": it.now, children: [(it.now === 'opening' || it.now === 'clearing_the_data') && (_jsx("div", { "data-part": "told", children: _jsx(Notice, { kind: "waiting", children: texts.start.opening }) })), it.now === 'another_tab' && (_jsxs("div", { "data-part": "told", children: [_jsx(Notice, { kind: "information", children: texts.start.another_tab }), _jsx(Gesture, { kind: "primary", label: texts.start.use_here, does: taps(() => {
                             opens('use_here');
-                        }, children: texts.start.use_here })] })), it.now === 'it_does_not_start' && (_jsxs("section", { role: "alert", "data-state": it.why.why, children: [it.why.why === 'an_extension_does_not_compose' && (_jsxs(_Fragment, { children: [_jsx("h1", { children: texts.start.an_extension_does_not_compose }), _jsx("ul", { children: it.why.faults.map((one, index) => (_jsx("li", { children: texts.start.the_composition_faults[one.fault](one.extension) }, index))) })] })), it.why.why === 'the_data_of_an_older_test_release' && (_jsxs(_Fragment, { children: [_jsx("h1", { children: texts.start.it_does_not_start }), _jsx("p", { children: texts.start.the_data_of_an_older_test_release }), on_the_test_channel && (_jsx("button", { type: "button", onClick: () => {
+                        }) })] })), it.now === 'it_does_not_start' && (_jsxs("section", { role: "alert", class: "it-does-not-start", "data-state": it.why.why, children: [it.why.why === 'an_extension_does_not_compose' && (_jsxs(_Fragment, { children: [_jsx("h1", { children: texts.start.an_extension_does_not_compose }), _jsx("ul", { children: it.why.faults.map((one, index) => (_jsx("li", { children: texts.start.the_composition_faults[one.fault](one.extension) }, index))) })] })), it.why.why === 'the_data_of_an_older_test_release' && (_jsxs(_Fragment, { children: [_jsx("h1", { children: texts.start.it_does_not_start }), _jsx("p", { children: texts.start.the_data_of_an_older_test_release }), on_the_test_channel && (_jsx(Gesture, { kind: "dangerous", label: texts.start.clear_the_data_and_start_again, does: taps(() => {
                                     clears_the_data_and_starts_again(undefined);
-                                }, children: texts.start.clear_the_data_and_start_again }))] })), it.why.why === 'a_fault' && _jsx("h1", { children: texts.start.it_does_not_start }), _jsx("h2", { children: texts.start.why }), _jsx("pre", { children: it.why.message })] })), it.now === 'stopped' && it.why === 'used_elsewhere' && (_jsxs(_Fragment, { children: [_jsx("p", { children: texts.start.used_elsewhere }), _jsx("button", { type: "button", onClick: () => {
+                                }) }))] })), it.why.why === 'a_fault' && _jsx("h1", { children: texts.start.it_does_not_start }), _jsx(Why, { title: texts.start.why, message: it.why.message })] })), it.now === 'stopped' && it.why === 'used_elsewhere' && (_jsxs("div", { "data-part": "told", children: [_jsx(Notice, { kind: "information", children: texts.start.used_elsewhere }), _jsx(Gesture, { kind: "primary", label: texts.start.use_here, does: taps(() => {
                             opens('use_here');
-                        }, children: texts.start.use_here })] })), it.now === 'stopped' && it.why === 'closed_for_a_new_release' && (_jsxs(_Fragment, { children: [_jsx("p", { children: texts.start.closed_for_a_new_release }), _jsx("button", { type: "button", onClick: () => {
+                        }) })] })), it.now === 'stopped' && it.why === 'closed_for_a_new_release' && (_jsxs("div", { "data-part": "told", children: [_jsx(Notice, { kind: "information", children: texts.start.closed_for_a_new_release }), _jsx(Gesture, { kind: "primary", label: texts.start.reload, glyph: "refresh_cw", does: taps(() => {
                             props.reopens();
-                        }, children: texts.start.reload })] })), it.now === 'running' && (_jsx(TheNodeRunning, { node: it.node, screens: props.screens, clears_the_data_and_starts_again: on_the_test_channel ? clears_the_data_and_starts_again : undefined })), _jsxs("footer", { children: [the_build.channel !== 'release' && (_jsx("p", { children: _jsx("strong", { children: texts.app.testChannel }) })), _jsx("h2", { children: texts.about.title }), _jsxs("p", { children: [texts.app.name, " (", texts.app.reading, ") \u00B7 ", texts.about.version, ": ", the_build.version, " \u00B7", ' ', texts.about.code, ":", ' ', _jsx("a", { href: `${repository}/commit/${the_build.commit}`, children: the_build.commit.slice(0, 7) }), the_build.committed_at !== 'unknown' && (_jsxs(_Fragment, { children: [" ", texts.about.committed_on(the_time_of(the_build.committed_at))] }))] })] }), _jsx(UpdatePrompt, { before_the_update: before_the_update })] }));
+                        }) })] })), it.now === 'running' && (_jsx(TheNodeRunning, { node: it.node, screens: props.screens, clears_the_data_and_starts_again: on_the_test_channel ? clears_the_data_and_starts_again : undefined })), _jsxs("footer", { class: "about", children: [the_build.channel !== 'release' && (_jsx("p", { "data-part": "channel", children: _jsx("strong", { children: texts.app.testChannel }) })), _jsx("h2", { children: texts.about.title }), _jsxs("p", { children: [texts.app.name, " (", texts.app.reading, ") \u00B7 ", texts.about.version, ": ", the_build.version, " \u00B7", ' ', texts.about.code, ":", ' ', _jsx("a", { href: `${repository}/commit/${the_build.commit}`, children: the_build.commit.slice(0, 7) }), the_build.committed_at !== 'unknown' && (_jsxs(_Fragment, { children: [" ", texts.about.committed_on(the_time_of(the_build.committed_at))] }))] })] }), _jsx(UpdatePrompt, { before_the_update: before_the_update })] }));
 };
 /** The app's state and its gestures: the node's start, what it came to, the data cleared. */
 const the_app_s_state = (props) => {
@@ -96,5 +98,7 @@ const TheNodeRunning = (props) => {
             node: props.node,
             drawn: props.screens(props.node, the_gesture_on(props.node, props.clears_the_data_and_starts_again)),
         };
-    return (_jsxs(_Fragment, { children: [props.node.the_storage === 'best_effort' && (_jsx("p", { role: "note", children: texts.the_storage.best_effort })), props.node.the_storage === 'not_told' && _jsx("p", { role: "note", children: texts.the_storage.not_told }), screens.current.drawn] }));
+    return (_jsxs(_Fragment, { children: [props.node.the_storage !== 'persistent' && (_jsx("div", { "data-part": "the-storage", "data-state": props.node.the_storage, children: _jsx(Flaw, { title: texts.the_storage.title, children: props.node.the_storage === 'best_effort'
+                        ? texts.the_storage.best_effort
+                        : texts.the_storage.not_told }) })), screens.current.drawn] }));
 };

@@ -9,7 +9,8 @@ import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "preact/jsx-ru
 // her node's changes counted, so that each screen reads it again.
 import { signal } from '@preact/signals';
 import * as ui from '@q-mino/domains/ui/_dsl.ts';
-import { useEffect } from 'preact/hooks';
+import { useEffect, useRef } from 'preact/hooks';
+import { Gesture, Notice, Strip, Why } from "../design/index.js";
 import { ARecordOutOfItsForm } from "../indexeddb/index.js";
 import { kept } from "./a_screen.js";
 import { lets_go, pushes, replaces, the_addresses_of, the_depth_of, the_entry, the_view_shown, the_way_of_an_entry, writes_the_way, } from "./the_history.js";
@@ -262,12 +263,34 @@ export const TheScreens = (props) => {
                 return _jsx(TheServer, { texts: props.texts.the_server });
         }
     };
+    // The focus to the title of the screen shown, at each move of the way
+    // after the first (WEB-29): a screen reader says where she is, the tab
+    // key starts there; the first screen keeps the page's own start.
+    const the_main = useRef(null);
+    useEffect(() => {
+        let drawn;
+        return root.way.subscribe((way) => {
+            const before = drawn;
+            drawn = way;
+            if (before === undefined || way === undefined || way === before)
+                return;
+            // After the draw of the way: the screen shown is the new one.
+            requestAnimationFrame(() => {
+                the_main.current
+                    ?.querySelector(':scope > div:not([hidden]) > section h1')
+                    ?.focus();
+            });
+        });
+    }, []);
     const strip = root.the_strip.value?.strip;
     const why = root.does_not_open.value;
     const the_way = root.way.value;
-    return (_jsx(TheAppContext.Provider, { value: root.app, children: _jsxs("main", { children: [strip === 'no_network' && (_jsx("p", { role: "status", "data-state": strip, children: props.texts.common.no_network })), strip === 'the_relay_does_not_answer' && (_jsx("p", { role: "status", "data-state": strip, children: props.texts.common.the_relay_does_not_answer })), why !== undefined ? (_jsxs("section", { role: "alert", "data-state": why.why, children: [_jsx("h1", { children: props.texts.common.it_does_not_start }), why.why === 'the_data_of_an_older_test_release' && (_jsxs(_Fragment, { children: [_jsx("p", { children: props.texts.common.the_data_of_an_older_test_release }), props.clears_the_data_and_starts_again !== undefined && (_jsx("button", { type: "button", onClick: () => {
-                                        props.clears_the_data_and_starts_again?.();
-                                    }, children: props.texts.common.clear_the_data_and_start_again }))] })), _jsx("h2", { children: props.texts.common.why }), _jsx("pre", { children: why.message })] })) : the_way === undefined ? (_jsx("p", { role: "status", children: props.texts.common.opening })) : (the_way.map((screen, index) => (_jsx(AScreenOfTheWay, { shown: index === the_way.length - 1, children: the_screen(screen) }, root.key_of(screen))))), root.went_wrong.value && _jsx("p", { role: "alert", children: props.texts.common.something_went_wrong })] }) }));
+    return (_jsx(TheAppContext.Provider, { value: root.app, children: _jsxs("main", { class: "screens", ref: the_main, children: [strip === 'no_network' && (_jsx("div", { "data-part": "strip", "data-state": strip, children: _jsx(Strip, { glyph: "wifi_off", children: props.texts.common.no_network }) })), strip === 'the_relay_does_not_answer' && (_jsx("div", { "data-part": "strip", "data-state": strip, children: _jsx(Strip, { glyph: "clock", children: props.texts.common.the_relay_does_not_answer }) })), why !== undefined ? (_jsxs("section", { role: "alert", class: "it-does-not-start", "data-state": why.why, children: [_jsx("h1", { children: props.texts.common.it_does_not_start }), why.why === 'the_data_of_an_older_test_release' && (_jsxs(_Fragment, { children: [_jsx("p", { children: props.texts.common.the_data_of_an_older_test_release }), props.clears_the_data_and_starts_again !== undefined && (_jsx(Gesture, { kind: "dangerous", label: props.texts.common.clear_the_data_and_start_again, does: {
+                                        does: 'taps',
+                                        taps: () => {
+                                            props.clears_the_data_and_starts_again?.();
+                                        },
+                                    } }))] })), _jsx(Why, { title: props.texts.common.why, message: why.message })] })) : the_way === undefined ? (_jsx("div", { "data-part": "opening", children: _jsx(Notice, { kind: "waiting", children: props.texts.common.opening }) })) : (the_way.map((screen, index) => (_jsx(AScreenOfTheWay, { shown: index === the_way.length - 1, children: the_screen(screen) }, root.key_of(screen))))), root.went_wrong.value && (_jsx("div", { "data-part": "went-wrong", children: _jsx(Notice, { kind: "fault", children: props.texts.common.something_went_wrong }) }))] }) }));
 };
 /** A screen of the way, kept while it is open, hidden unless it is the one shown, told whether it is. */
 const AScreenOfTheWay = (props) => {

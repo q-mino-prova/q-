@@ -3,12 +3,14 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "preact/jsx-ru
 // shake her hand, at a distance; the name she gives them, theirs by default;
 // she accepts or declines. Accepted, her ticket is prepared and, once it is
 // ready, the screen is told so once, and theirs is opened on it; offline,
-// it waits, and says so. A link out of its form is told, and opens nothing.
+// it waits, and says so. A link out of its form is told, and opens nothing. Since the MVP's part 2 drawn
+// with the design's components (WEB-29).
 import { computed } from '@preact/signals';
 import * as an_invitation from '@q-mino/domains/ui/an_invitation/_dsl.ts';
 import { useEffect } from 'preact/hooks';
+import { Field, Gesture, Notice, Screen } from "../design/index.js";
 import { a_screen, kept, what_it_is_given } from "./a_screen.js";
-import { Back } from "./parts.js";
+import { Back, the_kind_of_an_end } from "./parts.js";
 import { the_app, the_words_of_an_end, what_it_asked_now } from "./the_app.js";
 export const AnInvitation = (props) => {
     const app = the_app();
@@ -63,19 +65,21 @@ export const AnInvitation = (props) => {
     const shown = state === undefined || read === undefined
         ? undefined
         : an_invitation.what_it_shows(state, read.given.model);
-    return (_jsxs("section", { "aria-label": props.texts.title, "data-state": shown?.shows, children: [_jsx(Back, { onBack: () => {
-                    screen.happens({ happens: 'she_goes_back' });
-                } }), _jsx("h1", { children: props.texts.title }), shown?.shows === 'not_an_invitation' && _jsx("p", { role: "status", children: props.texts.not_an_invitation }), shown?.shows === 'the_invitation' && (_jsxs("form", { onSubmit: (event) => {
+    const taps = (does) => ({ does: 'taps', taps: does });
+    return (_jsxs(Screen, { title: props.texts.title, state: shown?.shows, back: _jsx(Back, { onBack: () => {
+                screen.happens({ happens: 'she_goes_back' });
+            } }), children: [shown?.shows === 'not_an_invitation' && (_jsx(Notice, { kind: "information", children: props.texts.not_an_invitation })), shown?.shows === 'the_invitation' && (_jsxs("form", { onSubmit: (event) => {
                     event.preventDefault();
                     accepts();
-                }, children: [_jsx("p", { children: props.texts.wants_to_shake_your_hand(shown.introduced_as) }), _jsx("p", { children: props.texts.if_you_accept }), _jsxs("label", { children: [props.texts.the_name_you_give, ' ', _jsx("input", { name: "name", value: shown.name, onInput: (event) => {
-                                    screen.happens({
-                                        happens: 'she_types_the_name',
-                                        name: event.currentTarget.value,
-                                    });
-                                } })] }), _jsx("button", { type: "submit", disabled: shown.the_button !== 'on', children: props.texts.accept }), _jsx("button", { type: "button", onClick: () => {
-                            screen.happens({ happens: 'she_declines' });
-                        }, children: props.texts.decline })] })), shown?.shows === 'on_its_way' && (_jsxs(_Fragment, { children: [_jsx("p", { role: "status", children: props.texts.on_its_way(shown.introduced_as) }), _jsx("p", { children: props.texts.it_waits_offline })] })), shown?.shows === 'bonded' && (_jsx("p", { role: "status", children: shown.already
+                }, children: [_jsx("p", { children: props.texts.wants_to_shake_your_hand(shown.introduced_as) }), _jsx("p", { children: props.texts.if_you_accept }), _jsx(Field, { label: props.texts.the_name_you_give, name: "name", holds: {
+                            holds: 'the_screens',
+                            value: shown.name,
+                            types: (name) => {
+                                screen.happens({ happens: 'she_types_the_name', name });
+                            },
+                        } }), _jsxs("div", { "data-part": "gestures", children: [_jsx(Gesture, { kind: "primary", label: props.texts.accept, off: shown.the_button !== 'on', does: { does: 'submits' } }), _jsx(Gesture, { kind: "secondary", label: props.texts.decline, does: taps(() => {
+                                    screen.happens({ happens: 'she_declines' });
+                                }) })] })] })), shown?.shows === 'on_its_way' && (_jsxs(_Fragment, { children: [_jsx(Notice, { kind: "waiting", children: props.texts.on_its_way(shown.introduced_as) }), _jsx("p", { children: props.texts.it_waits_offline })] })), shown?.shows === 'bonded' && (_jsx(Notice, { kind: "done", children: shown.already
                     ? props.texts.bonded_already(shown.introduced_as)
-                    : props.texts.bonded(shown.introduced_as) })), shown?.shows === 'the_invitation_no_longer_holds' && (_jsxs(_Fragment, { children: [_jsx("p", { role: "status", children: props.texts.no_longer_holds(shown.introduced_as) }), _jsx("p", { children: the_words_of_an_end(app.common, shown.how) })] }))] }));
+                    : props.texts.bonded(shown.introduced_as) })), shown?.shows === 'the_invitation_no_longer_holds' && (_jsxs(_Fragment, { children: [_jsx(Notice, { kind: "fault", children: props.texts.no_longer_holds(shown.introduced_as) }), _jsx(Notice, { kind: the_kind_of_an_end(shown.how), children: the_words_of_an_end(app.common, shown.how) })] }))] }));
 };

@@ -1,0 +1,45 @@
+import { jsx as _jsx } from "preact/jsx-runtime";
+// Her contacts (UI-5; WEB-29): each case of the home, as her node holds it
+// and as her gestures open it (`phone/test/screens/my_contacts.test.tsx`).
+import { TheScreens } from '@q-mino/adapters-web/screens';
+import * as ui_value from '@q-mino/domains/ui/_value.ts';
+import { texts } from "../../../texts/index.js";
+import { AScreenStory } from "../../a_screen_story.js";
+import { ten_in_rome } from "../../../the_node_of_a_story/index.js";
+const words = texts.screens;
+/** Anna, her face F_a, the face she acts as. */
+const anna = {
+    faces: [{ face: 'F_a', name: 'Anna' }],
+    the_active_face: 'F_a',
+};
+const her_contacts = {
+    ...anna,
+    contacts: [
+        ui_value.a_contact_seen.parse({
+            bond: 'L_b',
+            name: 'Bruno',
+            introduced_as: 'Bruno',
+            confirmation: { state: 'received', at: ten_in_rome },
+        }),
+        ui_value.a_contact_seen.parse({
+            bond: 'L_c',
+            name: 'Carla R.',
+            introduced_as: 'Carla',
+            confirmation: { state: 'awaited' },
+        }),
+    ],
+};
+export default { title: 'Screens/My contacts', component: TheScreens };
+export const none_yet = {
+    render: () => _jsx(AScreenStory, { holds: anna }),
+};
+export const some_contacts = {
+    render: () => _jsx(AScreenStory, { holds: her_contacts }),
+};
+export const the_menu_open = {
+    render: () => (_jsx(AScreenStory, { holds: her_contacts, plays: async (hand) => {
+            await hand.until_it_says('Bruno');
+            hand.taps(words.my_contacts.the_menu);
+            await hand.until(() => hand.shown().querySelector('nav') !== null);
+        } })),
+};

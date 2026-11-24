@@ -1,6 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "preact/jsx-runtime";
 import * as ui from '@q-mino/domains/ui/_dsl.ts';
 import * as a_contact from '@q-mino/domains/ui/a_contact/_dsl.ts';
+import { Card, Field, Gesture, List, Notice, Question, Row, Screen, } from "../design/index.js";
 import { a_screen, kept, what_it_is_given } from "./a_screen.js";
 import { Back, TheCourse, TheMark, ThePoints } from "./parts.js";
 import { the_app, the_word_or_its_fault, what_it_asked_now, } from "./the_app.js";
@@ -19,6 +20,12 @@ const the_words_of_the_answer = (texts, common, words, answer) => {
             return texts.the_answer.no_answer[answer.why];
     }
 };
+/**
+ * How what came back is told (WEB-29): waiting while it travels; the
+ * extensions in common, or none, or no answer, as information: silence is
+ * a normal outcome, never an error. [Q, C, 24 Nov 2026]
+ */
+const the_kind_of_the_answer = (answer) => answer.answer === 'waiting' ? 'waiting' : 'information';
 const nothing_asked = { course: 'nothing_asked' };
 /** The course of the last activity asked for this, as `what_it_shows` tells it. */
 const the_course_for = (shown, purpose) => shown.courses.filter((one) => JSON.stringify(one.for) === JSON.stringify(purpose)).at(-1)
@@ -88,47 +95,53 @@ export const AContact = (props) => {
     const shown = state === undefined || read === undefined
         ? undefined
         : a_contact.what_it_shows(state, read.given);
-    return (_jsxs("section", { "aria-label": props.texts.title, "data-state": shown?.shows, children: [_jsx(Back, { onBack: () => {
-                    screen.happens({ happens: 'she_goes_back' });
-                } }), _jsx("h1", { children: props.texts.title }), shown?.shows === 'no_such_contact' && _jsx("p", { children: props.texts.no_such_contact }), shown?.shows === 'the_contact' && (_jsx(TheContact, { texts: props.texts, it: shown, happens: screen.happens, starts_renaming: starts_renaming, on_the_offer: on_the_offer, asks_for_the_extensions_in_common: asks_for_the_extensions_in_common }))] }));
+    return (_jsxs(Screen, { title: props.texts.title, state: shown?.shows, back: _jsx(Back, { onBack: () => {
+                screen.happens({ happens: 'she_goes_back' });
+            } }), children: [shown?.shows === 'no_such_contact' && (_jsx(Notice, { kind: "information", children: props.texts.no_such_contact })), shown?.shows === 'the_contact' && (_jsx(TheContact, { texts: props.texts, it: shown, happens: screen.happens, starts_renaming: starts_renaming, on_the_offer: on_the_offer, asks_for_the_extensions_in_common: asks_for_the_extensions_in_common }))] }));
 };
 /** The card of the contact, as `what_it_shows` tells it, and her gestures on it. */
 const TheContact = (props) => {
     const app = the_app();
     const it = props.it;
     const said = the_words_of_the_answer(props.texts, app.common, app.words, it.in_common);
-    return (_jsxs(_Fragment, { children: [_jsx("h2", { children: it.card.name }), it.card.introduced_as !== it.card.name && (_jsx("p", { children: props.texts.introduced_as(it.card.introduced_as) })), _jsx("p", { children: props.texts.the_handshake[it.card.handshake.way](props.texts.when(it.card.handshake.at, app.device.clock.time_zone)) }), _jsx("p", { "data-state": it.card.confirmation.state, children: props.texts.the_confirmation[it.card.confirmation.state] }), it.card.their_relays.length > 0 && (_jsxs(_Fragment, { children: [_jsx("p", { children: props.texts.their_relays }), _jsx("ul", { children: it.card.their_relays.map((relay) => (_jsx("li", { children: relay }, relay))) })] })), it.renaming === undefined ? (_jsx("button", { type: "button", onClick: () => {
-                    void props.starts_renaming(it.card.name);
-                }, children: props.texts.rename_it })) : (_jsxs("form", { "data-state": it.renaming.the_button, onSubmit: (event) => {
-                    event.preventDefault();
-                    props.happens({
-                        happens: 'she_renames_it',
-                        asked: what_it_asked_now(app.device),
-                    });
-                }, children: [_jsxs("label", { children: [props.texts.the_name, ' ', _jsx("input", { name: "name", value: it.renaming.name, onInput: (event) => {
-                                    props.happens({
-                                        happens: 'she_types_the_name',
-                                        name: event.currentTarget.value,
-                                    });
-                                } })] }), _jsx("button", { type: "submit", disabled: it.renaming.the_button !== 'on', children: it.renaming.the_button === 'renaming'
-                            ? props.texts.renaming
-                            : props.texts.give_the_name }), _jsx("button", { type: "button", onClick: () => {
-                            props.happens({ happens: 'she_stops_renaming' });
-                        }, children: props.texts.stop_renaming })] })), _jsx(TheCourse, { course: the_course_for(it, { for: 'the_name' }) }), it.removing === 'not_asked' && (_jsx("button", { type: "button", onClick: () => {
-                    props.happens({ happens: 'she_asks_to_remove_it' });
-                }, children: props.texts.remove_it })), it.removing === 'to_confirm' && (_jsxs(_Fragment, { children: [_jsx("p", { children: props.texts.remove_it_really(it.card.name) }), _jsx("button", { type: "button", onClick: () => {
+    const taps = (does) => ({ does: 'taps', taps: does });
+    return (_jsxs(_Fragment, { children: [_jsxs(Card, { title: it.card.name, children: [_jsxs(List, { children: [it.card.introduced_as !== it.card.name && (_jsx(Row, { glyph: "user", title: props.texts.introduced_as(it.card.introduced_as) })), _jsx(Row, { glyph: it.card.handshake.way === 'in_person' ? 'hand_heart' : 'link', title: props.texts.the_handshake[it.card.handshake.way](props.texts.when(it.card.handshake.at, app.device.clock.time_zone)) }), _jsx(Row, { glyph: it.card.confirmation.state === 'received' ? 'check' : 'clock', title: props.texts.the_confirmation[it.card.confirmation.state] }), it.card.their_relays.length > 0 && (_jsx(Row, { glyph: "users", title: props.texts.their_relays, detail: it.card.their_relays.join(' · ') }))] }), it.renaming === undefined ? (_jsxs("div", { "data-part": "gestures", children: [_jsx(Gesture, { kind: "secondary", label: props.texts.rename_it, glyph: "pencil", does: taps(() => {
+                                    void props.starts_renaming(it.card.name);
+                                }) }), it.removing !== 'not_asked' ? null : (_jsx(Gesture, { kind: "dangerous", label: props.texts.remove_it, glyph: "x", does: taps(() => {
+                                    props.happens({ happens: 'she_asks_to_remove_it' });
+                                }) }))] })) : (_jsxs("form", { "data-state": it.renaming.the_button, onSubmit: (event) => {
+                            event.preventDefault();
                             props.happens({
-                                happens: 'she_removes_it',
+                                happens: 'she_renames_it',
                                 asked: what_it_asked_now(app.device),
                             });
-                        }, children: props.texts.yes_remove_it }), _jsx("button", { type: "button", onClick: () => {
+                        }, children: [_jsx(Field, { label: props.texts.the_name, name: "name", holds: {
+                                    holds: 'the_screens',
+                                    value: it.renaming.name,
+                                    types: (name) => {
+                                        props.happens({ happens: 'she_types_the_name', name });
+                                    },
+                                } }), _jsxs("div", { "data-part": "gestures", children: [_jsx(Gesture, { kind: "primary", label: it.renaming.the_button === 'renaming'
+                                            ? props.texts.renaming
+                                            : props.texts.give_the_name, off: it.renaming.the_button !== 'on', does: { does: 'submits' } }), _jsx(Gesture, { kind: "secondary", label: props.texts.stop_renaming, does: taps(() => {
+                                            props.happens({ happens: 'she_stops_renaming' });
+                                        }) })] })] })), _jsx(TheCourse, { course: the_course_for(it, { for: 'the_name' }) }), it.renaming !== undefined && it.removing === 'not_asked' && (_jsx("div", { "data-part": "gestures", children: _jsx(Gesture, { kind: "dangerous", label: props.texts.remove_it, glyph: "x", does: taps(() => {
+                                props.happens({ happens: 'she_asks_to_remove_it' });
+                            }) }) })), it.removing === 'to_confirm' && (_jsx(Question, { kind: "confirmation", title: props.texts.remove_it, declines: () => {
                             props.happens({ happens: 'she_keeps_it' });
-                        }, children: props.texts.keep_it })] })), _jsx(TheCourse, { course: the_course_for(it, { for: 'removing' }) }), _jsxs("section", { "aria-label": props.texts.the_extensions, children: [_jsx("h2", { children: props.texts.the_extensions }), it.the_extensions.length > 0 ? (_jsx("ul", { children: it.the_extensions.map((one) => (_jsxs("li", { "data-state": one.may, children: [the_word_or_its_fault(app.common, app.words(one.extension)?.name, one.extension), ' ', _jsx("small", { children: one.offered ? props.texts.offered : props.texts.not_offered }), ' ', _jsx("button", { type: "button", disabled: one.may === 'wait', onClick: () => {
-                                        props.on_the_offer(one);
-                                    }, children: props.texts.the_offer[one.may] }), _jsx(TheCourse, { course: the_course_for(it, {
-                                        for: 'the_offer',
-                                        extension: one.extension,
-                                    }) })] }, one.extension))) })) : (_jsx("p", { children: props.texts.no_extension_active })), _jsx("button", { type: "button", disabled: !ui.it_may_ask(the_course_for(it, { for: 'the_extensions_in_common' })), onClick: props.asks_for_the_extensions_in_common, children: props.texts.ask_for_the_extensions_in_common }), _jsx(TheCourse, { course: the_course_for(it, { for: 'the_extensions_in_common' }) }), said !== undefined && (_jsx("p", { role: "status", "data-state": it.in_common.answer, children: said }))] }), it.marks.map((mark) => (_jsx(TheMark, { extension: mark.extension, children: _jsx(ThePoints, { mark: mark, course_of: (action) => the_course_for(it, {
+                        }, answers: _jsxs(_Fragment, { children: [_jsx(Gesture, { kind: "secondary", label: props.texts.keep_it, does: taps(() => {
+                                        props.happens({ happens: 'she_keeps_it' });
+                                    }) }), _jsx(Gesture, { kind: "dangerous", label: props.texts.yes_remove_it, does: taps(() => {
+                                        props.happens({
+                                            happens: 'she_removes_it',
+                                            asked: what_it_asked_now(app.device),
+                                        });
+                                    }) })] }), children: _jsx("p", { children: props.texts.remove_it_really(it.card.name) }) })), _jsx(TheCourse, { course: the_course_for(it, { for: 'removing' }) })] }), _jsxs(Card, { title: props.texts.the_extensions, children: [it.the_extensions.length > 0 ? (_jsx(List, { children: it.the_extensions.map((one) => (_jsx(Row, { glyph: "puzzle", title: the_word_or_its_fault(app.common, app.words(one.extension)?.name, one.extension), detail: _jsxs(_Fragment, { children: [one.offered ? props.texts.offered : props.texts.not_offered, _jsx(TheCourse, { course: the_course_for(it, {
+                                            for: 'the_offer',
+                                            extension: one.extension,
+                                        }) })] }), trail: _jsx(Gesture, { kind: "secondary", label: props.texts.the_offer[one.may], off: one.may === 'wait', does: taps(() => {
+                                    props.on_the_offer(one);
+                                }) }) }, one.extension))) })) : (_jsx("p", { children: props.texts.no_extension_active })), _jsx("div", { "data-part": "gestures", children: _jsx(Gesture, { kind: "secondary", label: props.texts.ask_for_the_extensions_in_common, glyph: "refresh_cw", off: !ui.it_may_ask(the_course_for(it, { for: 'the_extensions_in_common' })), does: taps(props.asks_for_the_extensions_in_common) }) }), _jsx(TheCourse, { course: the_course_for(it, { for: 'the_extensions_in_common' }) }), said !== undefined && (_jsx("div", { "data-part": "the-answer", "data-state": it.in_common.answer, children: _jsx(Notice, { kind: the_kind_of_the_answer(it.in_common), children: said }) }))] }), it.marks.map((mark) => (_jsx(TheMark, { extension: mark.extension, children: _jsx(ThePoints, { mark: mark, course_of: (action) => the_course_for(it, {
                         for: 'an_action',
                         extension: mark.extension,
                         action,

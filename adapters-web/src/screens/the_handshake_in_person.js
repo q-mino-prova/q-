@@ -7,15 +7,17 @@ import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "preact/jsx-ru
 // one; the camera is on only while she scans, off once she does not and
 // when the screen closes. Once she scanned theirs, her QR stays shown, the
 // camera off, until her gesture puts it away (the other phone may still be
-// reading it); then bonded, she opens the contact or shakes another hand.
+// reading it); then bonded, she opens the contact or shakes another hand. Since the MVP's part 2
+// drawn with the design's components (WEB-29).
 import { computed, signal, untracked } from '@preact/signals';
 import * as ui_value from '@q-mino/domains/ui/_value.ts';
 import * as the_handshake_in_person from '@q-mino/domains/ui/the_handshake_in_person/_dsl.ts';
 import { useEffect, useRef } from 'preact/hooks';
 import { the_qr_of } from "../qr/index.js";
 import { the_ticket_in_a_link } from "../ticket_link/index.js";
+import { Gesture, Notice, Qr, Screen, Viewfinder } from "../design/index.js";
 import { a_screen, kept, what_it_is_given, while_it_is_open } from "./a_screen.js";
-import { Back } from "./parts.js";
+import { Back, the_kind_of_an_end } from "./parts.js";
 import { the_app, the_words_of_an_end, what_it_asked_now } from "./the_app.js";
 /** What a text the camera read holds, as the link of a ticket carries it (WEB-1), the ticket in her words or out of its form. */
 const what_it_holds = (text) => {
@@ -37,8 +39,12 @@ const TheQr = (props) => {
     if (drawn.current?.link !== props.link)
         drawn.current = { link: props.link, qr: the_qr_of(props.link) };
     const qr = drawn.current.qr;
-    return qr.drawn === 'a_qr' ? (_jsx("img", { alt: props.texts.the_qr, src: `data:image/svg+xml,${encodeURIComponent(qr.svg)}` })) : (_jsxs(_Fragment, { children: [_jsx("p", { children: props.texts.too_long_for_a_qr }), _jsx("p", { children: props.link })] }));
+    return qr.drawn === 'a_qr' ? (_jsx(Qr, { label: props.texts.the_qr, svg: qr.svg })) : (_jsxs(_Fragment, { children: [_jsx("p", { children: props.texts.too_long_for_a_qr }), _jsx("p", { children: props.link })] }));
 };
+/** How the camera, when it is not on, is told (WEB-29): getting ready is a wait; refused, missing or busy are faults of the place. */
+const the_kind_of_the_camera = (camera) => camera === 'off' ? 'waiting' : 'fault';
+/** How what she scanned that opens nothing is told: no ticket is information, one out of its form a fault. */
+const the_kind_of_a_scan = (scanned) => scanned === 'no_ticket' ? 'information' : 'fault';
 /** Where the camera faces, by its side, in the browser's words (WEB-2): the front faces her. */
 const the_facing_of = {
     front: 'user',
@@ -46,9 +52,12 @@ const the_facing_of = {
 };
 /** Her QR, the camera's words and the gesture that turns it while she scans (her ticket ready, or theirs not opened). */
 const WhileSheScans = (props) => {
-    return (_jsxs(_Fragment, { children: [_jsx("p", { children: props.texts.show_and_scan }), props.link !== undefined && _jsx(TheQr, { link: props.link, texts: props.texts }), props.camera !== 'on' && (_jsx("p", { role: "status", "data-state": props.camera, children: props.texts.the_camera[props.camera] })), props.turn !== 'none' && (_jsx("button", { type: "button", "data-state": props.turn, onClick: () => {
-                    props.onTurn();
-                }, children: props.texts.turn_the_camera[props.turn] }))] }));
+    return (_jsxs(_Fragment, { children: [_jsx("p", { children: props.texts.show_and_scan }), props.link !== undefined && _jsx(TheQr, { link: props.link, texts: props.texts }), props.camera !== 'on' && (_jsx("div", { "data-part": "the-camera", "data-state": props.camera, children: _jsx(Notice, { kind: the_kind_of_the_camera(props.camera), children: props.texts.the_camera[props.camera] }) })), props.turn !== 'none' && (_jsx("div", { "data-part": "the-turn", "data-state": props.turn, children: _jsx(Gesture, { kind: "quiet", glyph: "refresh_cw", label: props.texts.turn_the_camera[props.turn], does: {
+                        does: 'taps',
+                        taps: () => {
+                            props.onTurn();
+                        },
+                    } }) }))] }));
 };
 /**
  * The words of a bond made on the screen (BND-10; Alessandro, 21 Nov 2026):
@@ -162,15 +171,16 @@ export const TheHandshakeInPerson = (props) => {
     const it = shown.value;
     const link = given.value?.given.link;
     const scanning = it?.shows === 'ready' || it?.shows === 'their_ticket_cannot_be_opened';
-    return (_jsxs("section", { "aria-label": props.texts.title, "data-state": it?.shows, children: [_jsx(Back, { onBack: () => {
-                    screen.happens({ happens: 'she_goes_back' });
-                } }), _jsx("h1", { children: props.texts.title }), it?.shows === 'getting_the_ticket_ready' && (_jsx("p", { role: "status", children: props.texts.getting_the_ticket_ready })), it?.shows === 'the_ticket_cannot_be_prepared' && (_jsxs(_Fragment, { children: [_jsx("p", { role: "status", children: props.texts.the_ticket_cannot_be_prepared }), _jsx("p", { children: the_words_of_an_end(app.common, it.how) }), _jsx("button", { type: "button", onClick: () => {
-                            a_new_ticket('she_shakes_another_hand');
-                        }, children: props.texts.try_again })] })), it?.shows === 'ready' && (_jsxs(_Fragment, { children: [_jsx(WhileSheScans, { link: link, camera: it.camera, turn: it.turn, onTurn: turns_the_camera, texts: props.texts }), it.scanned !== 'nothing' && (_jsx("p", { role: "status", "data-state": it.scanned, children: props.texts.scanned[it.scanned] }))] })), it?.shows === 'their_ticket_read' && (_jsxs(_Fragment, { children: [_jsx("p", { role: "status", children: props.texts.their_ticket_read }), link !== undefined && _jsx(TheQr, { link: link, texts: props.texts }), _jsx("button", { type: "button", onClick: () => {
-                            screen.happens({ happens: 'she_puts_her_qr_away' });
-                        }, children: props.texts.done })] })), it?.shows === 'opening_their_ticket' && (_jsx("p", { role: "status", children: props.texts.opening_their_ticket(it.introduced_as) })), it?.shows === 'bonded' && (_jsxs(_Fragment, { children: [_jsx("p", { role: "status", children: the_words_of_a_bond_made(props.texts, it) }), _jsx("button", { type: "button", onClick: () => {
-                            screen.happens({ happens: 'she_opens_the_contact' });
-                        }, children: props.texts.open_the_contact }), _jsx("button", { type: "button", onClick: () => {
-                            a_new_ticket('she_shakes_another_hand');
-                        }, children: props.texts.shake_another_hand })] })), it?.shows === 'their_ticket_cannot_be_opened' && (_jsxs(_Fragment, { children: [_jsx("p", { role: "status", children: props.texts.their_ticket_cannot_be_opened(it.introduced_as) }), _jsx("p", { children: the_words_of_an_end(app.common, it.how) }), _jsx("p", { children: props.texts.scan_again }), _jsx(WhileSheScans, { link: link, camera: it.camera, turn: it.turn, onTurn: turns_the_camera, texts: props.texts })] })), _jsx("video", { ref: the_video, muted: true, playsInline: true, hidden: !scanning })] }));
+    const taps = (does) => ({ does: 'taps', taps: does });
+    return (_jsxs(Screen, { title: props.texts.title, state: it?.shows, back: _jsx(Back, { onBack: () => {
+                screen.happens({ happens: 'she_goes_back' });
+            } }), children: [it?.shows === 'getting_the_ticket_ready' && (_jsx(Notice, { kind: "waiting", children: props.texts.getting_the_ticket_ready })), it?.shows === 'the_ticket_cannot_be_prepared' && (_jsxs(_Fragment, { children: [_jsx(Notice, { kind: "fault", children: props.texts.the_ticket_cannot_be_prepared }), _jsx(Notice, { kind: the_kind_of_an_end(it.how), children: the_words_of_an_end(app.common, it.how) }), _jsx("div", { "data-part": "gestures", children: _jsx(Gesture, { kind: "primary", label: props.texts.try_again, does: taps(() => {
+                                a_new_ticket('she_shakes_another_hand');
+                            }) }) })] })), it?.shows === 'ready' && (_jsxs(_Fragment, { children: [_jsx(WhileSheScans, { link: link, camera: it.camera, turn: it.turn, onTurn: turns_the_camera, texts: props.texts }), it.scanned !== 'nothing' && (_jsx("div", { "data-part": "scanned", "data-state": it.scanned, children: _jsx(Notice, { kind: the_kind_of_a_scan(it.scanned), children: props.texts.scanned[it.scanned] }) }))] })), it?.shows === 'their_ticket_read' && (_jsxs(_Fragment, { children: [_jsx(Notice, { kind: "done", children: props.texts.their_ticket_read }), link !== undefined && _jsx(TheQr, { link: link, texts: props.texts }), _jsx("div", { "data-part": "gestures", children: _jsx(Gesture, { kind: "primary", label: props.texts.done, does: taps(() => {
+                                screen.happens({ happens: 'she_puts_her_qr_away' });
+                            }) }) })] })), it?.shows === 'opening_their_ticket' && (_jsx(Notice, { kind: "waiting", children: props.texts.opening_their_ticket(it.introduced_as) })), it?.shows === 'bonded' && (_jsxs(_Fragment, { children: [_jsx(Notice, { kind: "done", children: the_words_of_a_bond_made(props.texts, it) }), _jsxs("div", { "data-part": "gestures", children: [_jsx(Gesture, { kind: "primary", label: props.texts.open_the_contact, does: taps(() => {
+                                    screen.happens({ happens: 'she_opens_the_contact' });
+                                }) }), _jsx(Gesture, { kind: "secondary", label: props.texts.shake_another_hand, does: taps(() => {
+                                    a_new_ticket('she_shakes_another_hand');
+                                }) })] })] })), it?.shows === 'their_ticket_cannot_be_opened' && (_jsxs(_Fragment, { children: [_jsx(Notice, { kind: "fault", children: props.texts.their_ticket_cannot_be_opened(it.introduced_as) }), _jsx(Notice, { kind: the_kind_of_an_end(it.how), children: the_words_of_an_end(app.common, it.how) }), _jsx("p", { children: props.texts.scan_again }), _jsx(WhileSheScans, { link: link, camera: it.camera, turn: it.turn, onTurn: turns_the_camera, texts: props.texts })] })), _jsx(Viewfinder, { hidden: !scanning, children: _jsx("video", { ref: the_video, muted: true, playsInline: true, hidden: !scanning }) })] }));
 };

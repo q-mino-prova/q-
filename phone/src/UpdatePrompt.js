@@ -1,6 +1,7 @@
-import { jsx as _jsx, jsxs as _jsxs } from "preact/jsx-runtime";
+import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "preact/jsx-runtime";
 import { signal } from '@preact/signals';
 import { useEffect, useRef } from 'preact/hooks';
+import { Gesture, Question } from '@q-mino/adapters-web/design';
 import { the_build } from "./build_info.js";
 import { texts } from "./texts/index.js";
 // The update with notice (PWA-5): the new service worker downloads and
@@ -8,7 +9,9 @@ import { texts } from "./texts/index.js";
 // nothing happens in silence. Before the switch the node stops (its
 // consumers, its extensions unloaded, the writer let go, WEB-10), so that
 // the new release opens the database alone. On the browser's own events
-// (`navigator.serviceWorker`), with no library. [Q, C, 24 Nov 2026]
+// (`navigator.serviceWorker`), with no library. [Q, C, 24 Nov 2026] Asked
+// as a proposal, a `<dialog>` at the bottom of the screen that leaves the
+// screen to her (WEB-29).
 /** The worker of a new release once it is installed and waits: there is one only if a release runs already. */
 const when_a_new_one_waits = (registration, waits) => {
     const a_page_runs = () => navigator.serviceWorker.controller !== null;
@@ -49,7 +52,11 @@ export const UpdatePrompt = (props) => {
         worker.postMessage({ type: 'SKIP_WAITING' });
     };
     const worker = waiting.value;
-    return worker === undefined ? null : (_jsxs("div", { role: "alertdialog", "aria-live": "polite", children: [_jsx("p", { children: texts.update.available }), _jsx("p", { children: texts.update.whatChanges }), _jsx("button", { type: "button", onClick: () => void updates(worker), children: texts.update.apply }), _jsx("button", { type: "button", onClick: () => {
-                    waiting.value = undefined;
-                }, children: texts.update.later })] }));
+    return worker === undefined ? null : (_jsx(TheUpdateProposed, { updates: () => {
+            void updates(worker);
+        }, later: () => {
+            waiting.value = undefined;
+        } }));
 };
+/** The update proposed, her two answers (its stories in the gallery, WEB-29). */
+export const TheUpdateProposed = (props) => (_jsx(Question, { kind: "proposal", title: texts.update.available, declines: props.later, answers: _jsxs(_Fragment, { children: [_jsx(Gesture, { kind: "secondary", label: texts.update.later, does: { does: 'taps', taps: props.later } }), _jsx(Gesture, { kind: "primary", label: texts.update.apply, glyph: "refresh_cw", does: { does: 'taps', taps: props.updates } })] }), children: _jsx("p", { children: texts.update.whatChanges }) }));

@@ -1,10 +1,20 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "preact/jsx-runtime";
 // Her contacts, the home of stage 1 (UI-5): her bonds by the names she gives
 // them, as introduced when it differs, whether they have her; none yet, the
-// two handshakes; the menu; a word when something happened.
+// two handshakes; the menu, a popover over the screen (WEB-29); a word when
+// something happened.
 import * as my_contacts from '@q-mino/domains/ui/my_contacts/_dsl.ts';
+import { Gesture, List, Menu, Row, Screen } from "../design/index.js";
 import { a_screen, what_it_is_given } from "./a_screen.js";
 import { the_app } from "./the_app.js";
+/** The glyph of each entry of the menu. */
+const the_glyph_of = {
+    the_handshake_in_person: 'qr_code',
+    the_handshake_at_a_distance: 'link',
+    the_extensions: 'puzzle',
+    what_happened: 'history',
+    the_server: 'info',
+};
 export const MyContacts = (props) => {
     const app = the_app();
     const screen = a_screen(app, {
@@ -31,17 +41,20 @@ export const MyContacts = (props) => {
     const chooses = (entry) => {
         screen.happens({ happens: 'she_chooses', entry });
     };
-    return (_jsxs("section", { "aria-label": props.texts.title, "data-state": it?.contacts.are, children: [_jsx("h1", { children: props.texts.title }), it !== undefined && (_jsxs(_Fragment, { children: [it.menu === undefined ? (_jsx("button", { type: "button", onClick: () => {
-                            screen.happens({ happens: 'she_opens_the_menu' });
-                        }, children: props.texts.the_menu })) : (_jsxs("nav", { "aria-label": props.texts.the_menu, children: [it.menu.map((entry) => (_jsx("button", { type: "button", onClick: () => {
-                                    chooses(entry);
-                                }, children: props.texts.the_entries[entry] }, entry))), _jsx("button", { type: "button", onClick: () => {
-                                    screen.happens({ happens: 'she_closes_the_menu' });
-                                }, children: props.texts.close_the_menu })] })), it.something_happened !== undefined && (_jsx("button", { type: "button", onClick: () => {
-                            screen.happens({ happens: 'she_opens_what_happened' });
-                        }, children: props.texts.something_happened(it.something_happened.held_letters, it.something_happened.happened) })), it.contacts.are === 'none_yet' && (_jsxs(_Fragment, { children: [_jsx("p", { children: props.texts.none_yet }), it.contacts.ways.map((entry) => (_jsx("button", { type: "button", onClick: () => {
-                                    chooses(entry);
-                                }, children: props.texts.the_entries[entry] }, entry)))] })), it.contacts.are === 'some' && (_jsx("ul", { children: it.contacts.list.map((contact) => (_jsxs("li", { children: [_jsx("button", { type: "button", onClick: () => {
-                                        screen.happens({ happens: 'she_opens_a_contact', bond: contact.bond });
-                                    }, children: contact.name }), contact.introduced_as !== undefined && (_jsxs("small", { children: [" ", props.texts.introduced_as(contact.introduced_as)] })), _jsxs("small", { children: [' ', contact.they_have_me ? props.texts.they_have_you : props.texts.not_yet] })] }, contact.bond))) }))] }))] }));
+    const taps = (does) => ({ does: 'taps', taps: does });
+    return (_jsxs(Screen, { title: props.texts.title, state: it?.contacts.are, back: it !== undefined && (_jsx("span", { "data-part": "the-menu", children: _jsx(Gesture, { kind: "quiet", label: props.texts.the_menu, glyph: "ellipsis_vertical", does: taps(() => {
+                    screen.happens({ happens: 'she_opens_the_menu' });
+                }) }) })), children: [it?.menu !== undefined && (_jsxs(Menu, { label: props.texts.the_menu, closes: () => {
+                    screen.happens({ happens: 'she_closes_the_menu' });
+                }, children: [it.menu.map((entry) => (_jsx(Gesture, { kind: "quiet", label: props.texts.the_entries[entry], glyph: the_glyph_of[entry], does: taps(() => {
+                            chooses(entry);
+                        }) }, entry))), _jsx(Gesture, { kind: "quiet", label: props.texts.close_the_menu, glyph: "x", does: taps(() => {
+                            screen.happens({ happens: 'she_closes_the_menu' });
+                        }) })] })), it?.something_happened !== undefined && (_jsx(Gesture, { kind: "secondary", glyph: "history", label: props.texts.something_happened(it.something_happened.held_letters, it.something_happened.happened), does: taps(() => {
+                    screen.happens({ happens: 'she_opens_what_happened' });
+                }) })), it?.contacts.are === 'none_yet' && (_jsxs(_Fragment, { children: [_jsx("p", { children: props.texts.none_yet }), _jsx("div", { "data-part": "gestures", children: it.contacts.ways.map((entry, at) => (_jsx(Gesture, { kind: at === 0 ? 'primary' : 'secondary', label: props.texts.the_entries[entry], glyph: the_glyph_of[entry], does: taps(() => {
+                                chooses(entry);
+                            }) }, entry))) })] })), it?.contacts.are === 'some' && (_jsx(List, { label: props.texts.title, children: it.contacts.list.map((contact) => (_jsx(Row, { glyph: "user", title: contact.name, detail: _jsxs(_Fragment, { children: [contact.introduced_as !== undefined && (_jsxs("span", { children: [props.texts.introduced_as(contact.introduced_as), " "] })), _jsx("span", { children: contact.they_have_me ? props.texts.they_have_you : props.texts.not_yet })] }), opens: () => {
+                        screen.happens({ happens: 'she_opens_a_contact', bond: contact.bond });
+                    } }, contact.bond))) }))] }));
 };

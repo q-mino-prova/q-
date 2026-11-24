@@ -1,5 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "preact/jsx-runtime";
 import * as an_extension from '@q-mino/domains/ui/an_extension/_dsl.ts';
+import { Card, Gesture, Notice, Screen } from "../design/index.js";
 import { a_screen, kept, what_it_is_given } from "./a_screen.js";
 import { Back, TheCourse, TheMark, ThePoints } from "./parts.js";
 import { in_its_words, the_app, the_word_or_its_fault, what_it_asked_now, } from "./the_app.js";
@@ -26,6 +27,8 @@ const the_words_of_what_it_asks = (texts, common, words, asks) => {
             return texts.what_it_asks[asks.asks];
     }
 };
+/** How much the gesture the screen allows weighs: the one that leads on is the primary; deactivating, or waiting, steps aside. */
+const the_weight_of = (may) => may === 'activate' || may === 'accept_the_new_manifest' ? 'primary' : 'secondary';
 const nothing_asked = { course: 'nothing_asked' };
 /** The course of its activation or deactivation, the last she asked. */
 /** The course of the last activity of an action of its mark (UI-3). */
@@ -82,13 +85,17 @@ export const AnExtension = (props) => {
         ? undefined
         : an_extension.what_it_shows(state, read.given);
     const manifest = the_manifest();
-    return (_jsxs("section", { "aria-label": props.texts.title, "data-state": shown?.shows, children: [_jsx(Back, { onBack: () => {
-                    screen.happens({ happens: 'she_goes_back' });
-                } }), _jsx("h1", { children: props.texts.title }), shown?.shows === 'no_such_extension' && _jsx("p", { children: props.texts.no_such_extension }), shown?.shows === 'the_extension' && (_jsxs(_Fragment, { children: [_jsx("h2", { children: the_word_or_its_fault(app.common, app.words(shown.extension)?.name, shown.extension) }), _jsxs("p", { "data-state": shown.is, children: [_jsx("small", { children: props.texts.the_version(shown.version) }), ' ', _jsx("small", { children: props.texts.is[shown.is] })] }), _jsx("button", { type: "button", "data-state": shown.may, disabled: shown.may === 'wait', onClick: () => {
-                            may(shown);
-                        }, children: props.texts.may[shown.may] }), _jsx(TheCourse, { course: the_course_of_its_state(shown) }), shown.the_notice !== undefined && (_jsxs("section", { children: [manifest !== undefined && (_jsx("h3", { children: in_its_words(app.common, app.words(manifest.name)?.name, manifest.name, (name) => props.texts.the_notice(name, manifest.version)) })), _jsx("ol", { children: shown.the_notice.map((asks, index) => (_jsx("li", { children: the_words_of_what_it_asks(props.texts, app.common, app.words(shown.extension), asks) }, index))) }), _jsx("button", { type: "button", onClick: accepts, children: props.texts.accept }), _jsx("button", { type: "button", onClick: () => {
-                                    screen.happens({ happens: 'she_does_not_accept' });
-                                }, children: props.texts.do_not_accept })] })), _jsxs(TheMark, { extension: shown.extension, children: [shown.mark.points !== undefined && (_jsx(ThePointsOfItsMark, { shown: shown, points: shown.mark.points, happens: screen.happens })), shown.mark.held_letters.length + shown.mark.happened.length > 0 ? (_jsx(TheNews, { texts: props.texts.the_news, held_letters: shown.mark.held_letters, happened: shown.mark.happened, sends_again: (held) => {
+    const taps = (does) => ({ does: 'taps', taps: does });
+    const the_notice_title = manifest === undefined
+        ? undefined
+        : in_its_words(app.common, app.words(manifest.name)?.name, manifest.name, (name) => props.texts.the_notice(name, manifest.version));
+    return (_jsxs(Screen, { title: props.texts.title, state: shown?.shows, back: _jsx(Back, { onBack: () => {
+                screen.happens({ happens: 'she_goes_back' });
+            } }), children: [shown?.shows === 'no_such_extension' && (_jsx(Notice, { kind: "information", children: props.texts.no_such_extension })), shown?.shows === 'the_extension' && (_jsxs(_Fragment, { children: [_jsxs(Card, { title: the_word_or_its_fault(app.common, app.words(shown.extension)?.name, shown.extension), children: [_jsxs("p", { "data-part": "the-state", "data-state": shown.is, children: [_jsx("small", { children: props.texts.the_version(shown.version) }), ' ', _jsx("small", { children: props.texts.is[shown.is] })] }), _jsx("div", { "data-part": "gestures", children: _jsx("div", { "data-part": "may", "data-state": shown.may, children: _jsx(Gesture, { kind: the_weight_of(shown.may), label: props.texts.may[shown.may], off: shown.may === 'wait', does: taps(() => {
+                                            may(shown);
+                                        }) }) }) }), _jsx(TheCourse, { course: the_course_of_its_state(shown) })] }), shown.the_notice !== undefined && (_jsxs(Card, { ...(the_notice_title === undefined ? {} : { title: the_notice_title }), children: [_jsx("ol", { children: shown.the_notice.map((asks, index) => (_jsx("li", { children: the_words_of_what_it_asks(props.texts, app.common, app.words(shown.extension), asks) }, index))) }), _jsxs("div", { "data-part": "gestures", children: [_jsx(Gesture, { kind: "primary", label: props.texts.accept, does: taps(accepts) }), _jsx(Gesture, { kind: "secondary", label: props.texts.do_not_accept, does: taps(() => {
+                                            screen.happens({ happens: 'she_does_not_accept' });
+                                        }) })] })] })), _jsxs(TheMark, { extension: shown.extension, children: [shown.mark.points !== undefined && (_jsx(ThePointsOfItsMark, { shown: shown, points: shown.mark.points, happens: screen.happens })), shown.mark.held_letters.length + shown.mark.happened.length > 0 ? (_jsx(TheNews, { texts: props.texts.the_news, held_letters: shown.mark.held_letters, happened: shown.mark.happened, sends_again: (held) => {
                                     screen.happens({
                                         happens: 'she_sends_a_letter_again',
                                         held,

@@ -4,9 +4,11 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "preact/jsx-ru
 // letters held and what happened without a fact, the kernel's by
 // themselves, each extension's in the kernel's mark of it (EXT-16). A held
 // letter she sends again, or puts aside with her reason. The news of a mark
-// are drawn by `TheNews`, which an extension's own screen draws too.
+// are drawn by `TheNews`, which an extension's own screen draws too. Since the MVP's
+// part 2 drawn with the design's components (WEB-29).
 import * as ui from '@q-mino/domains/ui/_dsl.ts';
 import * as what_happened from '@q-mino/domains/ui/what_happened/_dsl.ts';
+import { Card, Field, Gesture, List, Notice, Row, Screen } from "../design/index.js";
 import { a_screen, what_it_is_given } from "./a_screen.js";
 import { Back, TheCourse, TheMark } from "./parts.js";
 import { the_app, what_it_asked_now } from "./the_app.js";
@@ -45,19 +47,19 @@ const the_worlds_words = (held) => held.why.why === 'it_could_not_be_delivered' 
  * read again.
  */
 export const TheNews = (props) => {
-    // Kept by the letters' names (`key`), so that her reason, typed, stays.
-    return (_jsxs(_Fragment, { children: [props.held_letters.length > 0 && (_jsxs(_Fragment, { children: [_jsx("h3", { children: props.texts.the_held_letters }), _jsx("ul", { children: props.held_letters.map((one) => (_jsxs("li", { "data-state": one.held.why.why, children: [_jsx("p", { children: one.held.what }), _jsxs("p", { children: [_jsx("small", { children: props.texts.why_it_is_held[one.held.why.why] }), _jsx(TheWorldsWords, { held: one.held })] }), _jsx("button", { type: "button", disabled: !ui.it_may_ask(one.course), onClick: () => {
-                                        props.sends_again(one.held);
-                                    }, children: props.texts.send_it_again }), _jsxs("form", { onSubmit: (event) => {
-                                        event.preventDefault();
-                                        const because = new FormData(event.currentTarget).get('because');
-                                        props.puts_aside(one.held, typeof because === 'string' ? because : '');
-                                    }, children: [_jsxs("label", { children: [props.texts.why_aside, " ", _jsx("input", { name: "because", maxLength: 1024 })] }), _jsx("button", { type: "submit", disabled: !ui.it_may_ask(one.course), children: props.texts.put_it_aside })] }), _jsx(TheCourse, { course: one.course })] }, one.held.letter))) })] })), props.happened.length > 0 && (_jsxs(_Fragment, { children: [_jsx("h3", { children: props.texts.what_happened }), _jsx("ul", { children: props.happened.map((one, index) => (_jsx("li", { "data-state": one.happened, children: the_words_of_what_happened(props.texts, one) }, index))) })] }))] }));
+    const taps = (does) => ({ does: 'taps', taps: does });
+    return (_jsxs(_Fragment, { children: [props.held_letters.length > 0 && (_jsxs(_Fragment, { children: [_jsx("h3", { children: props.texts.the_held_letters }), _jsx(List, { label: props.texts.the_held_letters, children: props.held_letters.map((one) => (_jsx(Row, { glyph: "clock", title: one.held.what, detail: _jsxs("span", { "data-part": "why", "data-state": one.held.why.why, children: [props.texts.why_it_is_held[one.held.why.why], _jsx(TheWorldsWords, { held: one.held })] }), trail: _jsxs(_Fragment, { children: [_jsx(Gesture, { kind: "secondary", glyph: "refresh_cw", label: props.texts.send_it_again, off: !ui.it_may_ask(one.course), does: taps(() => {
+                                            props.sends_again(one.held);
+                                        }) }), _jsxs("form", { onSubmit: (event) => {
+                                            event.preventDefault();
+                                            const because = new FormData(event.currentTarget).get('because');
+                                            props.puts_aside(one.held, typeof because === 'string' ? because : '');
+                                        }, children: [_jsx(Field, { label: props.texts.why_aside, name: "because", holds: { holds: 'the_forms' }, max_length: 1024 }), _jsx("div", { "data-part": "gestures", children: _jsx(Gesture, { kind: "secondary", label: props.texts.put_it_aside, off: !ui.it_may_ask(one.course), does: { does: 'submits' } }) })] }), _jsx(TheCourse, { course: one.course })] }) }, one.held.letter))) })] })), props.happened.length > 0 && (_jsxs(_Fragment, { children: [_jsx("h3", { children: props.texts.what_happened }), _jsx(List, { label: props.texts.what_happened, children: props.happened.map((one, index) => (_jsx(Row, { glyph: "info", title: the_words_of_what_happened(props.texts, one) }, index))) })] }))] }));
 };
 /** The world's words beside a letter that could not be delivered, none otherwise. */
 const TheWorldsWords = (props) => {
     const because = the_worlds_words(props.held);
-    return because === undefined ? null : _jsxs("small", { children: [" (", because, ")"] });
+    return because === undefined ? null : _jsxs("span", { children: [" (", because, ")"] });
 };
 /** The activities a screen asked, as `user` reads them (none not read yet). */
 const the_activities_asked = async (app, asked) => (await Promise.all(asked.map((one) => app.node.an_activity(one.asked.activity_id)))).filter((card) => card !== undefined);
@@ -102,7 +104,7 @@ export const WhatHappened = (props) => {
     const shown = state === undefined || read === undefined
         ? undefined
         : what_happened.what_it_shows(state, read.given);
-    return (_jsxs("section", { "aria-label": props.texts.title, "data-state": shown?.shows, children: [_jsx(Back, { onBack: () => {
-                    screen.happens({ happens: 'she_goes_back' });
-                } }), _jsx("h1", { children: props.texts.title }), shown?.shows === 'nothing_happened' && _jsx("p", { children: props.texts.nothing_happened }), shown?.shows === 'what_happened' && (_jsxs(_Fragment, { children: [shown.in_progress.length > 0 && (_jsxs(_Fragment, { children: [_jsx("h2", { children: props.texts.in_progress }), _jsx("ul", { children: shown.in_progress.map((card) => (_jsx("li", { children: props.texts.the_activities[card.what.activity] }, card.activity_id))) })] })), shown.the_kernels.held_letters.length + shown.the_kernels.happened.length > 0 && (_jsxs("section", { "aria-label": props.texts.the_kernels, children: [_jsx("h2", { children: props.texts.the_kernels }), _jsx(TheNews, { texts: props.texts.the_news, held_letters: shown.the_kernels.held_letters, happened: shown.the_kernels.happened, sends_again: sends_again, puts_aside: puts_aside })] })), shown.in_their_marks.map((mark) => (_jsx(TheMark, { extension: mark.extension, children: _jsx(TheNews, { texts: props.texts.the_news, held_letters: mark.held_letters, happened: mark.happened, sends_again: sends_again, puts_aside: puts_aside }) }, mark.extension)))] }))] }));
+    return (_jsxs(Screen, { title: props.texts.title, state: shown?.shows, back: _jsx(Back, { onBack: () => {
+                screen.happens({ happens: 'she_goes_back' });
+            } }), children: [shown?.shows === 'nothing_happened' && (_jsx(Notice, { kind: "information", children: props.texts.nothing_happened })), shown?.shows === 'what_happened' && (_jsxs(_Fragment, { children: [shown.in_progress.length > 0 && (_jsx(Card, { title: props.texts.in_progress, children: _jsx(List, { children: shown.in_progress.map((card) => (_jsx(Row, { glyph: "clock", title: props.texts.the_activities[card.what.activity] }, card.activity_id))) }) })), shown.the_kernels.held_letters.length + shown.the_kernels.happened.length > 0 && (_jsx(Card, { title: props.texts.the_kernels, children: _jsx(TheNews, { texts: props.texts.the_news, held_letters: shown.the_kernels.held_letters, happened: shown.the_kernels.happened, sends_again: sends_again, puts_aside: puts_aside }) })), shown.in_their_marks.map((mark) => (_jsx(TheMark, { extension: mark.extension, children: _jsx(TheNews, { texts: props.texts.the_news, held_letters: mark.held_letters, happened: mark.happened, sends_again: sends_again, puts_aside: puts_aside }) }, mark.extension)))] }))] }));
 };

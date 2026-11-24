@@ -3,15 +3,20 @@ import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "preact/jsx-ru
 // first; she makes a link, a ticket of hers for a bond to be; ready, the link,
 // shared with the phone's share, or copied where the phone has none (WEB-18);
 // one that cannot be prepared told, with how; again, another link, for
-// another bond.
+// another bond. Since the MVP's part 2 drawn with the design's components
+// (WEB-29).
 import * as the_handshake_at_a_distance from '@q-mino/domains/ui/the_handshake_at_a_distance/_dsl.ts';
+import { Field, Flaw, Gesture, Notice, Screen } from "../design/index.js";
 import { a_screen, what_it_is_given } from "./a_screen.js";
-import { Back } from "./parts.js";
+import { Back, the_kind_of_an_end } from "./parts.js";
 import { the_app, the_words_of_an_end, what_it_asked_now } from "./the_app.js";
 /** The gesture that makes a link, in the words of where it is. */
-const MakeALink = (props) => (_jsx("button", { type: "button", onClick: () => {
-        props.makes();
-    }, children: props.words }));
+const MakeALink = (props) => (_jsx(Gesture, { kind: props.kind, glyph: "link", label: props.words, does: {
+        does: 'taps',
+        taps: () => {
+            props.makes();
+        },
+    } }));
 export const TheHandshakeAtADistance = (props) => {
     const app = the_app();
     const screen = a_screen(app, {
@@ -64,11 +69,12 @@ export const TheHandshakeAtADistance = (props) => {
         ? undefined
         : the_handshake_at_a_distance.what_it_shows(state, read.given.model);
     const link = shown?.shows === 'the_link' ? read?.given.link : undefined;
-    return (_jsxs("section", { "aria-label": props.texts.title, "data-state": shown?.shows, children: [_jsx(Back, { onBack: () => {
-                    screen.happens({ happens: 'she_goes_back' });
-                } }), _jsx("h1", { children: props.texts.title }), shown?.shows === 'the_flaw_told' && (_jsxs(_Fragment, { children: [_jsx("p", { children: props.texts.the_flaw }), _jsx(MakeALink, { words: props.texts.make_a_link, makes: makes_a_link })] })), shown?.shows === 'getting_the_link_ready' && (_jsx("p", { role: "status", children: props.texts.getting_the_link_ready })), shown?.shows === 'the_link_cannot_be_prepared' && (_jsxs(_Fragment, { children: [_jsx("p", { role: "status", children: props.texts.the_link_cannot_be_prepared }), _jsx("p", { children: the_words_of_an_end(app.common, shown.how) }), _jsx(MakeALink, { words: props.texts.try_again, makes: makes_a_link })] })), shown?.shows === 'the_link' && link !== undefined && (_jsxs(_Fragment, { children: [_jsxs("label", { children: [props.texts.your_link, ' ', _jsx("input", { name: "link", readOnly: true, value: link, onFocus: (event) => {
-                                    event.currentTarget.select();
-                                } })] }), shown.gesture === 'copied' ? (_jsx("p", { role: "status", "data-state": shown.gesture, children: props.texts.the_link_is_copied })) : (_jsx("button", { type: "button", "data-state": shown.gesture, onClick: () => {
-                            hands_on(link);
-                        }, children: shown.gesture === 'share' ? props.texts.share_the_link : props.texts.copy_the_link })), _jsx(MakeALink, { words: props.texts.make_another, makes: makes_a_link })] }))] }));
+    const taps = (does) => ({ does: 'taps', taps: does });
+    return (_jsxs(Screen, { title: props.texts.title, state: shown?.shows, back: _jsx(Back, { onBack: () => {
+                screen.happens({ happens: 'she_goes_back' });
+            } }), children: [shown?.shows === 'the_flaw_told' && (_jsxs(_Fragment, { children: [_jsx(Flaw, { title: app.common.what_it_does_not_guarantee, children: props.texts.the_flaw }), _jsx("div", { "data-part": "gestures", children: _jsx(MakeALink, { kind: "primary", words: props.texts.make_a_link, makes: makes_a_link }) })] })), shown?.shows === 'getting_the_link_ready' && (_jsx(Notice, { kind: "waiting", children: props.texts.getting_the_link_ready })), shown?.shows === 'the_link_cannot_be_prepared' && (_jsxs(_Fragment, { children: [_jsx(Notice, { kind: "fault", children: props.texts.the_link_cannot_be_prepared }), _jsx(Notice, { kind: the_kind_of_an_end(shown.how), children: the_words_of_an_end(app.common, shown.how) }), _jsx("div", { "data-part": "gestures", children: _jsx(MakeALink, { kind: "primary", words: props.texts.try_again, makes: makes_a_link }) })] })), shown?.shows === 'the_link' && link !== undefined && (_jsxs(_Fragment, { children: [_jsx(Field, { label: props.texts.your_link, name: "link", holds: { holds: 'a_text_to_copy', value: link } }), _jsxs("div", { "data-part": "gestures", children: [shown.gesture === 'copied' ? (_jsx("div", { "data-part": "the-gesture", "data-state": shown.gesture, children: _jsx(Notice, { kind: "done", children: props.texts.the_link_is_copied }) })) : (_jsx("div", { "data-part": "the-gesture", "data-state": shown.gesture, children: _jsx(Gesture, { kind: "primary", glyph: shown.gesture === 'share' ? 'share_2' : 'copy', label: shown.gesture === 'share'
+                                        ? props.texts.share_the_link
+                                        : props.texts.copy_the_link, does: taps(() => {
+                                        hands_on(link);
+                                    }) }) })), _jsx(MakeALink, { kind: "secondary", words: props.texts.make_another, makes: makes_a_link })] })] }))] }));
 };
