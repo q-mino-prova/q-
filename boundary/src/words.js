@@ -11,7 +11,7 @@ import { a_name } from "./values.js";
 // words; a word it lacks is drawn as a fault. Its author may write the JSON
 // by hand, checked by this schema and a test, or write a typed module
 // (`texts/it.ts`, `satisfies Words<typeof manifest, typeof registry>`) whose
-// build writes the JSON, as the manifest's (A, 22 Nov 2026). A frame's
+// build writes the JSON, as the manifest's (A, 22 Nov 2026). A part's
 // texts are in its document, the extension's too.
 /** A label of an extension's point (an action, a slot, a page), or its name: short, drawn on a gesture or a title. */
 const a_label = z.string().min(1).max(64);

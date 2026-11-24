@@ -25,9 +25,9 @@ export const what_an_extension_asks = (manifest) => {
     const answers = manifest.leaves_on_known.length > 0
         ? [{ asks: 'to_answer_your_bonds', leaves: manifest.leaves_on_known }]
         : [];
-    const it_has_frames = manifest.extension_points.some((point) => point.point !== 'action');
-    const frames = it_has_frames
-        ? [{ asks: 'its_frames_act_with_no_tap' }]
+    const it_has_parts = manifest.extension_points.some((point) => point.point !== 'action');
+    const parts = it_has_parts
+        ? [{ asks: 'its_parts_act_with_no_tap' }]
         : [];
     return [
         ...sees,
@@ -35,6 +35,6 @@ export const what_an_extension_asks = (manifest) => {
         ...answers,
         ...the_places_of(manifest),
         { asks: 'all_that_cumino_reaches' },
-        ...frames,
+        ...parts,
     ];
 };

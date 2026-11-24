@@ -7,7 +7,7 @@
 // its partition's technology is the configurator's (`memory` on the oracle,
 // `phone` on IndexedDB). And the consumer that loads and unloads them as the
 // office says (EXT-15, step 17).
-export { through_a_frames_fence } from "./a_frames_fence.js";
+export { through_a_parts_fence } from "./a_parts_fence.js";
 export { the_delivery_of_the_extensions_in_common, the_kernels_reads, the_manifest_to_accept, } from "./activations.js";
 export { a_composition_fault, compose_an_extension, the_kernels_offer, the_marks_in, } from "./composition.js";
 export { a_hosted_extension } from "./hosting.js";

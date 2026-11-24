@@ -22,5 +22,5 @@ export const APage = (props) => {
     const shown = state === undefined || read === undefined ? undefined : a_page.what_it_shows(state, read.given);
     return (_jsxs("section", { "aria-label": props.texts.title, "data-state": shown?.shows, children: [_jsx(Back, { onBack: () => {
                     screen.happens({ happens: 'she_goes_back' });
-                } }), _jsx("h1", { children: props.texts.title }), shown?.shows === 'no_longer_there' && _jsx("p", { children: props.texts.no_longer_there }), shown?.shows === 'the_frame' && (_jsx(TheMark, { extension: shown.extension, children: _jsx(APartNotDrawn, {}) }))] }));
+                } }), _jsx("h1", { children: props.texts.title }), shown?.shows === 'no_longer_there' && _jsx("p", { children: props.texts.no_longer_there }), shown?.shows === 'the_part' && (_jsx(TheMark, { extension: shown.extension, children: _jsx(APartNotDrawn, {}) }))] }));
 };

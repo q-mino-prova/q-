@@ -29,7 +29,7 @@ export const a_turn = value.a_turn;
  */
 export const what_it_is_given = value.what_it_is_given;
 /**
- * What the screen shows: the frame of the page in the mark, told the place's data; or the page no longer there.
+ * What the screen shows: the part of the page in the mark, told the place's data; or the page no longer there.
  *
  * @see {@link value.what_it_shows}
  */

@@ -1,5 +1,5 @@
 import * as z from 'zod';
-/** A JSON value: no `undefined`, no function, no date, no `NaN` nor infinity (EXT-2: a frame passes it as it is, EXT-13). */
+/** A JSON value: no `undefined`, no function, no date, no `NaN` nor infinity (EXT-2: an isolated realm's frame passes it as it is, EXT-13). */
 export const json = z.json();
 /** A JSON object: a context, an event's fields. */
 export const json_object = z.record(z.string(), json);

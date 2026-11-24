@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { _ui } from "./_scope_value.js";
 // A page of an extension (UI-4, UI-5; EXT-16): a screen whose content is the
-// extension's frame, placed by the kernel and told the place's data, always in
-// the kernel's mark of it. The frame is a client of its extension's surface on
+// extension's part, placed by the kernel and told the place's data, always in
+// the kernel's mark of it. The part is a client of its extension's surface on
 // `self` through the boundary (EXT-2), never of `ui`: the screen holds only
 // where it is drawn. Withdrawn or deactivated meanwhile, it is no longer there.
 /** The screen's state: the page, where it was opened. */
@@ -20,10 +20,10 @@ export const what_it_is_given = z.strictObject({
     extensions: z.array(_ui.value.an_extension_seen).max(256),
     offers: _ui.value.the_offers,
 });
-/** What the screen shows: the frame of the page in the mark, told the place's data; or the page no longer there. */
+/** What the screen shows: the part of the page in the mark, told the place's data; or the page no longer there. */
 export const what_it_shows = z.discriminatedUnion('shows', [
     z.strictObject({
-        shows: z.literal('the_frame'),
+        shows: z.literal('the_part'),
         extension: z.string().max(64),
         page: z.string().max(64),
         told: _ui.value.a_place,

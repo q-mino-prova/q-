@@ -163,7 +163,7 @@ export const the_start = (browser, configuration, time) => async (how) => {
             when_written: node.when_written,
         },
         the_log: node.log,
-        the_frames: {
+        the_parts: {
             on_self: (extension) => node.the_extension(extension)?.on_self,
             traces: (entry) => {
                 node.trace(entry);
