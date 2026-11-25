@@ -67,5 +67,7 @@ export const AScreenStory = (props) => {
         }));
     }
     const { node, camera } = made.current;
-    return (_jsx("div", { class: "a-screen-story", ref: the_root, children: _jsx(TheScreens, { node: node.node, device: a_device_of_test(the_ids, props.scans ?? camera.scans, a_sharing_of_test(props.shares ?? true)), texts: props.words === undefined ? texts.screens : { ...texts.screens, extensions: props.words }, ...(props.a_link === undefined ? {} : { a_link: props.a_link }) }) }));
+    return (_jsx("div", { class: "a-screen-story", ref: the_root, children: _jsx(TheScreens, { node: node.node, device: a_device_of_test(the_ids, props.scans ?? camera.scans, a_sharing_of_test(props.shares ?? true)), texts: props.words === undefined ? texts.screens : { ...texts.screens, extensions: props.words }, ...(props.a_link === undefined ? {} : { a_link: props.a_link }), ...(props.the_relay_s_public_configuration === undefined
+                ? {}
+                : { the_relay_s_public_configuration: props.the_relay_s_public_configuration }) }) }));
 };

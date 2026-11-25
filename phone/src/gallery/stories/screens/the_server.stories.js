@@ -3,11 +3,12 @@ import { jsx as _jsx } from "preact/jsx-runtime";
 // and the introduction read or skipped (UI-6;
 // `phone/test/screens/the_first_face.test.tsx`).
 import { TheScreens } from '@q-mino/adapters-web/screens';
+import { the_public_configuration_at } from "../../../the_project.js";
 import { AScreenStory } from "../../a_screen_story.js";
 import { words } from "./fixtures_a.js";
 export default { title: 'Screens/The server', component: TheScreens };
 export const what_it_carries_and_does_not_see = {
-    render: () => (_jsx(AScreenStory, { plays: async (hand) => {
+    render: () => (_jsx(AScreenStory, { the_relay_s_public_configuration: the_public_configuration_at('0000000000000000000000000000000000000000'), plays: async (hand) => {
             await hand.until_it_says(words.the_first_face.make_it);
             hand.types('name', 'Anna');
             await hand.until(() => hand.shown().querySelector('button:not([disabled])') !== null);

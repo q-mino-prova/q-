@@ -261,7 +261,9 @@ export const TheScreens = (props) => {
             case 'what_happened':
                 return _jsx(WhatHappened, { texts: props.texts.what_happened });
             case 'the_server':
-                return _jsx(TheServer, { texts: props.texts.the_server });
+                return (_jsx(TheServer, { texts: props.texts.the_server, ...(props.the_relay_s_public_configuration === undefined
+                        ? {}
+                        : { its_public_configuration: props.the_relay_s_public_configuration }) }));
             case 'the_introduction':
                 return _jsx(TheIntroduction, { texts: props.texts.the_introduction, screen: screen });
         }

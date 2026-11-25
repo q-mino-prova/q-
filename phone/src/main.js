@@ -6,6 +6,7 @@ import ping_pong_manifest from '@q-mino/ping_pong/manifest.json' with { type: 'j
 import { render } from 'preact';
 import { App } from "./App.js";
 import { the_build } from "./build_info.js";
+import { the_project_s_relay, the_public_configuration_at } from "./the_project.js";
 import { the_data_cleared, the_start, } from "./node/index.js";
 import { texts } from "./texts/index.js";
 // The PWA's main (CFG-1; step 25, PWA-1..PWA-5): the browser's objects,
@@ -63,6 +64,10 @@ const camera = the_camera(navigator.mediaDevices);
 const a_link = the_link_of(the_ticket_in_a_link(location.href));
 /** The link she opened the app with, given to the screens only when there is one. */
 const with_the_link = a_link === undefined ? {} : { a_link };
+/** The relay's public configuration, at this release's commit, for the project's relay only (REL-8). */
+const with_the_public_configuration = the_build.relay === the_project_s_relay
+    ? { the_relay_s_public_configuration: the_public_configuration_at(the_build.commit) }
+    : {};
 render(_jsx(App, { starts: starts, reopens: () => {
         location.reload();
     }, 
@@ -77,6 +82,6 @@ render(_jsx(App, { starts: starts, reopens: () => {
         // The page's session history, where the way is written (WEB-25): `window`, as it is (WEB-5).
         the_history: window, 
         // A link followed while the app is open, read as the one it opened with (WEB-1, WEB-25).
-        the_link_in: (address) => the_link_of(the_ticket_in_a_link(address)), ...with_the_link, ...(clears_the_data_and_starts_again === undefined
+        the_link_in: (address) => the_link_of(the_ticket_in_a_link(address)), ...with_the_link, ...with_the_public_configuration, ...(clears_the_data_and_starts_again === undefined
             ? {}
             : { clears_the_data_and_starts_again }) })) }), root);

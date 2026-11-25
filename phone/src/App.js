@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'preact/hooks';
 import { why_it_does_not_start, } from "./node/index.js";
 import { Flaw, Gesture, Notice, Why } from '@q-mino/adapters-web/design';
 import { the_build } from "./build_info.js";
+import { the_repository } from "./the_project.js";
 import { texts } from "./texts/index.js";
 import { UpdatePrompt } from "./UpdatePrompt.js";
 // The app's frame (PWA-2, PWA-5): the node's start in this tab and what it
@@ -15,7 +16,6 @@ import { UpdatePrompt } from "./UpdatePrompt.js";
 // met at the start or by the screens' first reads, can be cleared on the
 // test channel only: the node stopped, its database deleted, the app opened
 // again.
-const repository = 'https://github.com/q-mino/q-';
 // The commit's instant, told in the device's zone and the Italian way (A, 23 Nov 2026).
 const the_time_of = (instant) => new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(Date.parse(instant));
 export const App = (props) => {
@@ -41,7 +41,7 @@ export const App = (props) => {
                             opens('use_here');
                         }) })] })), it.now === 'stopped' && it.why === 'closed_for_a_new_release' && (_jsxs("div", { "data-part": "told", children: [_jsx(Notice, { kind: "information", children: texts.start.closed_for_a_new_release }), _jsx(Gesture, { kind: "primary", label: texts.start.reload, glyph: "refresh_cw", does: taps(() => {
                             props.reopens();
-                        }) })] })), it.now === 'running' && (_jsx(TheNodeRunning, { node: it.node, screens: props.screens, clears_the_data_and_starts_again: on_the_test_channel ? clears_the_data_and_starts_again : undefined })), _jsxs("footer", { class: "about", children: [the_build.channel !== 'release' && (_jsx("p", { "data-part": "channel", children: _jsx("strong", { children: texts.app.testChannel }) })), _jsx("h2", { children: texts.about.title }), _jsxs("p", { children: [texts.app.name, " (", texts.app.reading, ") \u00B7 ", texts.about.version, ": ", the_build.version, " \u00B7", ' ', texts.about.code, ":", ' ', _jsx("a", { href: `${repository}/commit/${the_build.commit}`, children: the_build.commit.slice(0, 7) }), the_build.committed_at !== 'unknown' && (_jsxs(_Fragment, { children: [" ", texts.about.committed_on(the_time_of(the_build.committed_at))] }))] })] }), _jsx(UpdatePrompt, { before_the_update: before_the_update })] }));
+                        }) })] })), it.now === 'running' && (_jsx(TheNodeRunning, { node: it.node, screens: props.screens, clears_the_data_and_starts_again: on_the_test_channel ? clears_the_data_and_starts_again : undefined })), _jsxs("footer", { class: "about", children: [the_build.channel !== 'release' && (_jsx("p", { "data-part": "channel", children: _jsx("strong", { children: texts.app.testChannel }) })), _jsx("h2", { children: texts.about.title }), _jsxs("p", { children: [texts.app.name, " (", texts.app.reading, ") \u00B7 ", texts.about.version, ": ", the_build.version, " \u00B7", ' ', texts.about.code, ":", ' ', _jsx("a", { href: `${the_repository}/commit/${the_build.commit}`, children: the_build.commit.slice(0, 7) }), the_build.committed_at !== 'unknown' && (_jsxs(_Fragment, { children: [" ", texts.about.committed_on(the_time_of(the_build.committed_at))] }))] })] }), _jsx(UpdatePrompt, { before_the_update: before_the_update })] }));
 };
 /** The app's state and its gestures: the node's start, what it came to, the data cleared. */
 const the_app_s_state = (props) => {
