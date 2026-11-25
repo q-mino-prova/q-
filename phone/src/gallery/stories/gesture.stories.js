@@ -1,5 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "preact/jsx-runtime";
-// Gesture (WEB-27): each kind, with a glyph, off, and the gestures of a screen together.
+// Gesture (WEB-27): each kind, with a glyph, off, and the gestures of a screen together;
+// an action of an extension beside a gesture of the kernel's (WEB-30).
 import { Gesture } from '@q-mino/adapters-web/design';
 import { the_gallery } from "../../texts/index.js";
 const words = the_gallery.samples;
@@ -16,6 +17,13 @@ export const a_quiet_gesture = {
 };
 export const a_dangerous_gesture = {
     render: () => _jsx(Gesture, { kind: "dangerous", label: words.remove_it, glyph: "trash_2", does: nothing }),
+};
+export const an_action_of_an_extension = {
+    render: () => _jsx(Gesture, { kind: "extension", label: "Ping", does: nothing }),
+};
+/** «Ping», an extension's, never read as «Cambia nome», the kernel's (the MVP's part 3). */
+export const an_action_beside_a_gesture_of_the_kernel = {
+    render: () => (_jsxs("p", { class: "gallery-row", children: [_jsx(Gesture, { kind: "secondary", label: words.rename_it, glyph: "pencil", does: nothing }), _jsx(Gesture, { kind: "extension", label: "Ping", does: nothing })] })),
 };
 export const a_gesture_off = {
     render: () => _jsx(Gesture, { kind: "primary", label: words.in_progress, does: nothing, off: true }),

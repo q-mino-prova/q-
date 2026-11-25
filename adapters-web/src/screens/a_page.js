@@ -1,9 +1,9 @@
-import { jsx as _jsx, jsxs as _jsxs } from "preact/jsx-runtime";
+import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "preact/jsx-runtime";
 import * as a_page from '@q-mino/domains/ui/a_page/_dsl.ts';
-import { Notice, Screen } from "../design/index.js";
+import { Corner, Notice, Screen } from "../design/index.js";
 import { a_screen, kept, what_it_is_given } from "./a_screen.js";
 import { APartNotDrawn, Back, TheMark } from "./parts.js";
-import { the_app } from "./the_app.js";
+import { the_app, the_word_or_its_fault } from "./the_app.js";
 export const APage = (props) => {
     const app = the_app();
     const opened = kept(() => props.screen);
@@ -23,5 +23,7 @@ export const APage = (props) => {
     const shown = state === undefined || read === undefined ? undefined : a_page.what_it_shows(state, read.given);
     return (_jsxs(Screen, { title: props.texts.title, state: shown?.shows, back: _jsx(Back, { onBack: () => {
                 screen.happens({ happens: 'she_goes_back' });
-            } }), children: [shown?.shows === 'no_longer_there' && (_jsx(Notice, { kind: "information", children: props.texts.no_longer_there })), shown?.shows === 'the_part' && (_jsx(TheMark, { extension: shown.extension, children: _jsx(APartNotDrawn, {}) }))] }));
+            } }), children: [shown?.shows === 'no_longer_there' && (_jsx(Notice, { kind: "information", children: props.texts.no_longer_there })), shown?.shows === 'the_part' && (_jsxs(_Fragment, { children: [_jsx(Corner, { label: app.common.the_points.the_slot.who_has_the_screen, chain: [
+                            the_word_or_its_fault(app.common, app.words(shown.extension)?.name, shown.extension),
+                        ] }), _jsx(TheMark, { extension: shown.extension, children: _jsx(APartNotDrawn, {}) })] }))] }));
 };

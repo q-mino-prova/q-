@@ -4,9 +4,9 @@ import { jsx as _jsx, jsxs as _jsxs } from "preact/jsx-runtime";
 // its own `color-scheme`, which `light-dark()` follows). Asked for one
 // story and one theme (`?story=<id>&theme=light`), it shows that one alone,
 // as the screenshots' script asks (`scripts/screens.mjs`). [Q, C, 24 Nov 2026]
-import { QuestionsHoldThePage } from '@q-mino/adapters-web/design';
+import { QuestionsHoldThePage, SlotsTakeTheScreen } from '@q-mino/adapters-web/design';
 const both = ['light', 'dark'];
-const AStory = (props) => (_jsxs("article", { class: "gallery-story", "data-story": props.story.id, children: [_jsx("h3", { children: _jsx("a", { href: `?story=${props.story.id}`, children: props.story.name }) }), _jsx("div", { "data-part": "themes", children: props.themes.map((theme) => (_jsxs("div", { "data-part": "theme", "data-theme": theme, children: [_jsx("small", { "data-part": "theme-name", children: props.texts.themes[theme] }), _jsx(QuestionsHoldThePage.Provider, { value: props.themes.length === 1, children: props.story.render() })] }, theme))) })] }));
+const AStory = (props) => (_jsxs("article", { class: "gallery-story", "data-story": props.story.id, children: [_jsx("h3", { children: _jsx("a", { href: `?story=${props.story.id}`, children: props.story.name }) }), _jsx("div", { "data-part": "themes", children: props.themes.map((theme) => (_jsxs("div", { "data-part": "theme", "data-theme": theme, children: [_jsx("small", { "data-part": "theme-name", children: props.texts.themes[theme] }), _jsx(QuestionsHoldThePage.Provider, { value: props.themes.length === 1, children: _jsx(SlotsTakeTheScreen.Provider, { value: props.themes.length === 1, children: props.story.render() }) })] }, theme))) })] }));
 export const TheGallery = (props) => {
     const shows = props.shows;
     if (shows.shows === 'a_story') {

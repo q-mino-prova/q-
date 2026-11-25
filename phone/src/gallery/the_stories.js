@@ -16,6 +16,8 @@ import * as menu from "./stories/menu.stories.js";
 import * as question from "./stories/question.stories.js";
 import * as qr from "./stories/qr.stories.js";
 import * as why from "./stories/why.stories.js";
+import * as mark from "./stories/mark.stories.js";
+import * as slot from "./stories/slot.stories.js";
 import * as the_app from "./stories/screens/the_app.stories.js";
 import * as the_first_face from "./stories/screens/the_first_face.stories.js";
 import * as the_server from "./stories/screens/the_server.stories.js";
@@ -59,6 +61,8 @@ export const the_files = [
     question,
     qr,
     why,
+    mark,
+    slot,
     screen,
     ...the_screens,
 ].map(the_file_of);

@@ -6,5 +6,5 @@ export const Gesture = (props) => {
             ? () => {
                 does.taps();
             }
-            : undefined, children: [props.glyph !== undefined && _jsx(Icon, { glyph: props.glyph }), props.label] }));
+            : undefined, children: [props.kind === 'extension' ? (_jsx(Icon, { glyph: "puzzle" })) : (props.glyph !== undefined && _jsx(Icon, { glyph: props.glyph })), props.label] }));
 };

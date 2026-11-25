@@ -3,7 +3,7 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "preact/jsx-ru
 // screen asked, told; the gesture back; since part 22.2 the kernel's mark of
 // an extension and the points it holds at a place (EXT-16, WEB-22); since
 // the MVP's part 2 drawn with the design's components (WEB-27, WEB-29).
-import { Gesture, List, Notice, Row } from "../design/index.js";
+import { Gesture, List, Mark, Notice, Row, Slot } from "../design/index.js";
 import * as ui from '@q-mino/domains/ui/_dsl.ts';
 import { in_its_words, the_app, the_word_or_its_fault, the_words_of_an_actions_end, the_words_of_an_end, } from "./the_app.js";
 /**
@@ -50,15 +50,16 @@ export const Back = (props) => {
         } }));
 };
 /**
- * The kernel's mark of an extension (EXT-16): a section with its name, from
- * its words, and a border, around what it holds; a name the app does not
- * have, drawn as a fault (WEB-22). Its look is the layer `frame`'s, last of
- * all (WEB-26; redrawn by the MVP's part 3).
+ * The kernel's mark of an extension (EXT-16, WEB-30): the design's `Mark`,
+ * its title and its name from the extension's words; a name the app does
+ * not have, drawn as a fault (WEB-22), in the title and in the chain of a
+ * corner.
  */
 export const TheMark = (props) => {
     const app = the_app();
-    const title = in_its_words(app.common, app.words(props.extension)?.name, props.extension, app.common.the_mark_of);
-    return (_jsxs("section", { class: "mark", "aria-label": title, children: [_jsx("h2", { children: title }), props.children] }));
+    const words = app.words(props.extension);
+    const title = in_its_words(app.common, words?.name, props.extension, app.common.the_mark_of);
+    return (_jsx(Mark, { name: the_word_or_its_fault(app.common, words?.name, props.extension), title: title, children: props.children }));
 };
 /** How an action's course is told beside it: in progress, or how it ended in its extension's words. */
 const TheCourseOfAnAction = (props) => {
@@ -73,22 +74,24 @@ const TheCourseOfAnAction = (props) => {
     }
 };
 /**
- * The points a mark holds at its place (UI-4, EXT-16, WEB-22): each action,
- * a gesture the kernel draws with the extension's label, off while its
- * activity is in progress, and how it ended in the extension's words; each
- * slot, what the app does not draw yet (`APartNotDrawn`); each page, the
+ * The points a mark holds at its place (UI-4, EXT-16, WEB-22, WEB-30): each
+ * action, a gesture of the kind `extension` the kernel draws with the
+ * extension's label, off while its activity is in progress, and how it
+ * ended in the extension's words; each slot, a `Slot` told the place and
+ * its subject, the place's data, holding what the app does not draw yet
+ * (`APartNotDrawn`, WEB-23), which she may take to the whole screen; each page, the
  * gesture that opens it, by its label. A word the extension's words lack is
  * drawn as a fault, never silently its name.
  */
 export const ThePoints = (props) => {
     const app = the_app();
     const words = app.words(props.mark.extension);
-    return (_jsxs(_Fragment, { children: [props.mark.actions.map((action) => (_jsxs("div", { "data-part": "action", children: [_jsx(Gesture, { kind: "secondary", label: the_word_or_its_fault(app.common, words?.actions[action], action), off: !ui.it_may_ask(props.course_of(action)), does: {
+    return (_jsxs(_Fragment, { children: [props.mark.actions.map((action) => (_jsxs("div", { "data-part": "action", children: [_jsx(Gesture, { kind: "extension", label: the_word_or_its_fault(app.common, words?.actions[action], action), off: !ui.it_may_ask(props.course_of(action)), does: {
                             does: 'taps',
                             taps: () => {
                                 props.taps(action);
                             },
-                        } }), _jsx(TheCourseOfAnAction, { extension: props.mark.extension, course: props.course_of(action) })] }, action))), props.mark.slots.map((slot) => (_jsx(APartNotDrawn, {}, slot))), props.mark.pages.length > 0 && (_jsx(List, { children: props.mark.pages.map((page) => (_jsx(Row, { glyph: "chevron_right", title: in_its_words(app.common, words?.pages[page], page, app.common.the_points.opens_the_page), opens: () => {
+                        } }), _jsx(TheCourseOfAnAction, { extension: props.mark.extension, course: props.course_of(action) })] }, action))), props.mark.slots.map((slot) => (_jsx(Slot, { place: props.mark.told.place, subject: props.mark.told, label: the_word_or_its_fault(app.common, words?.slots[slot], slot), words: app.common.the_points.the_slot, children: () => _jsx(APartNotDrawn, {}) }, slot))), props.mark.pages.length > 0 && (_jsx(List, { children: props.mark.pages.map((page) => (_jsx(Row, { glyph: "chevron_right", title: in_its_words(app.common, words?.pages[page], page, app.common.the_points.opens_the_page), opens: () => {
                         props.opens(page);
                     } }, page))) }))] }));
 };
