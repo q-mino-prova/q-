@@ -1,7 +1,8 @@
 // The first face, as sentences (UI-5): she types her name, kept as a draft; she
 // makes her first face with it; once made, the draft is dropped and the
-// server's screen tells her the relay her letters go through, once (1c), from
-// which the app starts again from her faces, which chooses it (USR-6).
+// introduction tells her what Cumino is (UI-6), then the server's screen the
+// relay her letters go through, once (1c), from which the app starts again
+// from her faces, which chooses it (USR-6).
 import { _ui } from "./_scope_dsl.js";
 const for_the_name = { for: 'the_name_of_my_first_face' };
 /** The longest name a face takes (`make_my_first_face`, 64). */
@@ -34,11 +35,12 @@ export const after = (state, happens) => {
                 : after_the_making(state, happens.how);
     }
 };
-/** Once the making ended: made (now or before), the draft dropped and the server's screen, then the start; else she may try again. */
+/** Once the making ended: made (now or before), the draft dropped and the introduction, read the first time (then the server's screen and the start, UI-6); else she may try again. */
 const after_the_making = (state, how) => how.ended === 'done' || how.ended === 'done_already'
-    ? _ui.dsl.it_goes(state, { goes: 'to_a_screen', screen: { screen: 'the_server' } }, [
-        { asks: 'to_drop_a_draft', for: for_the_name },
-    ])
+    ? _ui.dsl.it_goes(state, {
+        goes: 'to_a_screen',
+        screen: { screen: 'the_introduction', read: 'the_first_time' },
+    }, [{ asks: 'to_drop_a_draft', for: for_the_name }])
     : stays({
         ...state,
         asked: state.asked === undefined ? undefined : { ...state.asked, ended: true },

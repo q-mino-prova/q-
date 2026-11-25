@@ -2,7 +2,7 @@
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'sha256-M47r8EdCNZWxn+Gg7eZ/QnzXmrU95dqJzO3o0s83frE='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://relay.cumino.test; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'sha256-yXTic4meb5Dpd6haKJIdb6Q54e8I0UM1EZxJaLUus2w='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://relay.cumino.test; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
     <script type="importmap">{
   "imports": {
     "@preact/signals": "./vendor/@preact/signals/dist/signals.module.js",
@@ -84,6 +84,7 @@
     "@q-mino/domains/ui/the_first_face/_dsl.ts": "./domains/src/ui/the_first_face/_dsl.js",
     "@q-mino/domains/ui/the_handshake_at_a_distance/_dsl.ts": "./domains/src/ui/the_handshake_at_a_distance/_dsl.js",
     "@q-mino/domains/ui/the_handshake_in_person/_dsl.ts": "./domains/src/ui/the_handshake_in_person/_dsl.js",
+    "@q-mino/domains/ui/the_introduction/_dsl.ts": "./domains/src/ui/the_introduction/_dsl.js",
     "@q-mino/domains/ui/the_server/_dsl.ts": "./domains/src/ui/the_server/_dsl.js",
     "@q-mino/domains/ui/what_happened/_dsl.ts": "./domains/src/ui/what_happened/_dsl.js",
     "@q-mino/domains/user/_dsl.ts": "./domains/src/user/_dsl.js",
@@ -200,6 +201,7 @@
     <link rel="modulepreload" href="./adapters-web/src/screens/the_handshake_at_a_distance.js" />
     <link rel="modulepreload" href="./adapters-web/src/screens/the_handshake_in_person.js" />
     <link rel="modulepreload" href="./adapters-web/src/screens/the_history.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/the_introduction.js" />
     <link rel="modulepreload" href="./adapters-web/src/screens/the_screens.js" />
     <link rel="modulepreload" href="./adapters-web/src/screens/the_server.js" />
     <link rel="modulepreload" href="./adapters-web/src/screens/what_happened.js" />
@@ -632,6 +634,12 @@
     <link rel="modulepreload" href="./domains/src/ui/the_handshake_in_person/_value.js" />
     <link rel="modulepreload" href="./domains/src/ui/the_handshake_in_person/dsl.js" />
     <link rel="modulepreload" href="./domains/src/ui/the_handshake_in_person/value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_introduction/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_introduction/_scope_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_introduction/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_introduction/_value.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_introduction/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/ui/the_introduction/value.js" />
     <link rel="modulepreload" href="./domains/src/ui/the_server/_dsl.js" />
     <link rel="modulepreload" href="./domains/src/ui/the_server/_scope_dsl.js" />
     <link rel="modulepreload" href="./domains/src/ui/the_server/_scope_value.js" />
@@ -787,6 +795,7 @@
     <link rel="modulepreload" href="./phone/src/texts/screens/the_first_face.js" />
     <link rel="modulepreload" href="./phone/src/texts/screens/the_handshake_at_a_distance.js" />
     <link rel="modulepreload" href="./phone/src/texts/screens/the_handshake_in_person.js" />
+    <link rel="modulepreload" href="./phone/src/texts/screens/the_introduction.js" />
     <link rel="modulepreload" href="./phone/src/texts/screens/the_server.js" />
     <link rel="modulepreload" href="./phone/src/texts/screens/views.js" />
     <link rel="modulepreload" href="./phone/src/texts/screens/what_happened.js" />

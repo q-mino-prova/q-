@@ -21,6 +21,7 @@ import * as slot from "./stories/slot.stories.js";
 import * as the_app from "./stories/screens/the_app.stories.js";
 import * as the_first_face from "./stories/screens/the_first_face.stories.js";
 import * as the_server from "./stories/screens/the_server.stories.js";
+import * as the_introduction from "./stories/screens/the_introduction.stories.js";
 import * as my_contacts from "./stories/screens/my_contacts.stories.js";
 import * as a_contact from "./stories/screens/a_contact.stories.js";
 import * as the_handshake_in_person from "./stories/screens/the_handshake_in_person.stories.js";
@@ -35,6 +36,7 @@ import * as the_strip from "./stories/screens/the_strip.stories.js";
 const the_screens = [
     the_app,
     the_first_face,
+    the_introduction,
     the_server,
     my_contacts,
     a_contact,

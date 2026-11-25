@@ -1,6 +1,7 @@
 import { jsx as _jsx } from "preact/jsx-runtime";
 // The server (UI-5; WEB-29): the relay told once, after the first face is made
-// (`phone/test/screens/the_first_face.test.tsx`).
+// and the introduction read or skipped (UI-6;
+// `phone/test/screens/the_first_face.test.tsx`).
 import { TheScreens } from '@q-mino/adapters-web/screens';
 import { AScreenStory } from "../../a_screen_story.js";
 import { words } from "./fixtures_a.js";
@@ -17,6 +18,8 @@ export const what_it_carries_and_does_not_see = {
                 ended: 'done',
                 said: { event: 'your_face_is_being_made', payload: {} },
             });
+            await hand.until_it_says(words.the_introduction.skip);
+            hand.taps(words.the_introduction.skip);
             await hand.until_it_says(words.the_server.go_on);
         } })),
 };

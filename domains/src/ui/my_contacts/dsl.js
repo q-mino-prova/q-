@@ -1,16 +1,17 @@
 // Her contacts, as sentences (UI-5): she opens a contact; she opens the menu
 // and chooses where to go; she is told when something happened.
 import { _ui } from "./_scope_dsl.js";
-/** The menu, in its order: the two handshakes, the extensions, what happened, and the server (read again, UI-5). */
+/** The menu, in its order: the two handshakes, the extensions, what happened, the introduction and the server (both read again, UI-5, UI-6). */
 const the_menu = [
     'the_handshake_in_person',
     'the_handshake_at_a_distance',
     'the_extensions',
     'what_happened',
+    'the_introduction',
     'the_server',
 ];
-/** The screen of an entry of the menu. */
-const the_screen_of = (entry) => ({ screen: entry });
+/** The screen of an entry of the menu: the introduction read again (UI-6). */
+const the_screen_of = (entry) => entry === 'the_introduction' ? { screen: entry, read: 'again' } : { screen: entry };
 /** The screen at its start: the menu closed. */
 export const at_the_start = () => ({ menu: 'closed' });
 /** After what happens on the screen. */

@@ -9,4 +9,5 @@ export const views = {
     the_extensions: 'estensioni',
     what_happened: 'cosa-e-successo',
     the_server: 'server',
+    the_introduction: 'introduzione',
 };

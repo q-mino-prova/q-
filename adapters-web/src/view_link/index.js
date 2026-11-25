@@ -45,6 +45,8 @@ export const the_fragment_of_a_view = (words) => (screen) => {
             return of(words.what_happened);
         case 'the_server':
             return of(words.the_server);
+        case 'the_introduction':
+            return of(words.the_introduction);
     }
 };
 /** The segments of a view's fragment (after `#`), decoded; none when it is not a view's or a segment is not percent-encoded right. */
@@ -79,6 +81,8 @@ const the_screen_named = (words, segments) => {
                 return { screen: 'what_happened' };
             case words.the_server:
                 return { screen: 'the_server' };
+            case words.the_introduction:
+                return { screen: 'the_introduction', read: 'again' };
             default:
                 return undefined;
         }
@@ -152,6 +156,7 @@ export const the_way_to_a_view = (screen) => {
         case 'the_extensions':
         case 'what_happened':
         case 'the_server':
+        case 'the_introduction':
             return [home, screen];
     }
 };

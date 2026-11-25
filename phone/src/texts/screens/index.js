@@ -9,6 +9,7 @@ import { the_extensions } from "./the_extensions.js";
 import { the_first_face } from "./the_first_face.js";
 import { the_handshake_at_a_distance } from "./the_handshake_at_a_distance.js";
 import { the_handshake_in_person } from "./the_handshake_in_person.js";
+import { the_introduction } from "./the_introduction.js";
 import { the_server } from "./the_server.js";
 import { views } from "./views.js";
 import { what_happened } from "./what_happened.js";
@@ -28,6 +29,7 @@ export const screens = {
     a_page,
     what_happened,
     the_server,
+    the_introduction,
     views,
     extensions,
 };

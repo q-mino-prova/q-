@@ -13,6 +13,7 @@ const the_glyph_of = {
     the_handshake_at_a_distance: 'link',
     the_extensions: 'puzzle',
     what_happened: 'history',
+    the_introduction: 'book_open',
     the_server: 'info',
 };
 export const MyContacts = (props) => {
