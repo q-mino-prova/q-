@@ -12,7 +12,7 @@ import { Back } from "./parts.js";
 import { the_app } from "./the_app.js";
 /** The glyph of each card. */
 const the_glyph_of = {
-    what_cumino_is: 'hand_heart',
+    what_cumino_is: 'cumino',
     how_the_letters_travel: 'mail',
     the_extensions: 'puzzle',
 };

@@ -1,29 +1,37 @@
 {
-  "name": "q-",
-  "short_name": "q-",
-  "description": "Cumino",
+  "name": "Cumino prova",
+  "short_name": "Cumino prova",
+  "description": "Cumino: lettere fra persone vere, senza un centro.",
   "lang": "it",
   "start_url": "/q-/",
   "scope": "/q-/",
   "display": "standalone",
-  "background_color": "#fdf6ec",
-  "theme_color": "#8a5a2b",
+  "background_color": "#fbf8f3",
+  "theme_color": "#fbf8f3",
   "icons": [
     {
       "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "maskable"
+    },
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ]
 }
