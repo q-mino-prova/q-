@@ -10,6 +10,8 @@
 // A, 21 Nov 2026).
 /** The path of the office's facts, which this consumer looks at again after. */
 const the_office = 'extensions/activations/';
+/** The office's fact of an extension offered to a bond, after a withdrawal (EXT-7). */
+const an_offer_given = 'extensions/activations/fact/an_extension_has_been_offered_to_a_bond';
 /**
  * The extensions following the office (EXT-15), wired, not started: started,
  * it reads the fact log from the first fact the node keeps (one iteration,
@@ -22,7 +24,8 @@ const the_office = 'extensions/activations/';
  * flight of an extension not active or not offered to their bond, so that
  * `post` sends them again no more and their deliveries read the refusal
  * (F7, PST-14), a fall between a gesture and its look made good at the
- * next start. Again after each fact with a part of the office's. It
+ * next start. Again after each fact with a part of the office's; after
+ * an offer to a bond, who is told is told (MSG-16). It
  * waits on the log's next event or its stop, never in a loop of its own.
  * A load or an unload that throws stops it, the fault thrown at `stop`.
  */
@@ -81,6 +84,9 @@ export const the_extensions_follow_the_office = (wiring) => () => {
             }
             if (caught_up && event.fact.parts.some((part) => part.path.startsWith(the_office))) {
                 await a_look();
+                if (event.fact.parts.some((part) => part.path === an_offer_given)) {
+                    wiring.when_an_offer_is_given();
+                }
             }
         }
     };

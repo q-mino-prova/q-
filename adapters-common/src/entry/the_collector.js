@@ -38,10 +38,22 @@ const the_mailboxes_of = async (wiring, faults) => {
  * fault as an entry's, not one that stops the pass (a relay down would keep
  * the node from the mailboxes at the others). A mailbox the safe has no key
  * of is a fault of the wiring, thrown likewise.
+ *
+ * `forget()` (MSG-16, K-12; [Q, C, high impact: A to discuss], 26 Nov
+ * 2026): called by the node once an extension starts running (an
+ * activation, the node's start) or is offered again to a bond, so that a
+ * request met with silence while it was not active, or not offered (F8),
+ * reaches it at the next pass, not at the asker's next sending (a quarter
+ * of its time: almost two days for a message) nor at the next start. The
+ * letters answered already meet their duplicate branches, each response
+ * the request it names (as at every start, K-6). Rejected: the letters
+ * silenced kept by the kernel to hand again (the kernel would keep what a
+ * silence promised not to look at, F8); the silence kept until the asker's
+ * next sending.
  */
 export const the_collector = (wiring) => {
     const seen = new Set();
-    return async () => {
+    const collects = async () => {
         const faults = [];
         for (const mailbox of await the_mailboxes_of(wiring, faults)) {
             let deposits;
@@ -70,5 +82,11 @@ export const the_collector = (wiring) => {
         }
         if (faults.length > 0)
             throw faults[0];
+    };
+    return {
+        collects,
+        forget: () => {
+            seen.clear();
+        },
     };
 };

@@ -3,5 +3,5 @@
 // persona, the kernel or an extension, or to the return of a request, as
 // functions the configurator wires, on the oracle and on the phone; and the
 // collector that hands it what came (DOM-17, step 17).
-export { the_kernels_entry, the_scope_of_a_letter, the_scope_of_the_kernels_entry, } from "./the_kernels_entry.js";
+export { TheRelayIsOutOfReach, the_kernels_entry, the_scope_of_a_letter, the_scope_of_the_kernels_entry, } from "./the_kernels_entry.js";
 export { the_collector } from "./the_collector.js";

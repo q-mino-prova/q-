@@ -480,6 +480,10 @@ const a_phone_wired = (kept, release = {}) => async (world) => {
                 },
                 clock,
                 a_while,
+                // Once it runs, the collector forgets what it saw: a request silenced while it did not run reaches it at the next pass (MSG-16).
+                when_it_runs: () => {
+                    collector.forget();
+                },
             });
             const { self, known } = extension.surfaces;
             if (self === undefined || known === undefined)
@@ -648,7 +652,7 @@ const a_phone_wired = (kept, release = {}) => async (world) => {
     })({ 'user/activities/effect/carry_out_an_activity': the_port_toward_self });
     /** The collector (DOM-17): one pass over the mailboxes the phone collects, what came handed to the entry. */
     const collected = [];
-    const collects = the_collector({
+    const collector = the_collector({
         clock,
         address_book: { the_mailboxes_i_collect: address_book.the_mailboxes_i_collect },
         safe: { the_key_of_a_mailbox: safe.the_key_of_a_mailbox },
@@ -682,6 +686,10 @@ const a_phone_wired = (kept, release = {}) => async (world) => {
         is_active: reads.is_active,
         hosted: () => wired.extensions,
         the_calling_off: calling_off,
+        // An extension offered to a bond again: the collector forgets what it saw (MSG-16).
+        when_an_offer_is_given: () => {
+            collector.forget();
+        },
     });
     return {
         /** The versions of the store, as its readers meet its data (DOM-22). */
@@ -731,7 +739,9 @@ const a_phone_wired = (kept, release = {}) => async (world) => {
             };
         },
         /** One pass of the collector (DOM-17): its first fault thrown once it is over. */
-        collects,
+        collects: collector.collects,
+        /** The collector forgets what it saw: its next pass hands again what the relays keep (MSG-16). */
+        forgets: collector.forget,
         /** What the collector handed the entry, in order. */
         collected: () => [...collected],
         /** The ticket of a bond as the phone shows it (BND-8, BND-9), none for one not ready. */

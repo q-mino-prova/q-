@@ -25,6 +25,26 @@ const taking = 'post/requests/usecase/take_a_response';
  * an operation of its own.
  */
 export const the_scope_of_a_letter = (persona_named, caller) => `${persona_named}/${caller.is === 'a_face' ? caller.key : caller.id}`;
+/**
+ * A response not deposited, the relay out of reach (PER-25 (5), MSG-14,
+ * K-11; [Q, C, high impact: A to discuss], 26 Nov 2026): a technical
+ * outcome (DOM-15), thrown, so that the collector leaves the request
+ * unseen, and the rest of that mailbox behind it, and hands it again at its
+ * next pass, where the leaf's duplicate branch gives the same event (DOM-11),
+ * deposited again. Rejected: the trace of PER-25 (5), whose receipt waited
+ * for the asker's next sending (a quarter of its time: 42 hours for a
+ * message); the response kept by the server and deposited again by an
+ * effect of its own (F7: the server keeps nothing of a response).
+ */
+export class TheRelayIsOutOfReach extends Error {
+    /** The request the response answers (F7). */
+    answers;
+    constructor(answers) {
+        super(`the response to ${answers} is not deposited, the relay out of reach: the request is handed again at the collector's next pass (MSG-14)`);
+        this.name = 'TheRelayIsOutOfReach';
+        this.answers = answers;
+    }
+}
 /** The first event of a stream, its rest let go; none for a stream that ends with none. */
 const the_first_event_of = async (events) => {
     for await (const event of events)
@@ -70,9 +90,10 @@ const the_personas_caller = (caller, came_to) => caller.is === 'a_face'
  *    (`a_response_not_deposited`, `too_large_for_a_letter`): the asker
  *    reads `no_response` at its time (A, 23 Nov 2026); else the response
  *    written from my face to their mailbox, sealed for their key and
- *    deposited once under the operation of PST-11; not sealed, refused or
- *    unreachable, traced (`a_response_not_deposited`): the asker's sending
- *    again asks again (PST-6).
+ *    deposited once under the operation of PST-11; not sealed or refused,
+ *    traced (`a_response_not_deposited`): the asker's sending again asks
+ *    again (PST-6); the relay out of reach, thrown (`TheRelayIsOutOfReach`,
+ *    MSG-14): the collector hands the request again at its next pass.
  * A fault of a port, the kernel's trees included, throws.
  */
 export const the_kernels_entry = (wiring) => {
@@ -257,8 +278,11 @@ export const the_kernels_entry = (wiring) => {
             case 'kept':
             case 'kept_already':
                 return;
-            case 'refused':
             case 'unreachable':
+                // MSG-14: handed again at the collector's next pass, the same event from the recorded fact.
+                throw new TheRelayIsOutOfReach(request.identity);
+            case 'refused':
+                // The relay's limits refuse it again: the asker's sending again asks again (PST-6).
                 wiring.trace({
                     why: 'a_response_not_deposited',
                     response: not_deposited,
