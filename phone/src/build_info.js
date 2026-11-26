@@ -1,7 +1,7 @@
 export const the_build = {
-  "version": "v0.0.0-751-gcab3e9b",
-  "commit": "cab3e9b3665c4a273310d95534697637502b8f55",
-  "committed_at": "2026-11-26T23:22:59.000Z",
+  "version": "v0.0.0-753-g816923e",
+  "commit": "816923e32f25d20a5a50baf6b49532014ba3aedd",
+  "committed_at": "2026-11-26T23:30:46.000Z",
   "channel": "test",
   "relay": "https://relay.cumino.aleclofabbro.it",
   "base": "/q-/"
