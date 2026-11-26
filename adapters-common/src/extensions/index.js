@@ -10,7 +10,7 @@
 export { through_a_parts_fence } from "./a_parts_fence.js";
 export { the_delivery_of_the_extensions_in_common, the_kernels_reads, the_manifest_to_accept, } from "./activations.js";
 export { a_composition_fault, compose_an_extension, the_kernels_offer, the_marks_in, } from "./composition.js";
-export { a_hosted_extension } from "./hosting.js";
+export { a_hosted_extension, the_hold_of_a_request, TheExtensionIsNotRunningYet, } from "./hosting.js";
 export { in_process } from "./in_process.js";
 export { as_traced, route } from "./the_kernels_trace.js";
 export { the_calling_off, the_kernels_port_of_requests, the_port_of_requests, the_scope_of_the_calling_off, the_scope_of_the_port_of_requests, } from "./the_port_of_requests.js";

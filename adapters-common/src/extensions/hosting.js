@@ -1,6 +1,33 @@
 import * as boundary from '@q-mino/boundary';
 import { a_composition_fault } from "./composition.js";
 import { as_traced } from "./the_kernels_trace.js";
+/**
+ * How long a peer's request waits, at most, for an extension active but not
+ * running yet (EXT-15, MSG-9): from the hosting's creation, at the node's
+ * start, or from its load's beginning. Past it, as for an extension that
+ * does not run, silence (F8).
+ */
+export const the_hold_of_a_request = 30_000;
+/**
+ * A peer's request to an extension active but not running yet (EXT-15,
+ * MSG-9; [Q, C, high impact: A to discuss], 26 Nov 2026): loading, or not
+ * loaded yet at the node's start. A technical outcome (DOM-15), thrown, which
+ * the kernel's entry throws on, so that the collector leaves the letter
+ * unseen and hands it again at its next pass, in place of a silence that
+ * would wait for the asker's next sending (a quarter of its time: almost two
+ * days for a message). Rejected: the silence kept (a message collected at
+ * the start, while messaging loads, answered days later); the collector
+ * started after the extensions' first look (a load begun while the node
+ * runs, an activation, would still meet it).
+ */
+export class TheExtensionIsNotRunningYet extends Error {
+    extension;
+    constructor(extension) {
+        super(`${extension} is not running yet: the request waits for it (EXT-15)`);
+        this.name = 'TheExtensionIsNotRunningYet';
+        this.extension = extension;
+    }
+}
 /** A promise and the function that settles it. */
 const a_promise = () => {
     let settle = () => undefined;
@@ -94,6 +121,8 @@ export const a_hosted_extension = (wiring) => {
     let invocations = 0;
     const in_flight = new Map();
     const now = () => wiring.clock.now();
+    /** Since when it is to run: the hosting's creation, at the node's start, or its last load's beginning (MSG-9). */
+    let to_run_since = Date.parse(now());
     /** The realm loaded now, if any. */
     const the_realm = () => life.life === 'loading' || life.life === 'running' ? life.realm : undefined;
     /** Its invocations in flight in a realm fail: a technical outcome (DOM-15). */
@@ -247,6 +276,7 @@ export const a_hosted_extension = (wiring) => {
             first: came.settle,
         };
         life = { life: 'loading', realm };
+        to_run_since = Date.parse(now());
         opened = wiring.transport(received(realm));
         return realm;
     };
@@ -312,6 +342,12 @@ export const a_hosted_extension = (wiring) => {
     /** An invocation of a leaf on a persona, through the boundary (EXT-2). */
     async function* invoked(persona, invocation) {
         if (life.life !== 'running') {
+            const to_run = persona === 'known' &&
+                (life.life === 'loading' || life.life === 'unloaded') &&
+                Date.parse(now()) - to_run_since < the_hold_of_a_request &&
+                (await wiring.is_active());
+            if (to_run)
+                throw new TheExtensionIsNotRunningYet(name);
             throw new Error(`${name} is not running, ${life.life}: it invokes nothing (EXT-15)`);
         }
         const realm = life.realm;
@@ -323,6 +359,9 @@ export const a_hosted_extension = (wiring) => {
                 bond: seen.bond,
                 ...(sees.includes('the_peer_key') ? { peer_key: seen.peer_key } : {}),
                 ...(sees.includes('the_name_of_the_bond') ? { bond_name: seen.bond_name } : {}),
+                ...(sees.includes('the_declared_time')
+                    ? { declared_at: wiring.the_declared_time_on_known(invocation.context) }
+                    : {}),
             };
         const operation = invocation.operation === undefined
             ? undefined

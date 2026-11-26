@@ -18,7 +18,9 @@ const the_places_of = (manifest) => manifest.extension_points.map((point) => ({
 export const what_an_extension_asks = (manifest) => {
     const sees = manifest.sees.known.map((seen) => seen === 'the_peer_key'
         ? { asks: 'to_see_the_peers_key' }
-        : { asks: 'to_see_the_name_of_the_bond' });
+        : seen === 'the_name_of_the_bond'
+            ? { asks: 'to_see_the_name_of_the_bond' }
+            : { asks: 'to_see_the_time_they_declare' });
     const touches = manifest.touches.map((touched) => touched === 'the_port_of_requests'
         ? { asks: 'to_send_requests_on_your_bonds' }
         : { asks: 'a_storage_of_its_own' });

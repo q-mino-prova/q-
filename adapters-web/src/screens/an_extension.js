@@ -20,6 +20,7 @@ const the_words_of_what_it_asks = (texts, common, words, asks) => {
             return in_its_words(common, words?.[the_labels_of[asks.point]][asks.name], asks.name, (label) => texts.a_place_on_your_screens[asks.point](label, asks.place));
         case 'to_see_the_peers_key':
         case 'to_see_the_name_of_the_bond':
+        case 'to_see_the_time_they_declare':
         case 'to_send_requests_on_your_bonds':
         case 'a_storage_of_its_own':
         case 'all_that_cumino_reaches':

@@ -1,7 +1,7 @@
 import * as zz from '@q-mino/domains/library';
 import { a_letter_in_an_envelope, the_identity_of_the_response_to, the_letter_in_an_envelope, the_operation_of_a_deposit, } from '@q-mino/domains/post/_dsl.ts';
 import { content } from '@q-mino/domains/post/_value.ts';
-import { as_traced, route, } from "../extensions/index.js";
+import { as_traced, route, TheExtensionIsNotRunningYet, } from "../extensions/index.js";
 // The kernel's entry (EXT-6, F7, F8, PST-4, PST-7, PST-9, PER-5, PER-23;
 // part 13.2): one envelope collected at a mailbox of mine at a time, opened
 // by the face of mine at that mailbox (PST-4), or traced as an envelope not
@@ -193,6 +193,9 @@ export const the_kernels_entry = (wiring) => {
                     return await the_first_event_of(leaves(context, leaf));
                 }
                 catch (fault) {
+                    // Active, not running yet (EXT-15, MSG-9): the letter waits for the collector's next pass.
+                    if (fault instanceof TheExtensionIsNotRunningYet)
+                        throw fault;
                     // It fell, or it is not running: no response (F8, EXT-15). The hosting traces a fall;
                     // the request unanswered is the entry's to trace (F6), a fall or not.
                     wiring.trace({
