@@ -18,3 +18,6 @@ export const no_network = {
 export const the_relay_does_not_answer = {
     render: () => (_jsx(AScreenStory, { holds: { ...anna, the_relay: { ...nothing_held.the_relay, met: 'did_not_answer' } }, plays: (hand) => hand.until_the_app_says(words.the_relay_does_not_answer) })),
 };
+export const the_relay_is_full = {
+    render: () => (_jsx(AScreenStory, { holds: { ...anna, the_relay: { ...nothing_held.the_relay, met: 'is_full' } }, plays: (hand) => hand.until_the_app_says(words.the_relay_is_full) })),
+};

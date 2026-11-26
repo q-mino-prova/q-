@@ -96,6 +96,8 @@ const the_json_of = (line) => {
 };
 /** The statuses by which an HTTP server says it gave no answer: try again (RFC 9110: 408, 429, 5xx). */
 const is_no_answer = (status) => status === 408 || status === 429 || status >= 500;
+/** The status by which the relay refuses a deposit for the room on its disk (REL-3): 507, Insufficient Storage, a 5xx. */
+const the_relay_is_full = 507;
 /**
  * The relay's HTTP client (WEB-6): the post's mailbox port and the
  * collector's collect port over the relay's HTTP interface (MBX-9), and the
@@ -104,9 +106,11 @@ const is_no_answer = (status) => status === 408 || status === 429 || status >= 5
 export const the_relay_s_http_transports = (wiring) => {
     let last = 'not_met_yet';
     const listening = new Set();
-    /** A meeting with the relay: kept, and told when it changes what she is shown. */
-    const met = (now) => {
+    /** A meeting with the relay: kept, and told when it changes what she is shown; a collect answered leaves a relay full as it was. */
+    const met = (now, by) => {
         if (now === last)
+            return;
+        if (now === 'answered' && by === 'a_collect' && last === 'is_full')
             return;
         last = now;
         for (const tell of listening)
@@ -122,7 +126,7 @@ export const the_relay_s_http_transports = (wiring) => {
         },
     };
     /** A request posted to a relay, and its answer as it begins, each wait within the longest. */
-    const posted = async (relay, path, body, shown) => {
+    const posted = async (by, relay, path, body, shown) => {
         const letting_go = new AbortController();
         const heard = async (waiting) => {
             const heard_it = await Promise.race([
@@ -143,11 +147,15 @@ export const the_relay_s_http_transports = (wiring) => {
                 signal: letting_go.signal,
             }));
             if (answer.heard === 'nothing') {
-                met('did_not_answer');
+                met('did_not_answer', by);
                 return { came: 'no_answer', because: 'the relay unheard' };
             }
             const the_body = answer.value.body;
-            met(is_no_answer(answer.value.status) || the_body === null ? 'did_not_answer' : 'answered');
+            met(answer.value.status === the_relay_is_full
+                ? 'is_full'
+                : is_no_answer(answer.value.status) || the_body === null
+                    ? 'did_not_answer'
+                    : 'answered', by);
             if (the_body === null)
                 return { came: 'no_answer', because: 'an answer with no body' };
             return {
@@ -158,11 +166,11 @@ export const the_relay_s_http_transports = (wiring) => {
         }
         catch (fault) {
             if (is_the_network_s(fault)) {
-                met('did_not_answer');
+                met('did_not_answer', by);
                 return { came: 'no_answer', because: 'the request lost' };
             }
             if (is_an_abort(fault) && letting_go.signal.aborted) {
-                met('did_not_answer');
+                met('did_not_answer', by);
                 return { came: 'no_answer', because: 'the relay unheard' };
             }
             return { came: 'an_abort', fault };
@@ -199,7 +207,7 @@ export const the_relay_s_http_transports = (wiring) => {
     };
     const mailbox = {
         deposit: async (deposit) => {
-            const exchange = await posted(the_relay_of(deposit.relays, deposit.deposit_address), the_paths_of_the_relay.deposit, {
+            const exchange = await posted('a_deposit', the_relay_of(deposit.relays, deposit.deposit_address), the_paths_of_the_relay.deposit, {
                 version: depositor[zz.$Version],
                 operation: deposit.operation,
                 input: { deposit_address: deposit.deposit_address, envelope: deposit.envelope },
@@ -233,7 +241,7 @@ export const the_relay_s_http_transports = (wiring) => {
     };
     const collect = async (mailbox_to_collect) => {
         const at = mailbox_to_collect.deposit_address;
-        const exchange = await posted(the_relay_of(mailbox_to_collect.relays, at), the_paths_of_the_relay.collect, { version: holder[zz.$Version], input: { deposit_address: at } }, { Authorization: `Bearer ${mailbox_to_collect.collect_secret}` });
+        const exchange = await posted('a_collect', the_relay_of(mailbox_to_collect.relays, at), the_paths_of_the_relay.collect, { version: holder[zz.$Version], input: { deposit_address: at } }, { Authorization: `Bearer ${mailbox_to_collect.collect_secret}` });
         if (exchange.came === 'an_abort')
             throw new Error(`the collect at ${at} was aborted`, { cause: exchange.fault });
         if (exchange.came === 'no_answer')

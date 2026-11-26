@@ -10,3 +10,6 @@ export const no_network = {
 export const the_relay_does_not_answer = {
     render: () => _jsx(Strip, { glyph: "clock", children: words.the_relay_does_not_answer }),
 };
+export const the_relay_is_full = {
+    render: () => _jsx(Strip, { glyph: "circle_alert", children: words.the_relay_is_full }),
+};

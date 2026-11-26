@@ -44,7 +44,7 @@ const the_extensions_in_common = (last) => {
     }
 };
 /** How the relay client last met the relay, in `ui`'s words: not met yet is as if it answered (UI-5). */
-const the_relay_met = (met) => met === 'did_not_answer' ? 'did_not_answer' : 'answered';
+const the_relay_met = (met) => met === 'not_met_yet' ? 'answered' : met;
 /** The entries of a read of `self`, parsed with its leaf's schema; a read that closes, or says nothing, is a fault of the app's, never hers. */
 const the_entries_of_self = async (entry, events) => {
     for await (const event of events) {
