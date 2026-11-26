@@ -8,13 +8,15 @@ import { render } from 'preact';
 import { App } from "./App.js";
 import { the_build } from "./build_info.js";
 import { the_project_s_relay, the_public_configuration_at } from "./the_project.js";
-import { the_data_cleared, the_start, } from "./node/index.js";
+import { the_data_cleared, the_import_of_an_extension, the_start, } from "./node/index.js";
 import { texts } from "./texts/index.js";
 // The PWA's main (CFG-1; step 25, PWA-1..PWA-5): the browser's objects,
 // given (WEB-5), the release's configuration, the extensions it carries
 // (ping pong and messaging, preinstalled and off, PNG-1, MSG-10: each
 // manifest as its build wrote it, each configurator integrated, EXT-13),
 // the device, the link the page was opened with (WEB-1), and the app.
+/** An extension's configurator imported, tried again after a pause when the network refuses it (PWA-3). */
+const imported = the_import_of_an_extension(the_time_that_passes);
 /**
  * Ping pong, carried (EXT-9, EXT-13): its manifest, composed at the start;
  * its configurator imported only when the kernel loads it, at its
@@ -23,7 +25,7 @@ import { texts } from "./texts/index.js";
  */
 const ping_pong = {
     manifest: ping_pong_manifest,
-    realm: async (host) => (await import('@q-mino/ping_pong')).ping_pong(host),
+    realm: async (host) => (await imported(() => import('@q-mino/ping_pong'))).ping_pong(host),
 };
 /**
  * Messaging, carried as ping pong is (MSG-10; part M3): preinstalled and
@@ -32,7 +34,7 @@ const ping_pong = {
  */
 const messaging = {
     manifest: messaging_manifest,
-    realm: async (host) => (await import('@q-mino/messaging')).messaging(host),
+    realm: async (host) => (await imported(() => import('@q-mino/messaging'))).messaging(host),
 };
 /** The link's ticket in `ui`'s words (WEB-1, UI-1): one whose ticket `user` would not take is out of its form. */
 const the_link_of = (link) => {
