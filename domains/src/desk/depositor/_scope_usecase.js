@@ -7,3 +7,4 @@ export { command_use_case, read_use_case, command_use_case_over, read_use_case_o
 export * as value from "./_value.js";
 export * as _desk from "../_door_below.js";
 export * as deposits from "../../mailbox/deposits/_door_desk.js";
+export * as invitations from "../../stand/invitations/_door_desk.js";

@@ -1,0 +1,12 @@
+// generated
+// The values of `desk/inviter` from `value.ts` (DOM-25): the same objects under
+// the same names, each schema with its output type under the same name, so that
+// one import gives both. Only this module imports `value.ts`.
+import { z } from 'zod';
+import * as value from "./value.js";
+/**
+ * A ticket as an inviter leaves it: the text after `ticket=` in its link, base64url, at most 4 096 characters.
+ *
+ * @see {@link value.ticket}
+ */
+export const ticket = value.ticket;

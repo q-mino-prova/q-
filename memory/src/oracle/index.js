@@ -7,9 +7,11 @@
 // partitions and the transport of an extension in process, and the
 // kernel's office of the extensions, `extensions`, beside the address book.
 // Since part 15.2 the user domain's offices, `user`, beside the kernel's.
+// Since part B4 of the assistant the relay's stand, `stand`, beside `mailbox`.
 export { cell, position_at, seen_by } from "./cell.js";
 export { compare_values, log } from "./interpreter.js";
 export { mailbox_ports, no_deposit } from "./mailbox.js";
+export { no_invitation, stand_ports } from "./stand.js";
 export { no_secret, seals_ports } from "./seals.js";
 export { bonds_ports, no_bond } from "./bonds.js";
 export { no_request, post_ports } from "./post.js";

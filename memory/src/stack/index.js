@@ -12,9 +12,9 @@
 import { depositor } from '@q-mino/domains/desk/depositor/_version.ts';
 import { holder } from '@q-mino/domains/desk/holder/_version.ts';
 import * as zz from '@q-mino/domains/library';
-import { cell, no_deposit } from "../oracle/index.js";
+import { cell } from "../oracle/index.js";
 import { a_new_phone, on_the_cell, phone, } from "../phone/index.js";
-import { relay, the_desks_interface, the_scope_of_a_deposit, } from "../relay/index.js";
+import { a_new_relay, relay, the_desks_interface, the_scope_of_a_deposit, } from "../relay/index.js";
 /** Every event of a port's stream, until it ends. */
 const every_event_of = async (events) => {
     const every = [];
@@ -94,7 +94,7 @@ export const the_relay_s_transports = (desk, side) => {
  * a phone's composition fault stops its start). Its waits' executor and
  * the phones' consumers are wired, not started: the caller runs them.
  */
-export const a_stack = (relay_cell = cell({ initial: no_deposit }), release = {}) => async (world) => {
+export const a_stack = (relay_cell = cell({ initial: a_new_relay }), release = {}) => async (world) => {
     const the_relay = await relay(relay_cell, release)({
         clock: world.clock,
         elapsed: world.elapsed,

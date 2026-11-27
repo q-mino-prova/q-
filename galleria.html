@@ -2,7 +2,7 @@
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'sha256-M6GQTN1vDEL4VnDte57uUrEv7lv0oMKxMeYJKPSGidU='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://relay.cumino.aleclofabbro.it; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'sha256-wn+tq/KYWjPU4bFDU61/aAx/rvUkk61eWw4KhkQPz5w='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://relay.cumino.aleclofabbro.it; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
     <script type="importmap">{
   "imports": {
     "@preact/signals": "./vendor/@preact/signals/dist/signals.module.js",
@@ -32,6 +32,12 @@
     "@q-mino/domains/desk/holder/_usecase.ts": "./domains/src/desk/holder/_usecase.js",
     "@q-mino/domains/desk/holder/_value.ts": "./domains/src/desk/holder/_value.js",
     "@q-mino/domains/desk/holder/_version.ts": "./domains/src/desk/holder/_version.js",
+    "@q-mino/domains/desk/inviter/_majors.ts": "./domains/src/desk/inviter/_majors.js",
+    "@q-mino/domains/desk/inviter/_registry.ts": "./domains/src/desk/inviter/_registry.js",
+    "@q-mino/domains/desk/inviter/_usecase.ts": "./domains/src/desk/inviter/_usecase.js",
+    "@q-mino/domains/desk/passer_by/_majors.ts": "./domains/src/desk/passer_by/_majors.js",
+    "@q-mino/domains/desk/passer_by/_registry.ts": "./domains/src/desk/passer_by/_registry.js",
+    "@q-mino/domains/desk/passer_by/_usecase.ts": "./domains/src/desk/passer_by/_usecase.js",
     "@q-mino/domains/extensions/activations/_dsl.ts": "./domains/src/extensions/activations/_dsl.js",
     "@q-mino/domains/extensions/activations/_majors.ts": "./domains/src/extensions/activations/_majors.js",
     "@q-mino/domains/extensions/activations/_registry.ts": "./domains/src/extensions/activations/_registry.js",
@@ -73,6 +79,11 @@
     "@q-mino/domains/seals/safe/_registry.ts": "./domains/src/seals/safe/_registry.js",
     "@q-mino/domains/seals/safe/_usecase.ts": "./domains/src/seals/safe/_usecase.js",
     "@q-mino/domains/seals/safe/_value.ts": "./domains/src/seals/safe/_value.js",
+    "@q-mino/domains/stand/invitations/_dsl.ts": "./domains/src/stand/invitations/_dsl.js",
+    "@q-mino/domains/stand/invitations/_id.ts": "./domains/src/stand/invitations/_id.js",
+    "@q-mino/domains/stand/invitations/_majors.ts": "./domains/src/stand/invitations/_majors.js",
+    "@q-mino/domains/stand/invitations/_registry.ts": "./domains/src/stand/invitations/_registry.js",
+    "@q-mino/domains/stand/invitations/_usecase.ts": "./domains/src/stand/invitations/_usecase.js",
     "@q-mino/domains/ui/_dsl.ts": "./domains/src/ui/_dsl.js",
     "@q-mino/domains/ui/_value.ts": "./domains/src/ui/_value.js",
     "@q-mino/domains/ui/a_contact/_dsl.ts": "./domains/src/ui/a_contact/_dsl.js",
@@ -142,6 +153,7 @@
     <link rel="modulepreload" href="./adapters-common/src/libsodium/index.js" />
     <link rel="modulepreload" href="./adapters-common/src/libsodium/primitives.js" />
     <link rel="modulepreload" href="./adapters-common/src/ports/index.js" />
+    <link rel="modulepreload" href="./adapters-common/src/qr/index.js" />
     <link rel="modulepreload" href="./adapters-common/src/user/index.js" />
     <link rel="modulepreload" href="./adapters-common/src/user/the_news.js" />
     <link rel="modulepreload" href="./adapters-common/src/user/the_port_toward_self.js" />
@@ -314,7 +326,32 @@
     <link rel="modulepreload" href="./domains/src/desk/holder/usecase.js" />
     <link rel="modulepreload" href="./domains/src/desk/holder/value.js" />
     <link rel="modulepreload" href="./domains/src/desk/holder/version.js" />
+    <link rel="modulepreload" href="./domains/src/desk/inviter/_majors.js" />
+    <link rel="modulepreload" href="./domains/src/desk/inviter/_node.js" />
+    <link rel="modulepreload" href="./domains/src/desk/inviter/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/desk/inviter/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/desk/inviter/_scope_node.js" />
+    <link rel="modulepreload" href="./domains/src/desk/inviter/_scope_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/desk/inviter/_scope_version.js" />
+    <link rel="modulepreload" href="./domains/src/desk/inviter/_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/desk/inviter/_value.js" />
+    <link rel="modulepreload" href="./domains/src/desk/inviter/_version.js" />
+    <link rel="modulepreload" href="./domains/src/desk/inviter/node.js" />
+    <link rel="modulepreload" href="./domains/src/desk/inviter/usecase.js" />
+    <link rel="modulepreload" href="./domains/src/desk/inviter/value.js" />
+    <link rel="modulepreload" href="./domains/src/desk/inviter/version.js" />
     <link rel="modulepreload" href="./domains/src/desk/node.js" />
+    <link rel="modulepreload" href="./domains/src/desk/passer_by/_majors.js" />
+    <link rel="modulepreload" href="./domains/src/desk/passer_by/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/desk/passer_by/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/desk/passer_by/_scope_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/desk/passer_by/_scope_version.js" />
+    <link rel="modulepreload" href="./domains/src/desk/passer_by/_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/desk/passer_by/_value.js" />
+    <link rel="modulepreload" href="./domains/src/desk/passer_by/_version.js" />
+    <link rel="modulepreload" href="./domains/src/desk/passer_by/usecase.js" />
+    <link rel="modulepreload" href="./domains/src/desk/passer_by/value.js" />
+    <link rel="modulepreload" href="./domains/src/desk/passer_by/version.js" />
     <link rel="modulepreload" href="./domains/src/desk/value.js" />
     <link rel="modulepreload" href="./domains/src/extensions/activations/_command.js" />
     <link rel="modulepreload" href="./domains/src/extensions/activations/_door_persona.js" />
@@ -583,6 +620,42 @@
     <link rel="modulepreload" href="./domains/src/seals/safe/usecase.js" />
     <link rel="modulepreload" href="./domains/src/seals/safe/value.js" />
     <link rel="modulepreload" href="./domains/src/seals/safe/version.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_command.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_door_desk.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_dsl.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_effect.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_fact.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_id.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_invitation_selection.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_majors.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_query.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_registry.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_scope.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_scope_command.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_scope_effect.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_scope_fact.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_scope_id.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_scope_predicate.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_scope_query.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_scope_selection.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_scope_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_scope_value.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_scope_version.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_usecase.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_value.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/_version.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/command.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/dsl.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/effect.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/fact.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/id.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/invitation_selection.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/predicate.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/query.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/usecase.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/value.js" />
+    <link rel="modulepreload" href="./domains/src/stand/invitations/version.js" />
     <link rel="modulepreload" href="./domains/src/ui/_door_below.js" />
     <link rel="modulepreload" href="./domains/src/ui/_dsl.js" />
     <link rel="modulepreload" href="./domains/src/ui/_scope_value.js" />
@@ -777,6 +850,7 @@
     <link rel="modulepreload" href="./memory/src/oracle/partitions.js" />
     <link rel="modulepreload" href="./memory/src/oracle/post.js" />
     <link rel="modulepreload" href="./memory/src/oracle/seals.js" />
+    <link rel="modulepreload" href="./memory/src/oracle/stand.js" />
     <link rel="modulepreload" href="./memory/src/oracle/user.js" />
     <link rel="modulepreload" href="./memory/src/phone/index.js" />
     <link rel="modulepreload" href="./memory/src/relay/index.js" />

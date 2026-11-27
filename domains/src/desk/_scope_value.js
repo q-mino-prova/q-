@@ -3,3 +3,4 @@
 // folder in the layers below, its ancestors' doors to the folders below and the
 // doors the map opens to it.
 export * as deposits from "../mailbox/deposits/_door_desk.js";
+export * as invitations from "../stand/invitations/_door_desk.js";

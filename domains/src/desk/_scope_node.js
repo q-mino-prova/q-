@@ -6,4 +6,5 @@ import * as zz from "../library/index.js";
 export * as value from "./_value.js";
 export * as dsl from "./_dsl.js";
 export * as deposits from "../mailbox/deposits/_door_desk.js";
+export * as invitations from "../stand/invitations/_door_desk.js";
 export const { node, AND, OR, NOT } = zz.builders_at();

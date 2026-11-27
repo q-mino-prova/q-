@@ -6,3 +6,4 @@ export * from "./extensions/index.js";
 export * from "./user/index.js";
 export { libsodium_primitives } from "./libsodium/index.js";
 export * from "./ports/index.js";
+export * from "./qr/index.js";
