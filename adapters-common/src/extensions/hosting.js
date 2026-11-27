@@ -128,6 +128,33 @@ export const a_hosted_extension = (wiring) => {
     const now = () => wiring.clock.now();
     /** Since when it is to run: the hosting's creation, at the node's start, or its last load's beginning (MSG-9). */
     let to_run_since = Date.parse(now());
+    /** Who waits for it to run (MSG-17): the user's asks on `self` while it is to run, woken at each change of its life. */
+    const waiting_to_run = new Set();
+    /** Its life changed: running, stopped, unloaded; who waits for it to run looks again. */
+    const lives = (next) => {
+        life = next;
+        for (const wake of [...waiting_to_run])
+            wake(undefined);
+        waiting_to_run.clear();
+    };
+    /**
+     * The user's ask on `self` while it is to run (MSG-17): active and not
+     * running yet (not loaded yet at the node's start, or loading), within
+     * the hold of MSG-9; waited for until it runs, it stops, or the hold is over.
+     */
+    const until_it_runs = async () => {
+        for (;;) {
+            if (life.life !== 'loading' && life.life !== 'unloaded')
+                return;
+            const left = to_run_since + the_hold_of_a_request - Date.parse(now());
+            if (left <= 0 || !(await wiring.is_active()))
+                return;
+            const woken = a_promise();
+            waiting_to_run.add(woken.settle);
+            await Promise.race([woken.promise, wiring.elapsed(left)]);
+            waiting_to_run.delete(woken.settle);
+        }
+    };
     /** The realm loaded now, if any. */
     const the_realm = () => life.life === 'loading' || life.life === 'running' ? life.realm : undefined;
     /** Its invocations in flight in a realm fail: a technical outcome (DOM-15). */
@@ -299,12 +326,12 @@ export const a_hosted_extension = (wiring) => {
             fall: falls === 1 ? 'the_first' : 'the_second',
             because,
         });
-        life = { life: 'unloaded' };
+        lives({ life: 'unloaded' });
         fail_in(realm, `it has fallen, ${because}`);
         ended.clear();
         realm.unload();
         if (falls > 1) {
-            life = { life: 'stopped', why: 'it_fell_twice' };
+            lives({ life: 'stopped', why: 'it_fell_twice' });
             return { loaded: 'stopped' };
         }
         return loaded();
@@ -327,7 +354,7 @@ export const a_hosted_extension = (wiring) => {
         if (ready.name !== manifest.name ||
             ready.version !== manifest.version ||
             ready.boundary_version !== manifest.boundary_version) {
-            life = { life: 'stopped', why: 'its_ready_differs' };
+            lives({ life: 'stopped', why: 'its_ready_differs' });
             realm.unload();
             return {
                 loaded: 'a_composition_fault',
@@ -343,12 +370,14 @@ export const a_hosted_extension = (wiring) => {
                 ]),
             };
         }
-        life = { life: 'running', realm };
+        lives({ life: 'running', realm });
         realm.to_the_extension({ message: 'start' });
         return { loaded: 'running' };
     };
     /** An invocation of a leaf on a persona, through the boundary (EXT-2). */
     async function* invoked(persona, invocation) {
+        if (persona === 'self' && life.life !== 'running')
+            await until_it_runs();
         if (life.life !== 'running') {
             const to_run = persona === 'known' &&
                 (life.life === 'loading' || life.life === 'unloaded') &&
@@ -447,7 +476,7 @@ export const a_hosted_extension = (wiring) => {
                     .map((invocation) => invocation.flow.ended);
                 await Promise.race([Promise.all(flows), wiring.a_while()]);
             }
-            life = { life: 'unloaded' };
+            lives({ life: 'unloaded' });
             fail_in(realm, 'it has been unloaded');
             ended.clear();
             realm.unload();
