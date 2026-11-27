@@ -30,7 +30,8 @@ const the_mailboxes_of = async (wiring, faults) => {
  * The collector (DOM-17): `collects()`, one pass. For each mailbox the node
  * collects, its deposits at the relay, in the relay's order; each not seen
  * yet (by its D and its deposit id, kept while the node runs) handed to the
- * entry as `{ came_to, envelope }`, then seen. One the entry throws on stays
+ * entry as `{ came_to, envelope }`, then seen (unless a `forget()` came
+ * while the entry took it: then it stays unseen). One the entry throws on stays
  * unseen, and the rest of that mailbox waits behind it for the next pass. A
  * collect that throws (the transport down) leaves that mailbox for the next
  * pass. Either way the other mailboxes go on, and the first fault is thrown
@@ -53,6 +54,15 @@ const the_mailboxes_of = async (wiring, faults) => {
  */
 export const the_collector = (wiring) => {
     const seen = new Set();
+    /**
+     * How many times it forgot (MSG-16): a deposit handed before a forget and
+     * answered after it is not seen, so that a letter met with silence while
+     * its extension came to run is handed again at the next pass, not taken
+     * as seen by a pass that began before the forget. [Q, C, 27 Nov 2026]
+     * (part M7 of messaging; found by the review: the activation's forget
+     * fell between the entry's silence and its `seen`)
+     */
+    let forgotten = 0;
     const collects = async () => {
         const faults = [];
         for (const mailbox of await the_mailboxes_of(wiring, faults)) {
@@ -69,6 +79,7 @@ export const the_collector = (wiring) => {
                 if (seen.has(at))
                     continue;
                 const collected = { came_to: mailbox.deposit_address, envelope: deposit.envelope };
+                const before = forgotten;
                 try {
                     await wiring.entry(collected);
                 }
@@ -76,7 +87,8 @@ export const the_collector = (wiring) => {
                     faults.push(fault);
                     break;
                 }
-                seen.add(at);
+                if (before === forgotten)
+                    seen.add(at);
                 wiring.handed?.(collected);
             }
         }
@@ -86,6 +98,7 @@ export const the_collector = (wiring) => {
     return {
         collects,
         forget: () => {
+            forgotten += 1;
             seen.clear();
         },
     };
