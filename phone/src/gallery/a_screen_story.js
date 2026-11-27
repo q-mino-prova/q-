@@ -51,7 +51,7 @@ export const AScreenStory = (props) => {
     const the_root = useRef(null);
     const made = useRef(undefined);
     if (made.current === undefined) {
-        const node = a_node_of_test(props.holds);
+        const node = a_node_of_test(props.holds, props.answers);
         const camera = a_camera_of_test(props.cameras);
         made.current = { node, camera };
         const hand = a_hand(the_root, node, camera);

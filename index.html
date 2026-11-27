@@ -2,7 +2,7 @@
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'sha256-k/exWy1GMiSQpS1YnxwbwSUlaTW51GQYDC88AAlhcRU='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://relay.cumino.aleclofabbro.it; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'sha256-M6GQTN1vDEL4VnDte57uUrEv7lv0oMKxMeYJKPSGidU='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://relay.cumino.aleclofabbro.it; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
     <script type="importmap">{
   "imports": {
     "@preact/signals": "./vendor/@preact/signals/dist/signals.module.js",
@@ -107,6 +107,7 @@
     "@q-mino/memory": "./memory/src/index.js",
     "@q-mino/messaging": "./ext/messaging/configurator.js",
     "@q-mino/messaging/manifest.json": "./ext/messaging/manifest.json",
+    "@q-mino/messaging/parts/the_chat.js": "./ext/messaging/parts/the_chat.js",
     "@q-mino/messaging/texts/it.json": "./ext/messaging/texts/it.json",
     "@q-mino/ping_pong": "./ext/ping_pong/configurator.js",
     "@q-mino/ping_pong/manifest.json": "./ext/ping_pong/manifest.json",
@@ -913,7 +914,12 @@
     <link rel="modulepreload" href="./vendor/zod/v4/locales/yo.js" />
     <link rel="modulepreload" href="./vendor/zod/v4/locales/zh-CN.js" />
     <link rel="modulepreload" href="./vendor/zod/v4/locales/zh-TW.js" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- The keyboard resizes the page (part M5 of messaging): a screen, a conversation's field
+         at its bottom too, stays above it instead of under it. -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content"
+    />
     <!-- The bar's colour by theme (PWA-7): Roano's paper, Lavagna's slate. -->
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbf8f3" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1b2023" />

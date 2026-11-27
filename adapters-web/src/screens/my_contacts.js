@@ -67,6 +67,6 @@ export const MyContacts = (props) => {
                     }, ...(contact.marks.length === 0
                         ? {}
                         : {
-                            below: contact.marks.map((mark) => (_jsx(TheMark, { extension: mark.extension, children: _jsx(ThePoints, { mark: mark, course_of: () => ({ course: 'nothing_asked' }), taps: () => undefined, opens: () => undefined }) }, mark.extension))),
+                            below: contact.marks.map((mark) => (_jsx(TheMark, { extension: mark.extension, children: _jsx(ThePoints, { mark: mark, about: contact.name, course_of: () => ({ course: 'nothing_asked' }), taps: () => undefined, opens: () => undefined }) }, mark.extension))),
                         }) }, contact.bond))) }))] }));
 };

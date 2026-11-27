@@ -89,12 +89,12 @@ export const Slot = (props) => {
         shown.current = whole;
     }, [where]);
     const whole = where === 'on_the_whole_screen';
-    return (_jsxs("div", { class: "slot", role: "region", "aria-label": props.label, "data-place": props.place, "data-state": where, popover: popover, ref: the_slot, children: [whole ? (_jsx("div", { "data-part": "corner", children: _jsx(Corner, { label: props.words.who_has_the_screen, chain: around, children: _jsx(Gesture, { kind: "quiet", label: props.words.gives_it_back, glyph: "minimize_2", does: {
-                            does: 'taps',
-                            taps: () => {
-                                moves('in_its_place');
-                            },
-                        } }) }) })) : (_jsxs("div", { "data-part": "head", children: [_jsx("span", { "data-part": "label", children: props.label }), _jsx(Gesture, { kind: "quiet", label: props.words.takes_the_screen, glyph: "maximize_2", does: {
+    return (_jsxs("div", { class: "slot", role: "region", "aria-label": props.label, "data-place": props.place, "data-state": where, popover: popover, ref: the_slot, children: [whole ? (_jsxs("div", { "data-part": "corner", children: [props.about !== undefined && _jsx("p", { "data-part": "about", children: props.about }), _jsx(Corner, { label: props.words.who_has_the_screen, chain: around, children: _jsx(Gesture, { kind: "quiet", label: props.words.gives_it_back, glyph: "minimize_2", does: {
+                                does: 'taps',
+                                taps: () => {
+                                    moves('in_its_place');
+                                },
+                            } }) })] })) : (_jsxs("div", { "data-part": "head", children: [_jsx("span", { "data-part": "label", children: props.label }), _jsx(Gesture, { kind: "quiet", label: props.words.takes_the_screen, glyph: "maximize_2", does: {
                             does: 'taps',
                             taps: () => {
                                 moves('on_the_whole_screen');
