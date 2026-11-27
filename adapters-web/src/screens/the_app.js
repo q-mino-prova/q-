@@ -4,7 +4,9 @@
 // and the two hands of a turn: what it asks, handed to `user` in order, and
 // where it goes, on the way. Since part 22.2 the words of each extension
 // the kernel draws in its mark, and whether a screen is the one shown (a
-// part of an extension is served only then, EXT-4, when one comes).
+// part of an extension is served only then, EXT-4). Since part M4 of
+// messaging the parts the app carries, each a component of its extension's
+// (K-3, WEB-23).
 import { computed } from '@preact/signals';
 import * as ui_value from '@q-mino/domains/ui/_value.ts';
 import { createContext } from 'preact';

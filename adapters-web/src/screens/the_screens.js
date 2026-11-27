@@ -19,7 +19,7 @@ import { APage } from "./a_page.js";
 import { AnExtension } from "./an_extension.js";
 import { AnInvitation } from "./an_invitation.js";
 import { MyContacts } from "./my_contacts.js";
-import { TheAppContext, TheScreenIsShown } from "./the_app.js";
+import { TheAppContext, TheScreenIsShown, } from "./the_app.js";
 import { TheExtensions } from "./the_extensions.js";
 import { TheFirstFace } from "./the_first_face.js";
 import { TheHandshakeAtADistance } from "./the_handshake_at_a_distance.js";
@@ -27,6 +27,8 @@ import { TheHandshakeInPerson } from "./the_handshake_in_person.js";
 import { TheIntroduction } from "./the_introduction.js";
 import { TheServer } from "./the_server.js";
 import { WhatHappened } from "./what_happened.js";
+/** No part carried: every slot and page drawn as the app's fault (WEB-23). */
+const no_part = () => ({ part: 'not_carried' });
 const why_they_do_not_open = (fault) => fault instanceof ARecordOutOfItsForm
     ? { why: 'the_data_of_an_older_test_release', message: fault.message }
     : { why: 'a_fault', message: fault instanceof Error ? fault.message : String(fault) };
@@ -196,6 +198,7 @@ export const TheScreens = (props) => {
             asks,
             goes,
             words: (extension) => props.texts.extensions[extension],
+            parts: (extension, point) => (props.the_parts ?? no_part)(extension, point),
         };
         return {
             way,

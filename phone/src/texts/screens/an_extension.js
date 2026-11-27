@@ -3,6 +3,8 @@ import { the_news } from "./what_happened.js";
 /** Where a point is drawn, by its place's name; a place of no kernel's screen, by its name. */
 const the_places = new Map([
     ['a_bond', 'sulla schermata di ogni contatto a cui la offri'],
+    // MSG-15 (provisional, C's, 27 Nov 2026, part M4 of messaging).
+    ['a_bond_in_my_contacts', 'sulla riga di ogni contatto a cui la offri, fra i tuoi contatti'],
     ['the_extension', 'sulla sua schermata'],
 ]);
 const the_place = (place) => the_places.get(place) ?? `nel posto «${place}»`;

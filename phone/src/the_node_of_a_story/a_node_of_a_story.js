@@ -28,8 +28,22 @@ export const nothing_held = {
 /** Saturday 21 November 2026, 10:00 in Rome, as the clock writes it (UTC). */
 export const ten_in_rome = zz.date_time.parse('2026-11-21T09:00:00.000Z');
 const the_same = (one, other) => JSON.stringify(one) === JSON.stringify(other);
-export const a_node_of_test = (at_the_start = {}) => {
+/** The default answer to a part: greetings' leaf `greet_a_bond` gives its greeting, any other leaf nothing. */
+const greetings_answers = (served) => {
+    const events = served.invokes.extension === 'greetings' && served.invokes.use_case === 'usecase/greet_a_bond'
+        ? [{ event: 'the_greeting_is_sent', greeting: 'G-1' }]
+        : [];
+    return {
+        [Symbol.asyncIterator]: () => {
+            const each = events[Symbol.iterator]();
+            return { next: () => Promise.resolve(each.next()) };
+        },
+    };
+};
+export const a_node_of_test = (at_the_start = {}, answers_the_parts = greetings_answers) => {
     let held = { ...nothing_held, ...at_the_start };
+    let asked_by_the_parts = [];
+    let fenced = [];
     let handed = [];
     let listeners = [];
     const tell = () => {
@@ -95,13 +109,14 @@ export const a_node_of_test = (at_the_start = {}) => {
             takes(what);
             return Promise.resolve();
         },
-        // No part of an extension is drawn yet (WEB-23): none asks, none is fenced.
-        a_part_asks: () => ({
-            [Symbol.asyncIterator]: () => ({
-                next: () => Promise.resolve({ done: true, value: undefined }),
-            }),
-        }),
-        a_part_is_fenced: () => undefined,
+        // What a part asks, recorded and answered as the story says (K-3); what the fence refused, recorded.
+        a_part_asks: (served) => {
+            asked_by_the_parts = [...asked_by_the_parts, served];
+            return answers_the_parts(served);
+        },
+        a_part_is_fenced: (traced) => {
+            fenced = [...fenced, traced];
+        },
         when_it_changes: (listener) => {
             listeners = [...listeners, listener];
             return () => {
@@ -114,6 +129,8 @@ export const a_node_of_test = (at_the_start = {}) => {
         handed: () => handed,
         activities_asked: () => handed.flatMap((one) => (one.asks === 'an_activity' ? [one.what] : [])),
         holds: () => held,
+        asked_by_the_parts: () => asked_by_the_parts,
+        fenced: () => fenced,
         comes_to_hold,
         ends: (activity_id, how) => {
             comes_to_hold((now) => ({

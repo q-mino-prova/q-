@@ -6,8 +6,10 @@ import { jsx as _jsx, jsxs as _jsxs } from "preact/jsx-runtime";
 // whole screen; on the whole screen (Alessandro, 24 Nov 2026), the same
 // part with the same subject, the corner telling who has the screen (the
 // chain of the marks around it) and the gesture that gives it back. The
-// part is never drawn again: the slot itself goes to the top layer (a
-// popover), so what the part holds stays as it was. Escape and Android's
+// part is never drawn anew: the slot itself goes to the top layer (a
+// popover), so what the part holds stays as it was; it is told where it
+// is, so that it draws a line in its place and a screen on the whole one
+// (K-3, part M4 of messaging). Escape and Android's
 // back give the screen back, as the browser closes a popover. A slot is a
 // grid of named areas, `head` (or `corner`) and `part`, its columns a
 // subgrid of its mark's, so that what it holds lines up with the rows of
@@ -97,5 +99,5 @@ export const Slot = (props) => {
                             taps: () => {
                                 moves('on_the_whole_screen');
                             },
-                        } })] })), _jsx("div", { "data-part": "part", children: props.children(props.subject) })] }));
+                        } })] })), _jsx("div", { "data-part": "part", children: props.children(props.subject, where) })] }));
 };

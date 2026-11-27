@@ -1,9 +1,9 @@
 import * as z from 'zod';
 import { seen_on_known } from "./contexts.js";
-import { place } from "./places.js";
+import { a_place_of_an_action, place } from "./places.js";
 import { port } from "./ports.js";
 import { a_base_event, the_kernels_events_on_known } from "./the_kernels_node.js";
-import { a_file, a_leaf, a_name, a_set_of, json, semver } from "./values.js";
+import { a_leaf, a_name, a_part_module, a_set_of, json, semver } from "./values.js";
 import { version } from "./version.js";
 // The manifest (EXT-3, EXT-10): what an extension is to the kernel. Its
 // declaration is authored, `manifest.ts` in the extension's package, with
@@ -13,12 +13,12 @@ import { version } from "./version.js";
 // the extension's build derives; the build writes the manifest as data
 // (`manifest.json`, `the_manifest`), the one form the kernel reads, with
 // the package's version and the boundary's, never written by hand.
-/** An action (EXT-16): data the kernel draws in a place, which invokes a leaf of the extension on `self` with the place's data. */
-const an_action = z.strictObject({ on: place, invokes: a_leaf });
-/** A slot (EXT-16): a part the kernel places in a screen of its own, with a document of the extension's bundle. */
-const a_slot = z.strictObject({ on: place, shows: a_file });
+/** An action (EXT-16): data the kernel draws in a place, a bond's screen or the extension's own (never a row of her contacts), which invokes a leaf of the extension on `self` with the place's data. */
+const an_action = z.strictObject({ on: a_place_of_an_action, invokes: a_leaf });
+/** A slot (EXT-16): a part the kernel places in a screen of its own, the component its module (`shows`) exports (K-3). */
+const a_slot = z.strictObject({ on: place, shows: a_part_module });
 /** A page (EXT-16): a part the kernel places as a screen, from the extension's own screen. */
-const a_page = z.strictObject({ on: z.literal('the_extension'), shows: a_file });
+const a_page = z.strictObject({ on: z.literal('the_extension'), shows: a_part_module });
 /** The declaration's schema (EXT-10): a name in snake_case, names from the boundary's closed sets each listed once, a leaf's path, a file's. */
 export const the_declaration = z.strictObject({
     name: a_name,

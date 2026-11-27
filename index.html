@@ -2,7 +2,7 @@
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'sha256-t6hnA/3gPbO7rt9lxOff4gSTFctqcuElbBLVnXIQlvA='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://relay.cumino.aleclofabbro.it; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'sha256-k/exWy1GMiSQpS1YnxwbwSUlaTW51GQYDC88AAlhcRU='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://relay.cumino.aleclofabbro.it; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
     <script type="importmap">{
   "imports": {
     "@preact/signals": "./vendor/@preact/signals/dist/signals.module.js",
@@ -102,6 +102,8 @@
     "@q-mino/domains/user/drafts/_registry.ts": "./domains/src/user/drafts/_registry.js",
     "@q-mino/domains/user/drafts/_usecase.ts": "./domains/src/user/drafts/_usecase.js",
     "@q-mino/domains/user/drafts/_value.ts": "./domains/src/user/drafts/_value.js",
+    "@q-mino/greetings/manifest.json": "./ext/greetings/manifest.json",
+    "@q-mino/greetings/parts/the_greetings.js": "./ext/greetings/parts/the_greetings.js",
     "@q-mino/memory": "./memory/src/index.js",
     "@q-mino/messaging": "./ext/messaging/configurator.js",
     "@q-mino/messaging/manifest.json": "./ext/messaging/manifest.json",
@@ -192,6 +194,7 @@
     <link rel="modulepreload" href="./adapters-web/src/relay_client/index.js" />
     <link rel="modulepreload" href="./adapters-web/src/screens/a_contact.js" />
     <link rel="modulepreload" href="./adapters-web/src/screens/a_page.js" />
+    <link rel="modulepreload" href="./adapters-web/src/screens/a_part.js" />
     <link rel="modulepreload" href="./adapters-web/src/screens/a_screen.js" />
     <link rel="modulepreload" href="./adapters-web/src/screens/an_extension.js" />
     <link rel="modulepreload" href="./adapters-web/src/screens/an_invitation.js" />
@@ -215,6 +218,7 @@
     <link rel="modulepreload" href="./boundary/src/manifest.js" />
     <link rel="modulepreload" href="./boundary/src/messages.js" />
     <link rel="modulepreload" href="./boundary/src/mounted.js" />
+    <link rel="modulepreload" href="./boundary/src/parts.js" />
     <link rel="modulepreload" href="./boundary/src/places.js" />
     <link rel="modulepreload" href="./boundary/src/ports.js" />
     <link rel="modulepreload" href="./boundary/src/the_extensions_side.js" />
@@ -803,6 +807,7 @@
     <link rel="modulepreload" href="./phone/src/texts/screens/the_server.js" />
     <link rel="modulepreload" href="./phone/src/texts/screens/views.js" />
     <link rel="modulepreload" href="./phone/src/texts/screens/what_happened.js" />
+    <link rel="modulepreload" href="./phone/src/the_parts.js" />
     <link rel="modulepreload" href="./phone/src/the_project.js" />
     <link rel="modulepreload" href="./vendor/@preact/signals-core/dist/signals-core.module.js" />
     <link rel="modulepreload" href="./vendor/@preact/signals/dist/signals.module.js" />

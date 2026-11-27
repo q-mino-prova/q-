@@ -1,11 +1,14 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "preact/jsx-runtime";
 // Her contacts, the home of stage 1 (UI-5): her bonds by the names she gives
-// them, as introduced when it differs, whether they have her; none yet, the
-// two handshakes; the menu, a popover over the screen (WEB-29); a word when
+// them, as introduced when it differs, whether they have her; on each row,
+// the marks of the extensions offered to it, each with its slots there,
+// compact (MSG-15, K-13; part M4 of messaging); none yet, the two
+// handshakes; the menu, a popover over the screen (WEB-29); a word when
 // something happened.
 import * as my_contacts from '@q-mino/domains/ui/my_contacts/_dsl.ts';
 import { Gesture, List, Menu, Row, Screen } from "../design/index.js";
 import { a_screen, what_it_is_given } from "./a_screen.js";
+import { TheMark, ThePoints } from "./parts.js";
 import { the_app } from "./the_app.js";
 /** The glyph of each entry of the menu. */
 const the_glyph_of = {
@@ -23,15 +26,19 @@ export const MyContacts = (props) => {
         after: my_contacts.after,
     });
     const given = what_it_is_given(app, screen.state, async () => {
-        const [contacts, held_letters, happened] = await Promise.all([
+        const [contacts, held_letters, happened, extensions, offers] = await Promise.all([
             app.node.her_contacts(),
             app.node.the_held_letters(),
             app.node.what_happened(),
+            app.node.the_extensions(),
+            app.node.the_offers(),
         ]);
         return {
             contacts: [...contacts],
             held_letters: held_letters.length,
             happened: happened.length,
+            extensions: [...extensions],
+            offers,
         };
     });
     const state = screen.state.value;
@@ -57,5 +64,9 @@ export const MyContacts = (props) => {
                                 chooses(entry);
                             }) }, entry))) })] })), it?.contacts.are === 'some' && (_jsx(List, { label: props.texts.title, children: it.contacts.list.map((contact) => (_jsx(Row, { glyph: "user", title: contact.name, detail: _jsxs(_Fragment, { children: [contact.introduced_as !== undefined && (_jsxs("span", { children: [props.texts.introduced_as(contact.introduced_as), " "] })), _jsx("span", { children: contact.they_have_me ? props.texts.they_have_you : props.texts.not_yet })] }), opens: () => {
                         screen.happens({ happens: 'she_opens_a_contact', bond: contact.bond });
-                    } }, contact.bond))) }))] }));
+                    }, ...(contact.marks.length === 0
+                        ? {}
+                        : {
+                            below: contact.marks.map((mark) => (_jsx(TheMark, { extension: mark.extension, children: _jsx(ThePoints, { mark: mark, course_of: () => ({ course: 'nothing_asked' }), taps: () => undefined, opens: () => undefined }) }, mark.extension))),
+                        }) }, contact.bond))) }))] }));
 };

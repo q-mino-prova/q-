@@ -2,10 +2,13 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "preact/jsx-ru
 // The parts the screens share (UI-1, UI-3, UI-4): the course of what a
 // screen asked, told; the gesture back; since part 22.2 the kernel's mark of
 // an extension and the points it holds at a place (EXT-16, WEB-22); since
-// the MVP's part 2 drawn with the design's components (WEB-27, WEB-29).
+// the MVP's part 2 drawn with the design's components (WEB-27, WEB-29);
+// since part M4 of messaging each slot holds its part (K-3), and the
+// marks of a row of her contacts hold only slots, compact (MSG-15).
 import { Gesture, List, Mark, Notice, Row, Slot } from "../design/index.js";
 import * as ui from '@q-mino/domains/ui/_dsl.ts';
 import { in_its_words, the_app, the_word_or_its_fault, the_words_of_an_actions_end, the_words_of_an_end, } from "./the_app.js";
+import { APart } from "./a_part.js";
 /**
  * How an end is told, by its case (WEB-29): done, or done already, is
  * `done`; an answer that did not come, an end not followed, what cannot be
@@ -78,8 +81,8 @@ const TheCourseOfAnAction = (props) => {
  * action, a gesture of the kind `extension` the kernel draws with the
  * extension's label, off while its activity is in progress, and how it
  * ended in the extension's words; each slot, a `Slot` told the place and
- * its subject, the place's data, holding what the app does not draw yet
- * (`APartNotDrawn`, WEB-23), which she may take to the whole screen; each page, the
+ * its subject, the place's data, holding its part (`APart`, K-3, WEB-23),
+ * which she may take to the whole screen; each page, the
  * gesture that opens it, by its label. A word the extension's words lack is
  * drawn as a fault, never silently its name.
  */
@@ -91,18 +94,7 @@ export const ThePoints = (props) => {
                             taps: () => {
                                 props.taps(action);
                             },
-                        } }), _jsx(TheCourseOfAnAction, { extension: props.mark.extension, course: props.course_of(action) })] }, action))), props.mark.slots.map((slot) => (_jsx(Slot, { place: props.mark.told.place, subject: props.mark.told, label: the_word_or_its_fault(app.common, words?.slots[slot], slot), words: app.common.the_points.the_slot, children: () => _jsx(APartNotDrawn, {}) }, slot))), props.mark.pages.length > 0 && (_jsx(List, { children: props.mark.pages.map((page) => (_jsx(Row, { glyph: "chevron_right", title: in_its_words(app.common, words?.pages[page], page, app.common.the_points.opens_the_page), opens: () => {
+                        } }), _jsx(TheCourseOfAnAction, { extension: props.mark.extension, course: props.course_of(action) })] }, action))), props.mark.slots.map((slot) => (_jsx(Slot, { place: props.mark.told.place, subject: props.mark.told, label: the_word_or_its_fault(app.common, words?.slots[slot], slot), words: app.common.the_points.the_slot, children: (_, where) => (_jsx(APart, { extension: props.mark.extension, point: { point: 'slot', name: slot }, told: props.mark.told, where: where })) }, slot))), props.mark.pages.length > 0 && (_jsx(List, { children: props.mark.pages.map((page) => (_jsx(Row, { glyph: "chevron_right", title: in_its_words(app.common, words?.pages[page], page, app.common.the_points.opens_the_page), opens: () => {
                         props.opens(page);
                     } }, page))) }))] }));
-};
-/**
- * A slot or a page of an extension, in its mark (EXT-16, WEB-23): a
- * component of the extension's in the kernel's mark, deferred until an
- * extension the app carries has one (ping pong has none). Until then the
- * app tells it does not have it, a fault of its composition, never a blank.
- * [Q, C, 24 Nov 2026]
- */
-export const APartNotDrawn = () => {
-    const app = the_app();
-    return _jsx(Notice, { kind: "fault", children: app.common.the_points.no_document });
 };

@@ -4,6 +4,21 @@ import { texts } from "./it.js";
 const common = texts.screens.common;
 const the_slot = common.the_points.the_slot;
 const a_contact = texts.screens.a_contact;
+/**
+ * The words of greetings, the test extension, as its `texts/` would give
+ * them (EXT-16, WEB-22): the app does not carry it, so they are the
+ * gallery's, for the stories of a part (K-3; part M4 of messaging).
+ */
+export const the_words_of_greetings = {
+    name: 'Saluti',
+    actions: { greet: 'Saluta' },
+    slots: { the_greetings_of_a_bond: 'Saluti', the_greetings_in_my_contacts: 'Saluti' },
+    pages: {},
+    events: {
+        the_greeting_is_sent: 'Saluto partito',
+        the_greeting_cannot_be_sent: 'Il saluto non parte',
+    },
+};
 export const the_gallery = {
     title: 'Galleria di Cumino',
     intro: 'Ogni componente in ogni suo caso, in Roano (il tema chiaro) e Lavagna (il tema scuro), disegnato come lo disegna l’app.',
