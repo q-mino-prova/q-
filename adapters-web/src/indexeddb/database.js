@@ -3,10 +3,7 @@
 // the node's own store. The stores a release needs are created when it opens
 // the database; none is deleted in stage 1. The whole database is deleted
 // when she clears the data of an older test release (WEB-8).
-/** The node's own store: the writer's term, the node's counters, the consumers' state. */
-export const the_node_s_store = 'node';
-/** A store's name in the database, told apart by its kind. */
-export const the_name_of = (store) => store.of === 'a_domain' ? `domain ${store.path}` : `extension ${store.name}`;
+import { the_name_of, the_node_s_store } from '@q-mino/adapters-common';
 const opened = (request, missing) => new Promise((resolve, reject) => {
     request.onupgradeneeded = () => {
         for (const name of missing(request.result))

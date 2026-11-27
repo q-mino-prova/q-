@@ -1,5 +1,6 @@
 import { libsodium_primitives, the_reads_of_self } from '@q-mino/adapters-common';
-import { ARecordOutOfItsForm, ask_to_keep_the_storage, delete_the_node_s_database, her_node_over, ids_drawn_at_random, the_node_s_storage, the_device_s_network, the_relay_s_http_transports, } from '@q-mino/adapters-web';
+import { ask_to_keep_the_storage, delete_the_node_s_database, her_node_over, ids_drawn_at_random, the_node_s_storage, the_device_s_network, the_relay_s_http_transports, } from '@q-mino/adapters-web';
+import { ARecordOutOfItsForm } from '@q-mino/adapters-common';
 import { phone, TheExtensionsDoNotCompose, } from '@q-mino/memory';
 import { a_phone_s_storage, the_kernel_s_domains } from "./storage.js";
 /** How often the collector passes while the app is open (STK-3, PWA-2): no push in stage 1, so the phone collects while it is open. */
@@ -131,12 +132,12 @@ export const the_start = (browser, configuration, time) => async (how) => {
     };
     let node;
     try {
-        node = await phone(a_phone_s_storage(opened, browser.key_range))(world);
+        node = await phone(a_phone_s_storage(opened))(world);
     }
     catch (fault) {
         // A composition fault (CFG-2, EXT-4): the node does not start, and lets the writer go.
         opened.let_go();
-        opened.database.close();
+        opened.connection.close();
         return { start: 'it_does_not_start', why: why_it_does_not_start(fault) };
     }
     const stops_running = the_node_runs(node, time, post.aborted);
@@ -179,7 +180,7 @@ export const the_start = (browser, configuration, time) => async (how) => {
         the_end ??= (async () => {
             await stops_running();
             opened.let_go();
-            opened.database.close();
+            opened.connection.close();
         })();
         return the_end;
     };

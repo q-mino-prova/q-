@@ -1,11 +1,10 @@
-// The node's fact log on IndexedDB (DOM-17, WEB-9): each fact is in its
+// The node's fact log on the node's database (DOM-17, WEB-9): each fact is in its
 // domain's store, under its position in the node's one order; the log reads
 // every domain's store from a position, in one transaction, and gives the
 // facts in that order. After them it follows: woken by the writer's commits,
 // which all happen in this tab (WEB-10).
 import * as zz from '@q-mino/domains/library';
-import { the_name_of, the_node_s_store } from "./database.js";
-import { the_record_of, the_records_of, the_result_of } from "./requests.js";
+import { the_name_of, the_node_s_store, } from "./the_node_s_database.js";
 export const a_bell = () => {
     let waiting = [];
     return {
@@ -28,30 +27,25 @@ const the_position_in = (key) => {
 };
 const the_facts_from = (node) => async (start) => {
     const stores = node.paths.map((path) => the_name_of({ of: 'a_domain', path }));
-    const transaction = node.database.transaction([the_node_s_store, ...stores], 'readonly');
-    const range = node.key_range.bound(['fact', start], ['fact', Number.POSITIVE_INFINITY]);
-    const [last, ...kept] = await Promise.all([
-        the_record_of(transaction.objectStore(the_node_s_store).get('the_last_fact')),
-        ...stores.flatMap((store) => [
-            the_result_of(transaction.objectStore(store).getAllKeys(range)),
-            the_records_of(transaction.objectStore(store).getAll(range)),
-        ]),
-    ]);
-    const facts = stores.flatMap((_, at) => {
-        const keys = kept[2 * at];
-        const values = kept[2 * at + 1];
-        if (!Array.isArray(keys) || !Array.isArray(values))
-            return [];
-        return keys.map((key, index) => ({
-            position: the_position_in(key),
-            // cast: the adapter's own record, written under a fact's key by `execute_in`
-            fact: values[index],
-        }));
-    });
-    return {
-        facts: [...facts].sort((a, b) => a.position - b.position),
-        last: typeof last === 'number' ? last : 0,
+    const range = {
+        lower: { key: ['fact', start], open: false },
+        upper: { key: ['fact', Number.POSITIVE_INFINITY], open: false },
     };
+    return node.database.transaction([the_node_s_store, ...stores], 'readonly', async (read) => {
+        const [last, kept] = await Promise.all([
+            read.get(the_node_s_store, 'the_last_fact'),
+            Promise.all(stores.map((store) => read.within(store, range))),
+        ]);
+        const facts = kept.flat().map((record) => ({
+            position: the_position_in(record.key),
+            // cast: the adapter's own record, written under a fact's key by `execute_in`
+            fact: record.value,
+        }));
+        return {
+            facts: [...facts].sort((a, b) => a.position - b.position),
+            last: typeof last === 'number' ? last : 0,
+        };
+    });
 };
 const as_event = (fact) => ({
     event: 'fact',

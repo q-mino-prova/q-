@@ -1,4 +1,4 @@
-// The module of `extensions/activations` on IndexedDB (part 21.2): the
+// The module of `extensions/activations` on the node's database (IndexedDB, SQLite) (part 21.2): the
 // oracle's (TST-2) over the node's database (WEB-8, WEB-9). The office's
 // records in its store, each a value of the domain parsed when read: what
 // the user did last of an extension (`['state', 'activation', name]`), an
@@ -180,7 +180,7 @@ const extensions_command_use_cases = {
     learn_the_extensions_in_common,
 };
 /**
- * The ports of `extensions/activations` on IndexedDB, the oracle's
+ * The ports of `extensions/activations` on the node's database, the oracle's
  * (`extensions_ports`, TST-2) over the office's store: its commands, one
  * transaction each (WEB-9), and its reads of the installed extensions, one
  * snapshot each, given the manifests installed (the composition's, in the
@@ -188,7 +188,7 @@ const extensions_command_use_cases = {
  * resource of the fact (DOM-10): its registry names it (`identities`). No
  * read streams, as the oracle's.
  */
-export const extensions_ports_on_indexeddb = (node, installed) => (versions) => {
+export const extensions_ports_on_the_node_s_database = (node, installed) => (versions) => {
     const storage = node.domain('extensions/activations');
     const reads = reads_in(storage);
     return {

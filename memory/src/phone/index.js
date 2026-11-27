@@ -17,7 +17,7 @@
 // of an extension's manifest stops the start. The durable consumers are
 // given wired, not started, each a function to start: the node runs them,
 // a story starts those it needs.
-import { a_hosted_extension, in_process, compose_an_extension, the_acquaintances, the_calling_off, the_collector, the_delivery_of_an_activity, the_delivery_of_my_introduction, the_delivery_of_the_extensions_in_common, the_extensions_follow_the_office, the_kernels_entry, the_kernels_offer, the_kernels_port_of_requests, the_kernels_reads, the_letters_an_extension_holds, the_manifest_to_accept, the_name_of_a_letter, the_port_of_requests, the_ticket_shown, } from '@q-mino/adapters-common';
+import { a_hosted_extension, bonds_ports_on_the_node_s_database, extensions_ports_on_the_node_s_database, post_ports_on_the_node_s_database, seals_ports_on_the_node_s_database, user_ports_on_the_node_s_database, in_process, compose_an_extension, the_acquaintances, the_calling_off, the_collector, the_delivery_of_an_activity, the_delivery_of_my_introduction, the_delivery_of_the_extensions_in_common, the_extensions_follow_the_office, the_kernels_entry, the_kernels_offer, the_kernels_port_of_requests, the_kernels_reads, the_letters_an_extension_holds, the_manifest_to_accept, the_name_of_a_letter, the_partition_of, the_port_of_requests, the_ticket_shown, } from '@q-mino/adapters-common';
 import * as boundary from '@q-mino/boundary';
 import { registry as acquaintances_registry } from '@q-mino/domains/auth/acquaintances/_registry.ts';
 import { the_bond_of_a_face_at_my_mailbox, the_extensions_offered_to_the_bond_of_a_key, the_ticket_a_face_presents_at_my_mailbox, } from '@q-mino/domains/auth/acquaintances/_lookup.ts';
@@ -81,6 +81,29 @@ export const on_the_cell = (cell) => ({
     office: (installed) => extensions_ports(seen_by(cell), installed),
     user: user_ports(seen_by(cell)),
     partitions,
+});
+/**
+ * A phone's storage on the node's database (WEB-16; part B2 of the
+ * assistant, AST-2): each kernel domain's module over its store, the node's
+ * log, outbox and consumers' state, and the extensions' partitions of the
+ * release's size, on whichever substrate the node's storage was opened
+ * (IndexedDB in the PWA, SQLite in the assistant's node). [Q, C, 27 Nov 2026]
+ */
+export const on_the_node_s_database = (node) => ({
+    stored_versions: node.stored_versions,
+    log: node.log,
+    outbox: node.outbox,
+    executor: node.executor,
+    reactions: node.reactions,
+    held: node.held,
+    safe: (primitives) => seals_ports_on_the_node_s_database(node, primitives),
+    post: post_ports_on_the_node_s_database(node),
+    address_book: (primitives) => bonds_ports_on_the_node_s_database(node, primitives),
+    office: (installed) => extensions_ports_on_the_node_s_database(node, installed),
+    user: user_ports_on_the_node_s_database(node),
+    partitions: ({ characters }) => ({
+        of: the_partition_of({ database: node.database, term: node.term, characters }),
+    }),
 });
 /** How large an extension's partition is on the oracle, in characters, unless the release says (EXT-14). */
 const a_partition_s_size = 1_000_000;

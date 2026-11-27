@@ -1,4 +1,4 @@
-// The module of `seals` on IndexedDB (WEB-8, WEB-9, part 21.2): the oracle's
+// The module of `seals` on the node's database (IndexedDB, SQLite) (WEB-8, WEB-9, part 21.2): the oracle's
 // (TST-2) over the store of `seals/safe`. Each map of the oracle's state is
 // a kind of record, by its id: a seed under `['state', 'seed', seed_id]`, a
 // face under `['state', 'face', face_id]`, a mailbox key under
@@ -131,7 +131,7 @@ export const seals_command_adapter = (storage) => ({
  * primitives port. No read streams: a signature, an opening and a mailbox's
  * key are asked when needed (SEA-6).
  */
-export const seals_ports_on_indexeddb = (node, primitives) => {
+export const seals_ports_on_the_node_s_database = (node, primitives) => {
     const storage = node.domain(the_safe_s_path);
     const reads = reads_in(storage);
     return (versions) => ({

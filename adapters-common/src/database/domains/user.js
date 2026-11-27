@@ -1,4 +1,4 @@
-// The module of `user` on IndexedDB (USR-1, WEB-8, WEB-9; part 21.2): the
+// The module of `user` on the node's database (IndexedDB, SQLite) (USR-1, WEB-8, WEB-9; part 21.2): the
 // oracle's (TST-2, `memory/src/oracle/user.ts`) over the node's database.
 // Each office is its own store, by its path: the activities she asked
 // (`['state', 'activity', activity_id]`), her drafts (`['state', 'draft',
@@ -166,11 +166,11 @@ const choices_writes = {
 /** The command use cases of `activities`: the screens' (`ask_for_an_activity`) and the executor's return (`end_an_activity`, DOM-14). */
 const activities_command_use_cases = { ask_for_an_activity, end_an_activity };
 /**
- * The ports of `user`'s three offices on IndexedDB: the oracle's
+ * The ports of `user`'s three offices on the node's database: the oracle's
  * `user_ports`, each office's commands one transaction over its own store
  * (WEB-9), its reads a snapshot of it. No read streams, as the oracle.
  */
-export const user_ports_on_indexeddb = (node) => (versions) => {
+export const user_ports_on_the_node_s_database = (node) => (versions) => {
     const activities = node.domain(activities_path);
     const drafts = node.domain(drafts_path);
     const choices = node.domain(choices_path);

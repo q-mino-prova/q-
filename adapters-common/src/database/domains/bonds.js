@@ -1,4 +1,4 @@
-// The module of `bonds/address_book` on IndexedDB (part 21.2, WEB-8, WEB-9):
+// The module of `bonds/address_book` on the node's database (IndexedDB, SQLite) (part 21.2, WEB-8, WEB-9):
 // the oracle's module (TST-2) over the domain's store. Its records sit under
 // `['state', kind, id]`, a face or a bond as `_value.ts` gives it; its
 // predicates read the records they name by key, or a kind's by range, and
@@ -243,11 +243,11 @@ const bonds_command_use_cases = {
     accept_their_introduction,
 };
 /**
- * The ports of `bonds/address_book` on IndexedDB: its commands, one
+ * The ports of `bonds/address_book` on the node's database: its commands, one
  * transaction each (WEB-9), and its reads, by subject, each in one snapshot
  * (WEB-8). No read streams, as the oracle's.
  */
-export const bonds_ports_on_indexeddb = (node, primitives) => (versions) => {
+export const bonds_ports_on_the_node_s_database = (node, primitives) => (versions) => {
     const storage = node.domain('bonds/address_book');
     const { read, page } = reads_in(storage);
     return {

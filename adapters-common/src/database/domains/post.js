@@ -1,4 +1,4 @@
-// The module of `post` on IndexedDB (WEB-8, WEB-9, part 21.2): the oracle's
+// The module of `post` on the node's database (IndexedDB, SQLite) (WEB-8, WEB-9, part 21.2): the oracle's
 // (TST-2, `memory`'s `oracle/post.ts`) over the store of `post/requests`.
 // Its one map, the requests sent by their identity, is a kind of record:
 // `['state', 'request', request_id]`, a request of the record, parsed with
@@ -102,7 +102,7 @@ const post_command_use_cases = {
     close_a_request_with_no_response,
     take_a_response,
 };
-/** The state adapter of the commands of `post/requests` on IndexedDB: fragments, writes, one transaction per command (WEB-9). */
+/** The state adapter of the commands of `post/requests` on the node's database: fragments, writes, one transaction per command (WEB-9). */
 const post_command_adapter = (storage) => ({
     algebra: { predicate: post_fragments, ...the_operators },
     write: post_writes,
@@ -110,13 +110,13 @@ const post_command_adapter = (storage) => ({
     recorded: recorded_in(storage),
 });
 /**
- * The ports of `post/requests` on IndexedDB, as the oracle's (TST-2): its
+ * The ports of `post/requests` on the node's database, as the oracle's (TST-2): its
  * commands, and the answer kept under an identity. A request's fact holds
  * the face that signs it, an identity of the safe's (`identities`, DOM-10).
  * No read streams: the port of requests follows a request's facts on the
  * log (PST-8, 12.4).
  */
-export const post_ports_on_indexeddb = (node) => (versions) => {
+export const post_ports_on_the_node_s_database = (node) => (versions) => {
     const storage = node.domain(the_path);
     const reads = reads_in(storage);
     return {

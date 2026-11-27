@@ -11,7 +11,7 @@ import { signal } from '@preact/signals';
 import * as ui from '@q-mino/domains/ui/_dsl.ts';
 import { useEffect, useRef } from 'preact/hooks';
 import { Gesture, Notice, Strip, Why } from "../design/index.js";
-import { ARecordOutOfItsForm } from "../indexeddb/index.js";
+import { ARecordOutOfItsForm } from '@q-mino/adapters-common';
 import { kept } from "./a_screen.js";
 import { lets_go, pushes, replaces, the_addresses_of, the_depth_of, the_entry, the_view_shown, the_way_of_an_entry, writes_the_way, } from "./the_history.js";
 import { AContact } from "./a_contact.js";

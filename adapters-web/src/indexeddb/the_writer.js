@@ -4,7 +4,7 @@
 // that holds it. Every commit reads the writer's term in its own transaction,
 // so that a tab whose lock was taken writes nothing more, even a commit it had
 // already begun.
-import { the_node_s_store } from "./database.js";
+import { the_node_s_store, the_writer_s_term } from '@q-mino/adapters-common';
 import { the_end_of, the_record_of } from "./requests.js";
 /**
  * The lock's name, the node's database's (an origin's locks are its own): one
@@ -12,15 +12,6 @@ import { the_end_of, the_record_of } from "./requests.js";
  * with its writer (two tests in one process, two nodes of a story).
  */
 export const the_writer_s_lock = (database) => `cumino: the writer of ${database.name}`;
-/** The key of the writer's term in the node's store. */
-export const the_writer_s_term = 'the_writer_s_term';
-/** A commit begun by a tab that is no longer the writer: aborted, nothing written (WEB-10). */
-export class NotTheWriter extends Error {
-    constructor() {
-        super('this tab is no longer the writer of the node');
-        this.name = 'NotTheWriter';
-    }
-}
 const a_new_term = async (database) => {
     const transaction = database.transaction(the_node_s_store, 'readwrite');
     const store = transaction.objectStore(the_node_s_store);
@@ -56,14 +47,3 @@ export const ask_to_be_the_writer = (locks, database) => (how) => new Promise((r
     });
     const lost = asked.then(() => 'let_go', () => 'used_elsewhere');
 });
-/**
- * Inside a commit's transaction, before its writes: the term still this
- * writer's, or the transaction aborted and `NotTheWriter` thrown.
- */
-export const the_term_holds = async (transaction, term) => {
-    const now = await the_record_of(transaction.objectStore(the_node_s_store).get(the_writer_s_term));
-    if (now !== term) {
-        transaction.abort();
-        throw new NotTheWriter();
-    }
-};

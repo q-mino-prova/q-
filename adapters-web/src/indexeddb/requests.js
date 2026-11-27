@@ -24,5 +24,3 @@ export const the_end_of = (transaction) => new Promise((resolve, reject) => {
         reject(transaction.error ?? new Error('an IndexedDB transaction was aborted'));
     };
 });
-/** A browser's `QuotaExceededError`: the device has no room for a commit. */
-export const no_room = (fault) => fault instanceof Error && fault.name === 'QuotaExceededError';
